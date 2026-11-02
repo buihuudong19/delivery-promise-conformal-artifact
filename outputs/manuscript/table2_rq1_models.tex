@@ -1,0 +1,26 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Coverage (promises kept, %), mean promise (days) and mean worst-region coverage (%) after one-sided split conformal correction with IPCW calibration, by model and target coverage (30 rolling origins).}
+\label{tab:rq1models}
+\begin{tabular}{lrrrrrrrrrrr}
+\toprule
+Model & Cov. 95\% & Len. 95\% & Worst reg. 95\% & Cov. 90\% & Len. 90\% & Worst reg. 90\% & Cov. 80\% & Len. 80\% & Worst reg. 80\% & Len. at Olist's cov. - Olist (d) [95\% CI] & Same, 2018 test (d) [95\% CI] \\
+\midrule
+Route table (plain) & 94.4 & 25.5 & 88.4 & 89.7 & 20.9 & 80.8 & 81.4 & 16.9 & 68.2 & 0.15 [-0.65, 0.69] & -0.55 [-1.67, 0.10] \\
+Route table (IPCW) & 94.4 & 25.7 & 89.1 & 89.7 & 21.0 & 81.4 & 81.4 & 16.9 & 69.1 & 0.41 [-0.48, 0.99] & -0.51 [-1.63, 0.14] \\
+Linear QR (plain) & 93.4 & 24.4 & 89.0 & 88.6 & 20.1 & 82.0 & 80.5 & 16.3 & 70.5 & -0.35 [-1.09, 0.11] & -1.15 [-2.02, -0.67] \\
+Linear QR (IPCW) & 93.2 & 24.4 & 88.7 & 88.6 & 20.1 & 82.2 & 80.5 & 16.3 & 70.8 & -0.23 [-0.93, 0.26] & -1.03 [-1.86, -0.57] \\
+XGBoost QR (plain) & 94.6 & 25.0 & 88.6 & 90.1 & 20.5 & 81.4 & 82.2 & 16.7 & 70.3 & -0.58 [-1.29, -0.07] & -1.37 [-2.40, -0.77] \\
+XGBoost QR (IPCW) & 94.6 & 25.0 & 88.2 & 90.2 & 20.5 & 81.4 & 82.2 & 16.7 & 70.5 & -0.57 [-1.32, -0.04] & -1.46 [-2.52, -0.82] \\
+Quantile forest (plain) & 95.2 & 26.3 & 89.9 & 90.9 & 21.2 & 83.2 & 82.8 & 16.9 & 70.6 & -0.37 [-1.04, 0.14] & -1.21 [-2.13, -0.66] \\
+Quantile forest (IPCW) & 95.1 & 26.2 & 90.3 & 90.9 & 21.1 & 83.3 & 82.8 & 16.9 & 70.9 & -0.32 [-0.97, 0.22] & -1.15 [-1.97, -0.61] \\
+XGBoost AFT (delivered only) & 94.2 & 24.8 & 90.7 & 89.4 & 20.2 & 82.9 & 80.9 & 16.4 & 70.6 & 0.08 [-0.47, 0.54] & -0.53 [-1.31, 0.12] \\
+XGBoost AFT (censored labels) & 94.8 & 26.0 & 91.6 & 90.2 & 21.2 & 85.0 & 82.0 & 17.1 & 73.5 & 0.36 [-0.31, 0.84] & -0.46 [-1.10, 0.06] \\
+Quantile average (5 models) & 94.4 & 24.4 & 89.4 & 89.9 & 20.1 & 83.2 & 81.8 & 16.4 & 71.5 & -0.96 [-1.68, -0.47] & -1.72 [-2.73, -1.12] \\
+Olist promise & 93.8 & 24.6 & 86.8 &  &  &  &  &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\parbox{\linewidth}{\scriptsize Olist's promise has no target level; its values are shown in the 95\% columns for comparison. The last column is the mean promise each model needs to reach Olist's realised coverage of the window, minus Olist's mean promise (matched ex post; block-bootstrap interval over the 30 windows); the next column restricts it to the 14 test windows of 2018, after the 2017 selection of the quantile-average members. Quantile average: the mean of the log-quantiles of the route table (IPCW), linear QR (IPCW), XGBoost QR (IPCW), quantile forest (IPCW) and XGBoost AFT (censored labels), corrected by the same conformal step; the member set was chosen on the 2017 origins by a rule fixed in advance (rq1\_ensemble\_selection.csv).}
+\end{table}

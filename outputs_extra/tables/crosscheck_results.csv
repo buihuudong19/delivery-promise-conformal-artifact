@@ -1,0 +1,365 @@
+check,item,pipeline,independent,abs_diff,status
+C-01,all orders,99441.0,99441.0,0.0,match
+C-02,after R1-R2,98205.0,98205.0,0.0,match
+C-03,delivered,96476.0,96476.0,0.0,match
+C-04,Olist mean promise (days),24.413665291991244,24.413665291991244,0.0,match
+C-05,Olist late rate,0.0677370537750321,0.06773705377503213,2.7755575615628914e-17,match
+C-06,"late rate, Centro-Oeste",0.0652560455192034,0.06525604551920342,1.3877787807814457e-17,match
+C-06,"mean promise, Centro-Oeste",27.28716216216216,27.28716216216216,0.0,match
+C-06,"low-rating rate, Centro-Oeste",0.144754834928697,0.144754834928697,0.0,match
+C-06,"late rate, Nordeste",0.127156125608138,0.127156125608138,0.0,match
+C-06,"mean promise, Nordeste",31.285272003538257,31.285272003538257,0.0,match
+C-06,"low-rating rate, Nordeste",0.1850669286503745,0.18506692865037455,5.551115123125783e-17,match
+C-06,"late rate, Norte",0.0857461024498886,0.08574610244988864,4.163336342344337e-17,match
+C-06,"mean promise, Norte",38.14977728285078,38.14977728285078,0.0,match
+C-06,"low-rating rate, Norte",0.1690490988191423,0.16904909881914232,2.7755575615628914e-17,match
+C-06,"late rate, Sudeste",0.0611649898788483,0.0611649898788483,0.0,match
+C-06,"mean promise, Sudeste",22.2478624731865,22.2478624731865,0.0,match
+C-06,"low-rating rate, Sudeste",0.1351176879531234,0.13511768795312346,5.551115123125783e-17,match
+C-06,"late rate, Sul",0.058998117851455,0.05899811785145505,4.85722573273506e-17,match
+C-06,"mean promise, Sul",27.06232807296945,27.06232807296945,0.0,match
+C-06,"low-rating rate, Sul",0.1291983523447401,0.12919835234474017,5.551115123125783e-17,match
+C-07,bin S <= -15: orders,32224.0,32224.0,0.0,match
+C-07,bin S <= -15: crude low-rating rate,0.0982807845084409,0.09828078450844091,1.3877787807814457e-17,match
+C-07,bin -14 to -6: orders,41046.0,41046.0,0.0,match
+C-07,bin -14 to -6: crude low-rating rate,0.0979632607318618,0.09796326073186182,1.3877787807814457e-17,match
+C-07,bin -5 to 0: orders,8949.0,8949.0,0.0,match
+C-07,bin -5 to 0: crude low-rating rate,0.1273885350318471,0.12738853503184713,2.7755575615628914e-17,match
+C-07,bin 1 to 3: orders,1581.0,1581.0,0.0,match
+C-07,bin 1 to 3: crude low-rating rate,0.376976597090449,0.37697659709044906,5.551115123125783e-17,match
+C-07,bin 4 to 7: orders,1576.0,1576.0,0.0,match
+C-07,bin 4 to 7: crude low-rating rate,0.7506345177664975,0.7506345177664975,0.0,match
+C-07,bin S >= 8: orders,2533.0,2533.0,0.0,match
+C-07,bin S >= 8: crude low-rating rate,0.8712988551125148,0.8712988551125148,0.0,match
+C-08,late orders rated before arrival (share),0.7191564147627416,0.7191564147627416,0.0,match
+C-08,"low-rating rate, late and rated before arrival",0.8836754643206256,0.8836754643206256,0.0,match
+C-09,window 1: Olist coverage,0.9715522572665428,0.9715522572665429,1.1102230246251565e-16,match
+C-09,window 1: Olist mean promise,25.44774273345702,25.44774273345702,0.0,match
+C-09,window 2: Olist coverage,0.9680608365019012,0.9680608365019011,1.1102230246251565e-16,match
+C-09,window 2: Olist mean promise,23.80228136882129,23.802281368821294,3.552713678800501e-15,match
+C-09,window 3: Olist coverage,0.9728227300802964,0.9728227300802965,1.1102230246251565e-16,match
+C-09,window 3: Olist mean promise,24.000617665225448,24.000617665225448,0.0,match
+C-09,window 4: Olist coverage,0.9695486677542142,0.9695486677542142,0.0,match
+C-09,window 4: Olist mean promise,23.88852637302882,23.88852637302882,0.0,match
+C-09,window 5: Olist coverage,0.9727418492784607,0.9727418492784607,0.0,match
+C-09,window 5: Olist mean promise,23.98556921432389,23.985569214323892,3.552713678800501e-15,match
+C-09,window 6: Olist coverage,0.9730728616684268,0.9730728616684267,1.1102230246251565e-16,match
+C-09,window 6: Olist mean promise,24.748680042238647,24.748680042238647,0.0,match
+C-09,window 7: Olist coverage,0.9671866594943518,0.9671866594943518,0.0,match
+C-09,window 7: Olist mean promise,22.83055406132329,22.83055406132329,0.0,match
+C-09,window 8: Olist coverage,0.937046004842615,0.937046004842615,0.0,match
+C-09,window 8: Olist mean promise,21.379661016949157,21.379661016949154,3.552713678800501e-15,match
+C-09,window 9: Olist coverage,0.9803609341825902,0.9803609341825902,0.0,match
+C-09,window 9: Olist mean promise,26.26326963906582,26.26326963906582,0.0,match
+C-09,window 10: Olist coverage,0.9542168674698795,0.9542168674698795,0.0,match
+C-09,window 10: Olist mean promise,23.57253012048193,23.57253012048193,0.0,match
+C-09,window 11: Olist coverage,0.9552160168598524,0.9552160168598525,1.1102230246251565e-16,match
+C-09,window 11: Olist mean promise,22.929399367755533,22.929399367755533,0.0,match
+C-09,window 12: Olist coverage,0.948268106162843,0.948268106162843,0.0,match
+C-09,window 12: Olist mean promise,23.28924876293297,23.289248762932974,3.552713678800501e-15,match
+C-09,window 13: Olist coverage,0.8384074941451991,0.8384074941451991,0.0,match
+C-09,window 13: Olist mean promise,22.93804556099638,22.93804556099638,0.0,match
+C-09,window 14: Olist coverage,0.90406015037594,0.9040601503759399,1.1102230246251565e-16,match
+C-09,window 14: Olist mean promise,27.589774436090227,27.589774436090227,0.0,match
+C-09,window 15: Olist coverage,0.948654037886341,0.948654037886341,0.0,match
+C-09,window 15: Olist mean promise,29.045862412761718,29.045862412761714,3.552713678800501e-15,match
+C-09,window 16: Olist coverage,0.9636644762272903,0.9636644762272903,0.0,match
+C-09,window 16: Olist mean promise,28.1449555469656,28.144955546965598,3.552713678800501e-15,match
+C-09,window 17: Olist coverage,0.9342066957787482,0.9342066957787482,0.0,match
+C-09,window 17: Olist mean promise,26.471615720524017,26.471615720524017,0.0,match
+C-09,window 18: Olist coverage,0.9382716049382716,0.9382716049382716,0.0,match
+C-09,window 18: Olist mean promise,27.61598440545809,27.61598440545809,0.0,match
+C-09,window 19: Olist coverage,0.8678051865907653,0.8678051865907653,0.0,match
+C-09,window 19: Olist mean promise,24.463630613535734,24.463630613535738,3.552713678800501e-15,match
+C-09,window 20: Olist coverage,0.748729531338227,0.748729531338227,0.0,match
+C-09,window 20: Olist mean promise,23.112083568605307,23.112083568605307,0.0,match
+C-09,window 21: Olist coverage,0.8044623489308955,0.8044623489308955,0.0,match
+C-09,window 21: Olist mean promise,22.89123024480942,22.89123024480942,0.0,match
+C-09,window 22: Olist coverage,0.8953140578265204,0.8953140578265204,0.0,match
+C-09,window 22: Olist mean promise,21.91159853772017,21.911598537720174,3.552713678800501e-15,match
+C-09,window 23: Olist coverage,0.959845807902345,0.959845807902345,0.0,match
+C-09,window 23: Olist mean promise,24.703180212014136,24.703180212014136,0.0,match
+C-09,window 24: Olist coverage,0.964658881376767,0.964658881376767,0.0,match
+C-09,window 24: Olist mean promise,24.699754148740013,24.699754148740013,0.0,match
+C-09,window 25: Olist coverage,0.9289866060146575,0.9289866060146575,0.0,match
+C-09,window 25: Olist mean promise,21.694465504169827,21.694465504169827,0.0,match
+C-09,window 26: Olist coverage,0.9358793022159358,0.9358793022159358,0.0,match
+C-09,window 26: Olist mean promise,26.138142385667138,26.138142385667138,0.0,match
+C-09,window 27: Olist coverage,0.9853044086773968,0.9853044086773968,0.0,match
+C-09,window 27: Olist mean promise,31.53778866340098,31.53778866340098,0.0,match
+C-09,window 28: Olist coverage,0.9911878745153332,0.9911878745153331,1.1102230246251565e-16,match
+C-09,window 28: Olist mean promise,26.158618258724005,26.158618258724005,0.0,match
+C-09,window 29: Olist coverage,0.9792494481236204,0.9792494481236204,0.0,match
+C-09,window 29: Olist mean promise,23.19911699779249,23.199116997792494,3.552713678800501e-15,match
+C-09,window 30: Olist coverage,0.9662184322728764,0.9662184322728764,0.0,match
+C-09,window 30: Olist mean promise,20.38865201705477,20.38865201705477,0.0,match
+C-10,window 1: qrf_ipcw split_ipcw coverage,0.930117501546073,0.930117501546073,0.0,match
+C-10,window 1: qrf_ipcw split_ipcw mean promise,21.14223871366729,21.142238713667286,3.552713678800501e-15,match
+C-10,window 2: qrf_ipcw split_ipcw coverage,0.8790874524714829,0.8790874524714829,0.0,match
+C-10,window 2: qrf_ipcw split_ipcw mean promise,17.346768060836503,17.346768060836503,0.0,match
+C-10,window 3: qrf_ipcw split_ipcw coverage,0.9394688079061148,0.9394688079061149,1.1102230246251565e-16,match
+C-10,window 3: qrf_ipcw split_ipcw mean promise,20.097591105620754,20.097591105620754,0.0,match
+C-10,window 4: qrf_ipcw split_ipcw coverage,0.9385535617183252,0.9385535617183252,0.0,match
+C-10,window 4: qrf_ipcw split_ipcw mean promise,19.59325720500272,19.59325720500272,0.0,match
+C-10,window 5: qrf_ipcw split_ipcw coverage,0.9246392303580973,0.9246392303580973,0.0,match
+C-10,window 5: qrf_ipcw split_ipcw mean promise,17.702298236237308,17.702298236237308,0.0,match
+C-10,window 6: qrf_ipcw split_ipcw coverage,0.9223864836325236,0.9223864836325237,1.1102230246251565e-16,match
+C-10,window 6: qrf_ipcw split_ipcw mean promise,17.762935586061246,17.762935586061246,0.0,match
+C-10,window 7: qrf_ipcw split_ipcw coverage,0.93006993006993,0.9300699300699301,1.1102230246251565e-16,match
+C-10,window 7: qrf_ipcw split_ipcw mean promise,18.97740720817644,18.977407208176437,3.552713678800501e-15,match
+C-10,window 8: qrf_ipcw split_ipcw coverage,0.8997578692493947,0.8997578692493947,0.0,match
+C-10,window 8: qrf_ipcw split_ipcw mean promise,18.06731234866828,18.06731234866828,0.0,match
+C-10,window 9: qrf_ipcw split_ipcw coverage,0.9278131634819532,0.9278131634819533,1.1102230246251565e-16,match
+C-10,window 9: qrf_ipcw split_ipcw mean promise,18.67462845010616,18.67462845010616,0.0,match
+C-10,window 10: qrf_ipcw split_ipcw coverage,0.896867469879518,0.896867469879518,0.0,match
+C-10,window 10: qrf_ipcw split_ipcw mean promise,18.484819277108432,18.484819277108432,0.0,match
+C-10,window 11: qrf_ipcw split_ipcw coverage,0.929399367755532,0.9293993677555321,1.1102230246251565e-16,match
+C-10,window 11: qrf_ipcw split_ipcw mean promise,19.150158061116965,19.150158061116965,0.0,match
+C-10,window 12: qrf_ipcw split_ipcw coverage,0.8672964462438146,0.8672964462438146,0.0,match
+C-10,window 12: qrf_ipcw split_ipcw mean promise,18.082321187584345,18.082321187584345,0.0,match
+C-10,window 13: qrf_ipcw split_ipcw coverage,0.737917819885033,0.737917819885033,0.0,match
+C-10,window 13: qrf_ipcw split_ipcw mean promise,18.538428784330424,18.538428784330424,0.0,match
+C-10,window 14: qrf_ipcw split_ipcw coverage,0.7470676691729323,0.7470676691729323,0.0,match
+C-10,window 14: qrf_ipcw split_ipcw mean promise,18.54796992481203,18.54796992481203,0.0,match
+C-10,window 15: qrf_ipcw split_ipcw coverage,0.8529411764705882,0.8529411764705882,0.0,match
+C-10,window 15: qrf_ipcw split_ipcw mean promise,20.728813559322035,20.728813559322035,0.0,match
+C-10,window 16: qrf_ipcw split_ipcw coverage,0.9192114418245072,0.9192114418245072,0.0,match
+C-10,window 16: qrf_ipcw split_ipcw mean promise,23.70235794356397,23.702357943563975,3.552713678800501e-15,match
+C-10,window 17: qrf_ipcw split_ipcw coverage,0.9251819505094614,0.9251819505094614,0.0,match
+C-10,window 17: qrf_ipcw split_ipcw mean promise,25.14963609898108,25.149636098981077,3.552713678800501e-15,match
+C-10,window 18: qrf_ipcw split_ipcw coverage,0.9385964912280702,0.9385964912280702,0.0,match
+C-10,window 18: qrf_ipcw split_ipcw mean promise,28.398635477582847,28.398635477582847,0.0,match
+C-10,window 19: qrf_ipcw split_ipcw coverage,0.9228336495888678,0.9228336495888678,0.0,match
+C-10,window 19: qrf_ipcw split_ipcw mean promise,27.744149272612272,27.744149272612272,0.0,match
+C-10,window 20: qrf_ipcw split_ipcw coverage,0.7786561264822134,0.7786561264822134,0.0,match
+C-10,window 20: qrf_ipcw split_ipcw mean promise,23.80660643704122,23.80660643704122,0.0,match
+C-10,window 21: qrf_ipcw split_ipcw coverage,0.879454601797335,0.879454601797335,0.0,match
+C-10,window 21: qrf_ipcw split_ipcw mean promise,26.1874806321661,26.1874806321661,0.0,match
+C-10,window 22: qrf_ipcw split_ipcw coverage,0.952808241940844,0.9528082419408441,1.1102230246251565e-16,match
+C-10,window 22: qrf_ipcw split_ipcw mean promise,26.548687271518776,26.548687271518776,0.0,match
+C-10,window 23: qrf_ipcw split_ipcw coverage,0.9778348859620944,0.9778348859620944,0.0,match
+C-10,window 23: qrf_ipcw split_ipcw mean promise,27.047863796980405,27.047863796980405,0.0,match
+C-10,window 24: qrf_ipcw split_ipcw coverage,0.9711124769514444,0.9711124769514444,0.0,match
+C-10,window 24: qrf_ipcw split_ipcw mean promise,26.08389674247081,26.083896742470806,3.552713678800501e-15,match
+C-10,window 25: qrf_ipcw split_ipcw coverage,0.9658832448824868,0.9658832448824868,0.0,match
+C-10,window 25: qrf_ipcw split_ipcw mean promise,25.152388172858227,25.152388172858227,0.0,match
+C-10,window 26: qrf_ipcw split_ipcw coverage,0.9203206034889204,0.9203206034889203,1.1102230246251565e-16,match
+C-10,window 26: qrf_ipcw split_ipcw mean promise,21.23573785950024,21.235737859500237,3.552713678800501e-15,match
+C-10,window 27: qrf_ipcw split_ipcw coverage,0.9244226731980406,0.9244226731980406,0.0,match
+C-10,window 27: qrf_ipcw split_ipcw mean promise,16.314555633310007,16.314555633310007,0.0,match
+C-10,window 28: qrf_ipcw split_ipcw coverage,0.9696862883327458,0.9696862883327458,0.0,match
+C-10,window 28: qrf_ipcw split_ipcw mean promise,17.91963341557984,17.91963341557984,0.0,match
+C-10,window 29: qrf_ipcw split_ipcw coverage,0.9664459161147902,0.9664459161147902,0.0,match
+C-10,window 29: qrf_ipcw split_ipcw mean promise,19.917880794701983,19.917880794701986,3.552713678800501e-15,match
+C-10,window 30: qrf_ipcw split_ipcw coverage,0.934404722859954,0.9344047228599541,1.1102230246251565e-16,match
+C-10,window 30: qrf_ipcw split_ipcw mean promise,15.837651689078386,15.837651689078386,0.0,match
+C-10,window 1: qrf_ipcw mondrian_ipcw coverage,0.9239332096474954,0.9239332096474954,0.0,match
+C-10,window 1: qrf_ipcw mondrian_ipcw mean promise,21.043908472479902,21.043908472479902,0.0,match
+C-10,window 2: qrf_ipcw mondrian_ipcw coverage,0.8836501901140684,0.8836501901140684,0.0,match
+C-10,window 2: qrf_ipcw mondrian_ipcw mean promise,17.69961977186312,17.69961977186312,0.0,match
+C-10,window 3: qrf_ipcw mondrian_ipcw coverage,0.9394688079061148,0.9394688079061149,1.1102230246251565e-16,match
+C-10,window 3: qrf_ipcw mondrian_ipcw mean promise,20.03458925262508,20.03458925262508,0.0,match
+C-10,window 4: qrf_ipcw mondrian_ipcw coverage,0.9472539423599784,0.9472539423599783,1.1102230246251565e-16,match
+C-10,window 4: qrf_ipcw mondrian_ipcw mean promise,20.37411636759108,20.374116367591082,3.552713678800501e-15,match
+C-10,window 5: qrf_ipcw mondrian_ipcw coverage,0.9187600213789416,0.9187600213789417,1.1102230246251565e-16,match
+C-10,window 5: qrf_ipcw mondrian_ipcw mean promise,17.515766969535008,17.515766969535008,0.0,match
+C-10,window 6: qrf_ipcw mondrian_ipcw coverage,0.9244984160506864,0.9244984160506864,0.0,match
+C-10,window 6: qrf_ipcw mondrian_ipcw mean promise,17.738120380147834,17.738120380147834,0.0,match
+C-10,window 7: qrf_ipcw mondrian_ipcw coverage,0.9311457772996234,0.9311457772996234,0.0,match
+C-10,window 7: qrf_ipcw mondrian_ipcw mean promise,19.14900484131253,19.149004841312532,3.552713678800501e-15,match
+C-10,window 8: qrf_ipcw mondrian_ipcw coverage,0.9070217917675544,0.9070217917675545,1.1102230246251565e-16,match
+C-10,window 8: qrf_ipcw mondrian_ipcw mean promise,18.82615012106537,18.826150121065375,3.552713678800501e-15,match
+C-10,window 9: qrf_ipcw mondrian_ipcw coverage,0.9198513800424628,0.9198513800424628,0.0,match
+C-10,window 9: qrf_ipcw mondrian_ipcw mean promise,18.713375796178344,18.713375796178344,0.0,match
+C-10,window 10: qrf_ipcw mondrian_ipcw coverage,0.8978313253012048,0.8978313253012048,0.0,match
+C-10,window 10: qrf_ipcw mondrian_ipcw mean promise,18.546506024096384,18.546506024096384,0.0,match
+C-10,window 11: qrf_ipcw mondrian_ipcw coverage,0.9236037934668072,0.9236037934668072,0.0,match
+C-10,window 11: qrf_ipcw mondrian_ipcw mean promise,19.24236037934668,19.24236037934668,0.0,match
+C-10,window 12: qrf_ipcw mondrian_ipcw coverage,0.8699955015744489,0.8699955015744489,0.0,match
+C-10,window 12: qrf_ipcw mondrian_ipcw mean promise,17.92667566351777,17.92667566351777,0.0,match
+C-10,window 13: qrf_ipcw mondrian_ipcw coverage,0.7325952735788801,0.7325952735788801,0.0,match
+C-10,window 13: qrf_ipcw mondrian_ipcw mean promise,18.515435384287844,18.515435384287844,0.0,match
+C-10,window 14: qrf_ipcw mondrian_ipcw coverage,0.7476691729323308,0.7476691729323308,0.0,match
+C-10,window 14: qrf_ipcw mondrian_ipcw mean promise,18.6012030075188,18.601203007518798,3.552713678800501e-15,match
+C-10,window 15: qrf_ipcw mondrian_ipcw coverage,0.845962113659023,0.845962113659023,0.0,match
+C-10,window 15: qrf_ipcw mondrian_ipcw mean promise,20.256231306081755,20.256231306081755,0.0,match
+C-10,window 16: qrf_ipcw mondrian_ipcw coverage,0.9192114418245072,0.9192114418245072,0.0,match
+C-10,window 16: qrf_ipcw mondrian_ipcw mean promise,23.93699265558562,23.93699265558562,0.0,match
+C-10,window 17: qrf_ipcw mondrian_ipcw coverage,0.92372634643377,0.92372634643377,0.0,match
+C-10,window 17: qrf_ipcw mondrian_ipcw mean promise,25.07598253275109,25.07598253275109,0.0,match
+C-10,window 18: qrf_ipcw mondrian_ipcw coverage,0.937946718648473,0.937946718648473,0.0,match
+C-10,window 18: qrf_ipcw mondrian_ipcw mean promise,28.42105263157895,28.42105263157895,0.0,match
+C-10,window 19: qrf_ipcw mondrian_ipcw coverage,0.9206198608475648,0.9206198608475649,1.1102230246251565e-16,match
+C-10,window 19: qrf_ipcw mondrian_ipcw mean promise,27.702403542061987,27.702403542061987,0.0,match
+C-10,window 20: qrf_ipcw mondrian_ipcw coverage,0.777244494635799,0.777244494635799,0.0,match
+C-10,window 20: qrf_ipcw mondrian_ipcw mean promise,23.75974025974026,23.75974025974026,0.0,match
+C-10,window 21: qrf_ipcw mondrian_ipcw coverage,0.879454601797335,0.879454601797335,0.0,match
+C-10,window 21: qrf_ipcw mondrian_ipcw mean promise,26.145026340254105,26.145026340254105,0.0,match
+C-10,window 22: qrf_ipcw mondrian_ipcw coverage,0.950149551345962,0.9501495513459621,1.1102230246251565e-16,match
+C-10,window 22: qrf_ipcw mondrian_ipcw mean promise,26.582917912927883,26.582917912927883,0.0,match
+C-10,window 23: qrf_ipcw mondrian_ipcw coverage,0.9762287182781882,0.9762287182781882,0.0,match
+C-10,window 23: qrf_ipcw mondrian_ipcw mean promise,27.09123032444587,27.09123032444587,0.0,match
+C-10,window 24: qrf_ipcw mondrian_ipcw coverage,0.9726490473263676,0.9726490473263676,0.0,match
+C-10,window 24: qrf_ipcw mondrian_ipcw mean promise,26.22556853103872,26.22556853103872,0.0,match
+C-10,window 25: qrf_ipcw mondrian_ipcw coverage,0.9668941117007834,0.9668941117007834,0.0,match
+C-10,window 25: qrf_ipcw mondrian_ipcw mean promise,25.06368460955269,25.06368460955269,0.0,match
+C-10,window 26: qrf_ipcw mondrian_ipcw coverage,0.917020273455917,0.917020273455917,0.0,match
+C-10,window 26: qrf_ipcw mondrian_ipcw mean promise,21.605374823196605,21.605374823196605,0.0,match
+C-10,window 27: qrf_ipcw mondrian_ipcw coverage,0.91777466759972,0.91777466759972,0.0,match
+C-10,window 27: qrf_ipcw mondrian_ipcw mean promise,16.077326801959412,16.077326801959412,0.0,match
+C-10,window 28: qrf_ipcw mondrian_ipcw coverage,0.971801198449066,0.9718011984490659,1.1102230246251565e-16,match
+C-10,window 28: qrf_ipcw mondrian_ipcw mean promise,17.774409587592526,17.774409587592526,0.0,match
+C-10,window 29: qrf_ipcw mondrian_ipcw coverage,0.9690949227373068,0.9690949227373068,0.0,match
+C-10,window 29: qrf_ipcw mondrian_ipcw mean promise,19.49757174392936,19.49757174392936,0.0,match
+C-10,window 30: qrf_ipcw mondrian_ipcw coverage,0.935716628402755,0.935716628402755,0.0,match
+C-10,window 30: qrf_ipcw mondrian_ipcw mean promise,16.21252869793375,16.21252869793375,0.0,match
+C-10,window 1: ens_ipcw split_ipcw coverage,0.9437229437229436,0.9437229437229437,1.1102230246251565e-16,match
+C-10,window 1: ens_ipcw split_ipcw mean promise,21.79715522572665,21.797155225726655,3.552713678800501e-15,match
+C-10,window 2: ens_ipcw split_ipcw coverage,0.8798479087452471,0.8798479087452471,0.0,match
+C-10,window 2: ens_ipcw split_ipcw mean promise,16.922433460076046,16.922433460076046,0.0,match
+C-10,window 3: ens_ipcw split_ipcw coverage,0.9264978381717108,0.9264978381717109,1.1102230246251565e-16,match
+C-10,window 3: ens_ipcw split_ipcw mean promise,19.08956145768993,19.089561457689932,3.552713678800501e-15,match
+C-10,window 4: ens_ipcw split_ipcw coverage,0.9374660141381186,0.9374660141381186,0.0,match
+C-10,window 4: ens_ipcw split_ipcw mean promise,19.004350190320828,19.004350190320828,0.0,match
+C-10,window 5: ens_ipcw split_ipcw coverage,0.9358631747728487,0.9358631747728487,0.0,match
+C-10,window 5: ens_ipcw split_ipcw mean promise,17.611437733832176,17.611437733832176,0.0,match
+C-10,window 6: ens_ipcw split_ipcw coverage,0.9197465681098204,0.9197465681098205,1.1102230246251565e-16,match
+C-10,window 6: ens_ipcw split_ipcw mean promise,17.12090813093981,17.12090813093981,0.0,match
+C-10,window 7: ens_ipcw split_ipcw coverage,0.9187735341581496,0.9187735341581496,0.0,match
+C-10,window 7: ens_ipcw split_ipcw mean promise,17.665411511565356,17.665411511565356,0.0,match
+C-10,window 8: ens_ipcw split_ipcw coverage,0.8789346246973365,0.8789346246973365,0.0,match
+C-10,window 8: ens_ipcw split_ipcw mean promise,16.90411622276029,16.90411622276029,0.0,match
+C-10,window 9: ens_ipcw split_ipcw coverage,0.9309978768577496,0.9309978768577495,1.1102230246251565e-16,match
+C-10,window 9: ens_ipcw split_ipcw mean promise,18.78184713375796,18.78184713375796,0.0,match
+C-10,window 10: ens_ipcw split_ipcw coverage,0.8934939759036145,0.8934939759036145,0.0,match
+C-10,window 10: ens_ipcw split_ipcw mean promise,17.78265060240964,17.78265060240964,0.0,match
+C-10,window 11: ens_ipcw split_ipcw coverage,0.928872497365648,0.928872497365648,0.0,match
+C-10,window 11: ens_ipcw split_ipcw mean promise,18.941517386722865,18.941517386722865,0.0,match
+C-10,window 12: ens_ipcw split_ipcw coverage,0.8663967611336032,0.8663967611336032,0.0,match
+C-10,window 12: ens_ipcw split_ipcw mean promise,17.65497076023392,17.65497076023392,0.0,match
+C-10,window 13: ens_ipcw split_ipcw coverage,0.7183308494783904,0.7183308494783904,0.0,match
+C-10,window 13: ens_ipcw split_ipcw mean promise,17.973387268469235,17.973387268469235,0.0,match
+C-10,window 14: ens_ipcw split_ipcw coverage,0.716390977443609,0.716390977443609,0.0,match
+C-10,window 14: ens_ipcw split_ipcw mean promise,17.637593984962407,17.637593984962407,0.0,match
+C-10,window 15: ens_ipcw split_ipcw coverage,0.8409770687936191,0.8409770687936191,0.0,match
+C-10,window 15: ens_ipcw split_ipcw mean promise,19.889830508474574,19.889830508474578,3.552713678800501e-15,match
+C-10,window 16: ens_ipcw split_ipcw coverage,0.9188248936992656,0.9188248936992656,0.0,match
+C-10,window 16: ens_ipcw split_ipcw mean promise,23.578662543486665,23.578662543486665,0.0,match
+C-10,window 17: ens_ipcw split_ipcw coverage,0.9082969432314412,0.9082969432314411,1.1102230246251565e-16,match
+C-10,window 17: ens_ipcw split_ipcw mean promise,22.54876273653566,22.54876273653566,0.0,match
+C-10,window 18: ens_ipcw split_ipcw coverage,0.903183885640026,0.9031838856400259,1.1102230246251565e-16,match
+C-10,window 18: ens_ipcw split_ipcw mean promise,23.87037037037037,23.87037037037037,0.0,match
+C-10,window 19: ens_ipcw split_ipcw coverage,0.8810879190385832,0.8810879190385832,0.0,match
+C-10,window 19: ens_ipcw split_ipcw mean promise,24.082542694497157,24.082542694497153,3.552713678800501e-15,match
+C-10,window 20: ens_ipcw split_ipcw coverage,0.7529644268774703,0.7529644268774703,0.0,match
+C-10,window 20: ens_ipcw split_ipcw mean promise,22.73856578204404,22.73856578204404,0.0,match
+C-10,window 21: ens_ipcw split_ipcw coverage,0.8679888441276727,0.8679888441276727,0.0,match
+C-10,window 21: ens_ipcw split_ipcw mean promise,24.697242020452432,24.697242020452432,0.0,match
+C-10,window 22: ens_ipcw split_ipcw coverage,0.950149551345962,0.9501495513459621,1.1102230246251565e-16,match
+C-10,window 22: ens_ipcw split_ipcw mean promise,25.676969092721837,25.676969092721833,3.552713678800501e-15,match
+C-10,window 23: ens_ipcw split_ipcw coverage,0.9791198201092194,0.9791198201092194,0.0,match
+C-10,window 23: ens_ipcw split_ipcw mean promise,26.716029553485384,26.716029553485384,0.0,match
+C-10,window 24: ens_ipcw split_ipcw coverage,0.9772587584511372,0.9772587584511371,1.1102230246251565e-16,match
+C-10,window 24: ens_ipcw split_ipcw mean promise,25.2160417947142,25.216041794714197,3.552713678800501e-15,match
+C-10,window 25: ens_ipcw split_ipcw coverage,0.9542582764720748,0.9542582764720748,0.0,match
+C-10,window 25: ens_ipcw split_ipcw mean promise,22.583522870861763,22.583522870861763,0.0,match
+C-10,window 26: ens_ipcw split_ipcw coverage,0.8613861386138614,0.8613861386138614,0.0,match
+C-10,window 26: ens_ipcw split_ipcw mean promise,18.08958038661009,18.08958038661009,0.0,match
+C-10,window 27: ens_ipcw split_ipcw coverage,0.9195241427571728,0.9195241427571729,1.1102230246251565e-16,match
+C-10,window 27: ens_ipcw split_ipcw mean promise,15.92302309307208,15.923023093072079,1.7763568394002505e-15,match
+C-10,window 28: ens_ipcw split_ipcw coverage,0.9799083538949594,0.9799083538949594,0.0,match
+C-10,window 28: ens_ipcw split_ipcw mean promise,19.041593232287628,19.041593232287628,0.0,match
+C-10,window 29: ens_ipcw split_ipcw coverage,0.9655629139072848,0.9655629139072848,0.0,match
+C-10,window 29: ens_ipcw split_ipcw mean promise,18.839735099337748,18.839735099337748,0.0,match
+C-10,window 30: ens_ipcw split_ipcw coverage,0.9278451951459497,0.9278451951459495,1.1102230246251565e-16,match
+C-10,window 30: ens_ipcw split_ipcw mean promise,15.496228271564448,15.496228271564448,0.0,match
+C-10,window 1: ens_ipcw mondrian_ipcw coverage,0.935064935064935,0.935064935064935,0.0,match
+C-10,window 1: ens_ipcw mondrian_ipcw mean promise,21.567099567099568,21.567099567099568,0.0,match
+C-10,window 2: ens_ipcw mondrian_ipcw coverage,0.8798479087452471,0.8798479087452471,0.0,match
+C-10,window 2: ens_ipcw mondrian_ipcw mean promise,17.093536121673004,17.093536121673004,0.0,match
+C-10,window 3: ens_ipcw mondrian_ipcw coverage,0.9203211859172328,0.9203211859172329,1.1102230246251565e-16,match
+C-10,window 3: ens_ipcw mondrian_ipcw mean promise,18.836318715256333,18.836318715256333,0.0,match
+C-10,window 4: ens_ipcw mondrian_ipcw coverage,0.9483414899401847,0.9483414899401849,1.1102230246251565e-16,match
+C-10,window 4: ens_ipcw mondrian_ipcw mean promise,19.97716150081566,19.97716150081566,0.0,match
+C-10,window 5: ens_ipcw mondrian_ipcw coverage,0.9294494922501336,0.9294494922501336,0.0,match
+C-10,window 5: ens_ipcw mondrian_ipcw mean promise,17.452699091394976,17.452699091394976,0.0,match
+C-10,window 6: ens_ipcw mondrian_ipcw coverage,0.9181626187961984,0.9181626187961985,1.1102230246251565e-16,match
+C-10,window 6: ens_ipcw mondrian_ipcw mean promise,17.04751847940866,17.04751847940866,0.0,match
+C-10,window 7: ens_ipcw mondrian_ipcw coverage,0.9203873050026896,0.9203873050026896,0.0,match
+C-10,window 7: ens_ipcw mondrian_ipcw mean promise,17.846691769768693,17.846691769768693,0.0,match
+C-10,window 8: ens_ipcw mondrian_ipcw coverage,0.8920096852300242,0.8920096852300242,0.0,match
+C-10,window 8: ens_ipcw mondrian_ipcw mean promise,17.817917675544795,17.817917675544795,0.0,match
+C-10,window 9: ens_ipcw mondrian_ipcw coverage,0.9251592356687898,0.9251592356687898,0.0,match
+C-10,window 9: ens_ipcw mondrian_ipcw mean promise,18.910828025477706,18.910828025477706,0.0,match
+C-10,window 10: ens_ipcw mondrian_ipcw coverage,0.895421686746988,0.895421686746988,0.0,match
+C-10,window 10: ens_ipcw mondrian_ipcw mean promise,17.94746987951807,17.94746987951807,0.0,match
+C-10,window 11: ens_ipcw mondrian_ipcw coverage,0.9236037934668072,0.9236037934668072,0.0,match
+C-10,window 11: ens_ipcw mondrian_ipcw mean promise,18.95785036880927,18.95785036880927,0.0,match
+C-10,window 12: ens_ipcw mondrian_ipcw coverage,0.8735942420152947,0.8735942420152947,0.0,match
+C-10,window 12: ens_ipcw mondrian_ipcw mean promise,17.697255960413855,17.697255960413855,0.0,match
+C-10,window 13: ens_ipcw mondrian_ipcw coverage,0.7061954439003619,0.7061954439003619,0.0,match
+C-10,window 13: ens_ipcw mondrian_ipcw mean promise,17.694698743879073,17.694698743879073,0.0,match
+C-10,window 14: ens_ipcw mondrian_ipcw coverage,0.7154887218045113,0.7154887218045113,0.0,match
+C-10,window 14: ens_ipcw mondrian_ipcw mean promise,17.618045112781957,17.618045112781957,0.0,match
+C-10,window 15: ens_ipcw mondrian_ipcw coverage,0.8359920239282154,0.8359920239282154,0.0,match
+C-10,window 15: ens_ipcw mondrian_ipcw mean promise,19.607178464606186,19.607178464606182,3.552713678800501e-15,match
+C-10,window 16: ens_ipcw mondrian_ipcw coverage,0.914572864321608,0.914572864321608,0.0,match
+C-10,window 16: ens_ipcw mondrian_ipcw mean promise,23.27444916892153,23.27444916892153,0.0,match
+C-10,window 17: ens_ipcw mondrian_ipcw coverage,0.9074235807860264,0.9074235807860263,1.1102230246251565e-16,match
+C-10,window 17: ens_ipcw mondrian_ipcw mean promise,22.49344978165939,22.49344978165939,0.0,match
+C-10,window 18: ens_ipcw mondrian_ipcw coverage,0.9028589993502274,0.9028589993502274,0.0,match
+C-10,window 18: ens_ipcw mondrian_ipcw mean promise,23.73684210526316,23.736842105263158,3.552713678800501e-15,match
+C-10,window 19: ens_ipcw mondrian_ipcw coverage,0.883617963314358,0.883617963314358,0.0,match
+C-10,window 19: ens_ipcw mondrian_ipcw mean promise,24.3842504743833,24.3842504743833,0.0,match
+C-10,window 20: ens_ipcw mondrian_ipcw coverage,0.7501411631846414,0.7501411631846414,0.0,match
+C-10,window 20: ens_ipcw mondrian_ipcw mean promise,22.6253529079616,22.625352907961602,3.552713678800501e-15,match
+C-10,window 21: ens_ipcw mondrian_ipcw coverage,0.8664394174155562,0.8664394174155562,0.0,match
+C-10,window 21: ens_ipcw mondrian_ipcw mean promise,24.651998760458632,24.651998760458632,0.0,match
+C-10,window 22: ens_ipcw mondrian_ipcw coverage,0.9484878697241608,0.9484878697241609,1.1102230246251565e-16,match
+C-10,window 22: ens_ipcw mondrian_ipcw mean promise,25.567962778331676,25.567962778331673,3.552713678800501e-15,match
+C-10,window 23: ens_ipcw mondrian_ipcw coverage,0.977192418888532,0.9771924188885319,1.1102230246251565e-16,match
+C-10,window 23: ens_ipcw mondrian_ipcw mean promise,26.677481529071635,26.677481529071635,0.0,match
+C-10,window 24: ens_ipcw mondrian_ipcw coverage,0.9778733866011065,0.9778733866011063,1.1102230246251565e-16,match
+C-10,window 24: ens_ipcw mondrian_ipcw mean promise,25.405347264904734,25.405347264904734,0.0,match
+C-10,window 25: ens_ipcw mondrian_ipcw coverage,0.9565327268132424,0.9565327268132423,1.1102230246251565e-16,match
+C-10,window 25: ens_ipcw mondrian_ipcw mean promise,22.412433661865048,22.412433661865048,0.0,match
+C-10,window 26: ens_ipcw mondrian_ipcw coverage,0.851956624233852,0.851956624233852,0.0,match
+C-10,window 26: ens_ipcw mondrian_ipcw mean promise,18.4969354078265,18.4969354078265,0.0,match
+C-10,window 27: ens_ipcw mondrian_ipcw coverage,0.9142757172848146,0.9142757172848146,0.0,match
+C-10,window 27: ens_ipcw mondrian_ipcw mean promise,15.70923722883135,15.70923722883135,0.0,match
+C-10,window 28: ens_ipcw mondrian_ipcw coverage,0.9795558688755728,0.9795558688755728,0.0,match
+C-10,window 28: ens_ipcw mondrian_ipcw mean promise,18.935847726471625,18.935847726471625,0.0,match
+C-10,window 29: ens_ipcw mondrian_ipcw coverage,0.965121412803532,0.965121412803532,0.0,match
+C-10,window 29: ens_ipcw mondrian_ipcw mean promise,18.605739514348787,18.605739514348787,0.0,match
+C-10,window 30: ens_ipcw mondrian_ipcw coverage,0.925549360446048,0.9255493604460479,1.1102230246251565e-16,match
+C-10,window 30: ens_ipcw mondrian_ipcw mean promise,15.65595277140046,15.65595277140046,0.0,match
+C-11,window 1: Olist realised low-rating rate,0.1205412050917624,0.12054120509176244,4.163336342344337e-17,match
+C-11,window 2: Olist realised low-rating rate,0.1242207692773169,0.12422076927731694,4.163336342344337e-17,match
+C-11,window 3: Olist realised low-rating rate,0.1232435777323197,0.12324357773231971,1.3877787807814457e-17,match
+C-11,window 4: Olist realised low-rating rate,0.122816628755727,0.12281662875572708,6.938893903907228e-17,match
+C-11,window 5: Olist realised low-rating rate,0.120228820942832,0.12022882094283205,5.551115123125783e-17,match
+C-11,window 6: Olist realised low-rating rate,0.11805705028294,0.11805705028294003,2.7755575615628914e-17,match
+C-11,window 7: Olist realised low-rating rate,0.1267100648214061,0.12671006482140612,2.7755575615628914e-17,match
+C-11,window 8: Olist realised low-rating rate,0.1473609030246734,0.14736090302467347,8.326672684688674e-17,match
+C-11,window 9: Olist realised low-rating rate,0.1115579284340016,0.11155792843400164,4.163336342344337e-17,match
+C-11,window 10: Olist realised low-rating rate,0.1345551660836461,0.13455516608364612,2.7755575615628914e-17,match
+C-11,window 11: Olist realised low-rating rate,0.1341713275662274,0.1341713275662275,8.326672684688674e-17,match
+C-11,window 12: Olist realised low-rating rate,0.1388079216900677,0.13880792169006778,8.326672684688674e-17,match
+C-11,window 13: Olist realised low-rating rate,0.2098880995073698,0.2098880995073698,0.0,match
+C-11,window 14: Olist realised low-rating rate,0.1593487647220604,0.15934876472206044,5.551115123125783e-17,match
+C-11,window 15: Olist realised low-rating rate,0.1296062575484201,0.12960625754842017,8.326672684688674e-17,match
+C-11,window 16: Olist realised low-rating rate,0.1225131889700796,0.12251318897007969,9.71445146547012e-17,match
+C-11,window 17: Olist realised low-rating rate,0.1427478304097572,0.14274783040975722,2.7755575615628914e-17,match
+C-11,window 18: Olist realised low-rating rate,0.1416257524486483,0.1416257524486483,0.0,match
+C-11,window 19: Olist realised low-rating rate,0.190860111089653,0.19086011108965303,2.7755575615628914e-17,match
+C-11,window 20: Olist realised low-rating rate,0.273066251759035,0.27306625175903504,5.551115123125783e-17,match
+C-11,window 21: Olist realised low-rating rate,0.2307722962628513,0.2307722962628513,0.0,match
+C-11,window 22: Olist realised low-rating rate,0.1747480295586126,0.17474802955861266,5.551115123125783e-17,match
+C-11,window 23: Olist realised low-rating rate,0.1275205916428619,0.12752059164286192,2.7755575615628914e-17,match
+C-11,window 24: Olist realised low-rating rate,0.1223119702934302,0.12231197029343026,5.551115123125783e-17,match
+C-11,window 25: Olist realised low-rating rate,0.1505844351153708,0.15058443511537087,5.551115123125783e-17,match
+C-11,window 26: Olist realised low-rating rate,0.1428813607814401,0.14288136078144006,2.7755575615628914e-17,match
+C-11,window 27: Olist realised low-rating rate,0.1019877371116898,0.10198773711168987,6.938893903907228e-17,match
+C-11,window 28: Olist realised low-rating rate,0.1012483051583133,0.10124830515831337,6.938893903907228e-17,match
+C-11,window 29: Olist realised low-rating rate,0.115093068929829,0.11509306892982903,2.7755575615628914e-17,match
+C-11,window 30: Olist realised low-rating rate,0.1298060866727051,0.12980608667270513,2.7755575615628914e-17,match

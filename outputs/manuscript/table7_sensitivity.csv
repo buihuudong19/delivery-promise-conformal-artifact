@@ -1,0 +1,55 @@
+﻿Analysis,Setting,Windows,Model,Coverage (%),Lowest window (%),Worst region (%),Mean promise (d),At cap (%)
+conformal (split),"main (split IPCW, 42 d, log score, cap 20)",all windows,XGBoost QR,90.2,72.7,81.4,20.5,0.0
+conformal (split),calibration window 14 d,all windows,XGBoost QR,99.9,99.8,99.8,90.0,100.0
+conformal (split),calibration window 21 d,all windows,XGBoost QR,94.9,73.9,91.4,48.6,40.0
+conformal (split),calibration window 28 d,all windows,XGBoost QR,90.5,68.7,83.3,25.4,6.7
+conformal (split),additive score,all windows,XGBoost QR,90.2,72.6,81.4,20.6,0.0
+conformal (split),IPCW cap 10,all windows,XGBoost QR,90.0,72.2,81.1,20.4,0.0
+conformal (split),IPCW cap 50,all windows,XGBoost QR,90.2,72.7,81.5,20.6,0.0
+conformal (split),tail share upper bound (undelivered at the origin counted as tail),all windows,XGBoost QR,92.1,75.6,85.3,22.1,0.0
+conformal (split),"level with the Kish effective size, (1 + 1/n_eff)",all windows,XGBoost QR,90.2,72.7,81.4,20.5,0.0
+conformal (split),"level reserving the largest test weight, (1 + wbar / sum w)",all windows,XGBoost QR,90.3,73.3,81.8,20.6,0.0
+conformal (split),"truncated split conformal, follow-up >= 28 d (finite-sample valid)",all windows,XGBoost QR,91.5,73.1,88.5,29.1,15.8
+conformal (Mondrian),Mondrian by region (main),all windows,XGBoost QR,89.8,71.3,81.1,20.5,0.0
+conformal (Mondrian),Mondrian by state,all windows,XGBoost QR,89.5,70.9,80.8,20.6,0.4
+conformal (split),"main (split IPCW, 42 d, log score, cap 20)",all windows,Quantile forest,90.9,73.8,83.3,21.1,0.0
+conformal (split),calibration window 14 d,all windows,Quantile forest,99.9,99.8,99.8,90.0,100.0
+conformal (split),calibration window 21 d,all windows,Quantile forest,95.2,76.8,91.8,48.8,40.0
+conformal (split),calibration window 28 d,all windows,Quantile forest,91.4,70.3,84.7,26.5,6.7
+conformal (split),additive score,all windows,Quantile forest,91.0,74.2,83.7,21.3,0.0
+conformal (split),IPCW cap 10,all windows,Quantile forest,90.8,73.5,83.0,21.0,0.0
+conformal (split),IPCW cap 50,all windows,Quantile forest,91.0,73.8,83.3,21.2,0.0
+conformal (split),tail share upper bound (undelivered at the origin counted as tail),all windows,Quantile forest,92.7,77.3,86.5,22.8,0.0
+conformal (split),"level with the Kish effective size, (1 + 1/n_eff)",all windows,Quantile forest,90.9,73.9,83.3,21.1,0.0
+conformal (split),"level reserving the largest test weight, (1 + wbar / sum w)",all windows,Quantile forest,91.1,74.9,83.5,21.3,0.0
+conformal (split),"truncated split conformal, follow-up >= 28 d (finite-sample valid)",all windows,Quantile forest,92.5,73.6,89.8,32.4,20.4
+conformal (Mondrian),Mondrian by region (main),all windows,Quantile forest,90.8,73.3,83.5,21.2,0.0
+conformal (Mondrian),Mondrian by state,all windows,Quantile forest,90.5,72.8,82.9,21.4,0.4
+conformal (ACI),"daily batch, gamma = 0.0001",all windows,XGBoost QR,90.7,73.6,83.5,21.4,0.0
+conformal (ACI),"daily batch, gamma = 0.0001",2018 (test),XGBoost QR,93.0,78.2,85.3,24.0,0.0
+conformal (ACI),"daily batch, gamma = 0.0001",all windows,Quantile forest,91.1,73.6,84.3,21.8,0.0
+conformal (ACI),"daily batch, gamma = 0.0001",2018 (test),Quantile forest,93.5,78.8,87.1,24.6,0.0
+conformal (ACI),"daily batch, gamma = 0.0002",all windows,XGBoost QR,90.0,74.7,82.5,21.0,0.0
+conformal (ACI),"daily batch, gamma = 0.0002",2018 (test),XGBoost QR,91.3,75.1,82.5,23.1,0.0
+conformal (ACI),"daily batch, gamma = 0.0002",all windows,Quantile forest,90.4,75.2,83.4,21.4,0.0
+conformal (ACI),"daily batch, gamma = 0.0002",2018 (test),Quantile forest,91.9,75.2,85.3,23.7,0.0
+conformal (ACI),"daily batch, gamma = 0.0005",all windows,XGBoost QR,89.0,61.9,80.2,20.6,0.0
+conformal (ACI),"daily batch, gamma = 0.0005",2018 (test),XGBoost QR,89.0,61.9,77.3,22.0,0.0
+conformal (ACI),"daily batch, gamma = 0.0005",all windows,Quantile forest,89.5,69.5,80.3,20.8,0.0
+conformal (ACI),"daily batch, gamma = 0.0005",2018 (test),Quantile forest,89.6,69.5,78.5,22.3,0.0
+conformal (ACI),"daily batch, gamma = 0.001",all windows,XGBoost QR,87.7,51.2,78.1,20.3,0.0
+conformal (ACI),"daily batch, gamma = 0.001",2018 (test),XGBoost QR,87.1,51.2,74.6,21.5,0.0
+conformal (ACI),"daily batch, gamma = 0.001",all windows,Quantile forest,88.4,62.9,79.3,20.4,0.0
+conformal (ACI),"daily batch, gamma = 0.001",2018 (test),Quantile forest,88.4,62.9,77.0,21.4,0.0
+conformal (ACI),"daily batch, gamma = 0.0005, no clipping",all windows,XGBoost QR,91.5,74.7,83.7,26.3,0.8
+conformal (ACI),"daily batch, gamma = 0.0005, no clipping",2018 (test),XGBoost QR,93.1,76.7,83.4,30.9,1.5
+conformal (ACI),"daily batch, gamma = 0.0005, no clipping",all windows,Quantile forest,91.6,76.4,84.9,29.6,4.7
+conformal (ACI),"daily batch, gamma = 0.0005, no clipping",2018 (test),Quantile forest,93.0,81.0,86.8,36.6,9.2
+conformal (ACI),"online per-order update (Gibbs and Candes), gamma = 0.0005, no clipping",all windows,XGBoost QR,91.6,75.0,85.0,39.7,29.8
+conformal (ACI),"online per-order update (Gibbs and Candes), gamma = 0.0005, no clipping",2018 (test),XGBoost QR,93.0,75.0,85.6,52.5,47.9
+conformal (ACI),"online per-order update (Gibbs and Candes), gamma = 0.0005, no clipping",all windows,Quantile forest,91.7,76.1,84.9,38.7,28.1
+conformal (ACI),"online per-order update (Gibbs and Candes), gamma = 0.0005, no clipping",2018 (test),Quantile forest,93.0,76.1,86.4,50.6,44.6
+conformal (ACI),reference: split IPCW,2018 (test),XGBoost QR,92.1,76.8,81.7,22.4,0.0
+conformal (ACI),reference: split IPCW,2018 (test),Quantile forest,93.1,77.9,85.3,23.4,0.0
+features,Olist's estimate as an input,all windows,XGBoost QR,90.0,72.6,82.1,20.3,0.0
+features,Olist's estimate as an input,all windows,Quantile forest,90.7,73.9,83.8,20.9,0.0

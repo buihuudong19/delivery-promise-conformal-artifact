@@ -1,0 +1,20 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Promise policies at Olist's mean promise length (24.6 days on average over the windows): low-rating rate implied by the response curve of RQ2 at the actual delivery times, late rate at the actual delivery times, and the mean promise each policy needs to reach Olist's low-rating rate.}
+\label{tab:rq3}
+\begin{tabular}{lrrrrr}
+\toprule
+Policy & Low rating, r(s)-implied (\%) & Late (\%) & Mean promise at Olist's low-rating rate (d) & Low rating vs Olist (pp) [95\% CI] & Holm p \\
+\midrule
+Olist promise & 14.30 & 6.25 & 24.63 & -- & -- \\
+Uniform promise & 15.04 & 7.94 & 25.65 & 0.74 [0.39, 1.11] & <0.001 \\
+Route quantile & 14.32 & 6.46 & 24.71 & 0.02 [-0.32, 0.31] & 1.000 \\
+Coverage policy (CPD quantile) & 14.25 & 6.10 & 24.99 & -0.04 [-0.38, 0.20] & 1.000 \\
+Late-rate optimal & 13.85 & 5.62 & 24.02 & -0.45 [-0.74, -0.25] & <0.001 \\
+Rating-aware optimal & 13.75 & 5.55 & 23.76 & -0.54 [-0.84, -0.32] & <0.001 \\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\parbox{\linewidth}{\scriptsize The low-rating rates are model-implied: they combine the observed delivery times with the estimated response curve r(s). The late rates are observed.}
+\end{table}

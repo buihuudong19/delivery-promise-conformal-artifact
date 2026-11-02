@@ -1,0 +1,7 @@
+﻿step,n_orders
+All orders in the orders table,99441
+"R1: purchase time, promised date and at least one item",98666
+R2: cancelled / unavailable orders removed,98205
+   of which delivered,96476
+"   of which open (never delivered, kept as censored)",1729
+"   delivered with a review (RQ2 population, three-star included)",95830

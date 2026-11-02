@@ -1,0 +1,4 @@
+candidate,members,n_members,length_gap_2017,length_gap_2018,length_gap_all,configured,selected
+ens_xgbq_qrf,xgbq_ipcw + qrf_ipcw,2,-0.10836362722059123,-1.568439069086029,-0.7897321667577956,False,False
+ens_xgbq_qrf_lqr,xgbq_ipcw + qrf_ipcw + lqr_ipcw,3,-0.1536105989576475,-1.6785701172826932,-0.8652583741760023,False,False
+ens_ipcw,route_ipcw + lqr_ipcw + xgbq_ipcw + qrf_ipcw + aft,5,-0.300410374470683,-1.7234472445146614,-0.9644942471578729,True,True

@@ -1,0 +1,19 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Delivered orders and delivery profile by customer region.}
+\label{tab:sample}
+\begin{tabular}{lrrrrrr}
+\toprule
+Region & Orders & Median Y (d) & 90th pct. Y (d) & Mean promise (d) & Late (\%) & Low rating (\%) \\
+\midrule
+Southeast & 66,198 & 9.4 & 20.1 & 22.2 & 6.1 & 13.5 \\
+South & 13,814 & 12.8 & 24.7 & 27.1 & 5.9 & 12.9 \\
+Centre-West & 5,624 & 13.9 & 24.8 & 27.3 & 6.5 & 14.5 \\
+Northeast & 9,044 & 17.9 & 33.8 & 31.3 & 12.7 & 18.5 \\
+North & 1,796 & 20.8 & 36.9 & 38.1 & 8.6 & 16.9 \\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\parbox{\linewidth}{\scriptsize Sample flow: All orders in the orders table: 99,441; R1: purchase time, promised date and at least one item: 98,666; R2: cancelled / unavailable orders removed: 98,205; of which delivered: 96,476; of which open (never delivered, kept as censored): 1,729; delivered with a review (RQ2 population, three-star included): 95,830.}
+\end{table}

@@ -1,0 +1,36 @@
+family,contrast,n_windows,mean,ci_lo,ci_hi,p,p_hac,p_holm
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: forest CPD (main),30,-0.005447605264206848,-0.008427937220500907,-0.0031812083083265757,5e-05,0.00034373886402842564,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: forest CPD (main),14,-0.008567764729720428,-0.01323804656450501,-0.005647225332529477,5e-05,0.0007807265862146423,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: forest CPD (main),30,-0.0069934532817488865,-0.012536888816768451,-0.0032102642847182173,5e-05,0.006631630498417649,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: forest CPD (main),30,-0.8649211508960516,-1.4486307556926303,-0.5088860611747893,5e-05,0.001654718475962468,0.0004
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: quantile-average CPD,30,-0.005936676109937515,-0.009066462037582504,-0.0036859557313455235,5e-05,0.00012530453792302282,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: quantile-average CPD,14,-0.009331983655718776,-0.013922325149813437,-0.006556234661113836,5e-05,0.00024999851035324944,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: quantile-average CPD,30,-0.006876154300169806,-0.0119398548359352,-0.0034468160684990915,5e-05,0.003435453401986329,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: quantile-average CPD,30,-0.9671897937976381,-1.5549790141101778,-0.5616591046476089,5e-05,0.0010218277668142836,0.0004
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: policy from the 2017 curve,30,-0.005523073428276089,-0.008433844344627585,-0.0032677939300398543,5e-05,0.00022674083878109538,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: policy from the 2017 curve,14,-0.008563845357117626,-0.01311929058975153,-0.005734120580001259,5e-05,0.0006461400739681085,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: policy from the 2017 curve,30,-0.006777671785259537,-0.012240335247831562,-0.0031151454450795792,5e-05,0.00724119934217532,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: policy from the 2017 curve,30,-0.893912148689776,-1.4737867206562951,-0.5272368002744295,5e-05,0.00137609824157718,0.0004
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: three-star ratings as not low,30,-0.00471608989096862,-0.007475229734758343,-0.002709914851297946,5e-05,0.0005007959641495797,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: three-star ratings as not low,14,-0.007483392054251066,-0.011732804278516596,-0.004881310492265246,5e-05,0.0010546559675885237,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: three-star ratings as not low,30,-0.006734836930926442,-0.012175222455216753,-0.002943800608469409,5e-05,0.007292983061503776,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: three-star ratings as not low,30,-0.8497742699788671,-1.416035634653587,-0.5083394562637528,5e-05,0.0012723121665546165,0.0004
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 42 days,30,-0.005344964597966401,-0.008333781159785168,-0.0030918671319539836,5e-05,0.00040280044469744606,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: tail mass at 42 days,14,-0.008543505595494397,-0.013105352377647293,-0.005747507633635014,5e-05,0.0006295696385957404,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 42 days,30,-0.007024907649813671,-0.012537985223876343,-0.003287740410268973,5e-05,0.005973436807116477,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: tail mass at 42 days,30,-0.8467327324870332,-1.443251455203032,-0.47861369933991943,5e-05,0.0022714963593990357,0.0004
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 56 days,30,-0.005528552012027869,-0.008536390500961959,-0.0032344414671598475,5e-05,0.0003411102021644727,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: tail mass at 56 days,14,-0.00868285563657847,-0.013488316332919243,-0.005732549399032896,5e-05,0.0008030605306125521,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 56 days,30,-0.007018770666396636,-0.012640900066842771,-0.0031414561094698637,5e-05,0.0069679876872023126,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: tail mass at 56 days,30,-0.8790024899273621,-1.4637946437092586,-0.5185287602051293,5e-05,0.0015321719088738652,0.0004
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 70 days,30,-0.005512967608837489,-0.008517422811237244,-0.0032269771740467373,5e-05,0.0003017189743154655,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: tail mass at 70 days,14,-0.00862198483056205,-0.013296400988912278,-0.005739280758574974,5e-05,0.0007589788698190988,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 70 days,30,-0.006987145791223116,-0.012548943959621845,-0.003124333113043782,5e-05,0.006738318445962134,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: tail mass at 70 days,30,-0.8908461127905567,-1.4954163643826026,-0.5186850550674833,5e-05,0.0017644198385353544,0.0004
+RQ3-S low-rating rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 120 days,30,-0.005559392318685242,-0.008598999473987269,-0.003238134011602522,5e-05,0.0003469547271145103,0.0004
+RQ3-S low-rating rate at Olist's mean promise (2018 test),optimal - Olist: tail mass at 120 days,14,-0.008721466351664379,-0.013573123855165204,-0.0057490134118192504,5e-05,0.0008557990310729989,0.0004
+RQ3-S late rate at Olist's mean promise (all windows),optimal - Olist: tail mass at 120 days,30,-0.007019548369551416,-0.012613749116278446,-0.003121252497444655,5e-05,0.007021840248622419,0.0004
+RQ3-S promise length at Olist's low-rating rate (all windows),optimal - Olist: tail mass at 120 days,30,-0.8909077133701666,-1.4955980860924518,-0.5186850550674833,5e-05,0.0017664916674979719,0.0004
+RQ3-S quantile-average versus forest CPD (low-rating rate at Olist's mean promise),optimal: quantile-average CPD - forest CPD,30,-0.0004890708457306668,-0.000992597992916679,0.0001811122238764312,0.1945,0.12202270391123965,0.1945
+RQ3-S quantile-average versus forest CPD (late rate at Olist's mean promise),optimal: quantile-average CPD - forest CPD,30,0.000117298981579079,-0.0006287570835371402,0.001271258992516289,0.6034,0.8150959543616134,0.6034
+RQ3-S quantile-average versus forest CPD (low-rating rate at Olist's mean promise),coverage policy: quantile-average CPD - forest CPD,30,-0.0019242500465173674,-0.0029599737322968675,-0.0009548950381553065,5e-05,0.0009350249783507795,0.0001

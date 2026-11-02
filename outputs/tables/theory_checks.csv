@@ -1,0 +1,31 @@
+check,claim,value,criterion,status
+C1,Y <= U implies a kept promise floor(U) (Proposition 1),0 violations in 66747 orders,0 violations,PASS
+C2,IPCW reduces the error of Pr(Y <= t) on the censored calibration sets against the naive estimate (Proposition 2),mean |error| IPCW 0.0214 vs naive 0.0640; IPCW closer in 96% of origin x t cases,IPCW closer than naive in >= 90% of cases,PASS
+C2,IPCW unbiasedness requires the purchase time to be independent of the delivery time within the calibration window; origins with mean |error| > 0.03,"2017-11-30 (0.055), 2017-12-14 (0.069), 2018-02-08 (0.031), 2018-02-22 (0.036), 2018-03-08 (0.043), 2018-03-22 (0.034), 2018-04-19 (0.041), 2018-05-31 (0.035), 2018-06-28 (0.033)","reported (expected at demand peaks, where the assumption fails)",INFO
+C3,"split conformal under exchangeability (Lemma 2), alpha = 0.05",mean coverage 0.9510,>= 0.945 (nominal minus Monte Carlo tolerance 0.005),PASS
+C4,"Mondrian (region) under exchangeability (Lemma 2 within regions), alpha = 0.05",Centro-Oeste 0.957; Nordeste 0.954; Norte 0.967; Sudeste 0.951; Sul 0.953,every region >= 0.940,PASS
+C3,"split conformal under exchangeability (Lemma 2), alpha = 0.1",mean coverage 0.9007,>= 0.895 (nominal minus Monte Carlo tolerance 0.005),PASS
+C4,"Mondrian (region) under exchangeability (Lemma 2 within regions), alpha = 0.1",Centro-Oeste 0.906; Nordeste 0.903; Norte 0.906; Sudeste 0.901; Sul 0.902,every region >= 0.890,PASS
+C3,"split conformal under exchangeability (Lemma 2), alpha = 0.2",mean coverage 0.7996,>= 0.795 (nominal minus Monte Carlo tolerance 0.005),PASS
+C4,"Mondrian (region) under exchangeability (Lemma 2 within regions), alpha = 0.2",Centro-Oeste 0.807; Nordeste 0.805; Norte 0.808; Sudeste 0.800; Sul 0.798,every region >= 0.790,PASS
+C4,"Mondrian: share of origins with >= 150 calibration orders per region (own correction); region with the lowest split-IPCW coverage, alpha = 0.1",own: Centro-Oeste 1.00; Nordeste 1.00; Norte 0.37; Sudeste 1.00; Sul 1.00 | worst: Norte 0.50; Nordeste 0.23; Sudeste 0.13; Centro-Oeste 0.07; Sul 0.07,reported,INFO
+C5,"temporal oracle calibration, alpha = 0.05: coverage - nominal (drift)",mean +0.65 pp; windows below nominal - 2 pp: 3 of 30,reported,INFO
+C5,"temporal oracle calibration, alpha = 0.1: coverage - nominal (drift)",mean +1.55 pp; windows below nominal - 2 pp: 5 of 30,reported,INFO
+C5,"temporal oracle calibration, alpha = 0.2: coverage - nominal (drift)",mean +3.41 pp; windows below nominal - 2 pp: 5 of 30,reported,INFO
+C6,"ACI long-run miscoverage, alpha = 0.05 (all orders, undelivered = missed)","0.0698 (|gap| 0.0198, bound 0.0241, T = 78957 resolved orders)",|gap| <= bound,PASS
+C6,"ACI long-run miscoverage, alpha = 0.1 (all orders, undelivered = missed)","0.1248 (|gap| 0.0248, bound 0.0228, T = 78957 resolved orders)",|gap| <= bound,FAIL
+C6,"ACI long-run miscoverage, alpha = 0.2 (all orders, undelivered = missed)","0.2193 (|gap| 0.0193, bound 0.0203, T = 78957 resolved orders)",|gap| <= bound,PASS
+C7,rho_i(P) non-increasing in P (Lemma 4),1.0000 of orders,= 1,PASS
+C7,"rho_i(P) convex in P (premise of the threshold form, Remark 7)","0.0000 of orders over P in [1, 75]; 0.0510 over [15, 40]",reported,INFO
+C8,"mean promise of the Lagrangian solution non-increasing in lambda (Proposition 5, part 2)",30 of 30 windows,all windows,PASS
+C10,"Lagrangian sweep near-optimal for every mean length L in 14..32 days (Proposition 5, part 3, Algorithm 3): feasible repair minus dual bound","mean 0.0000 pp, max 0.0001 pp over 570 window x L cases",max gap < 0.1 pp,PASS
+C11,response curve fitted on 2017 predicts the low-rating rate of the 2018 windows under Olist's promise (out of time),"mean bias +0.08 pp, MAE 1.46 pp, correlation 0.959 (14 windows)",|mean bias| <= 1 pp and correlation >= 0.7,PASS
+C9,adjusted response curve r(s) non-decreasing in s (Eq. 10),max decrease 0.00e+00,<= 1e-9,PASS
+C9,"placebo RDD cut-offs (S = -6, -3, 3, 6): honest intervals (Lemma 3) cover 0",88% of 16 placebo estimates,reported (>= 80% expected),INFO
+C9,"AIPW overlap: smallest propensity before clipping at 0.01, by bin (XGBoost)",S <= -15: p1 0.001; -14 to -6: p1 0.016; -5 to 0: p1 0.004; 1 to 3: p1 0.001; 4 to 7: p1 0.001; S >= 8: p1 0.001,reported,INFO
+C9,"AIPW risk ratios stable to the propensity clip 0.005-0.05, nuisance XGBoost (main)","largest relative change 5.4% (clip 0.05, bin S >= 8)",reported,INFO
+C9,"AIPW risk ratios stable to the propensity clip 0.005-0.05, nuisance logistic regression","largest relative change 19.0% (clip 0.05, bin S >= 8)",reported,INFO
+C9,"AIPW trimming of orders with own propensity < 0.01 / 0.02 (Crump et al., 2009): changes the target population, not only the estimator","largest relative change of a risk ratio 26.9% (trim own propensity < 0.02, lr, bin S >= 8); late orders removed up to 28%",reported,INFO
+C9,"qualitative RQ2 conclusions hold in every overlap specification (2 learners x 4 clips + 2 trims): risk ratios increasing in lateness, every late bin RR CI above 1 with E-value(CI) > 2, early-delivery bin RR CI below 1",12 specifications,all specifications,PASS
+C13,hyper-parameters chosen on the inner validation block (tuned origins): distribution of the choices and share on the edge of the grid,"8 tuned origins; XGBoost max_depth 3 x4, 2 x2, 4 x1, 6 x1 (edge 38%); QRF min_samples_leaf 5 x5, 10 x2, 3 x1 (edge 12%); AFT scale 0.6 x4, 0.3 x3, 0.45 x1 (edge 38%)",reported,INFO
+C12,quantile average: the configured member set is the one selected by the pre-specified rule (shortest promise at Olist's coverage over the 2017 origins),"ens_xgbq_qrf 2017 -0.11 d, 2018 -1.57 d; ens_xgbq_qrf_lqr 2017 -0.15 d, 2018 -1.68 d; ens_ipcw 2017 -0.30 d, 2018 -1.72 d; selected ens_ipcw",configured = selected,PASS

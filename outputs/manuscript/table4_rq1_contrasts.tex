@@ -1,0 +1,78 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Paired window-level contrasts of RQ1 (coverage in percentage points, length in days).}
+\label{tab:rq1contrasts}
+\begin{tabular}{llrrr}
+\toprule
+Family & Contrast & Mean [95\% CI] & Holm p & HAC p \\
+\midrule
+RQ1-A calibration weighting (coverage) & aft: IPCW - naive & 4.30 [3.37, 5.49] & <0.001 & <0.001 \\
+RQ1-A calibration weighting (coverage) & aft\_naive: IPCW - naive & 4.37 [3.50, 5.38] & <0.001 & <0.001 \\
+RQ1-A calibration weighting (coverage) & ens\_ipcw: IPCW - naive & 4.96 [4.09, 6.05] & <0.001 & <0.001 \\
+RQ1-A calibration weighting (coverage) & lqr\_ipcw: IPCW - naive & 5.08 [3.99, 6.45] & <0.001 & <0.001 \\
+RQ1-A calibration weighting (coverage) & qrf\_ipcw: IPCW - naive & 4.31 [3.60, 5.19] & <0.001 & <0.001 \\
+RQ1-A calibration weighting (coverage) & route\_ipcw: IPCW - naive & 5.62 [4.60, 6.86] & <0.001 & <0.001 \\
+RQ1-A calibration weighting (coverage) & xgbq\_ipcw: IPCW - naive & 5.07 [4.22, 6.12] & <0.001 & <0.001 \\
+RQ1-B training weights (coverage) & route: ipcw - plain & 0.07 [0.04, 0.11] & <0.001 & <0.001 \\
+RQ1-B training weights (mean promise) & route: ipcw - plain & 0.11 [0.05, 0.18] & <0.001 & 0.003 \\
+RQ1-B training weights (coverage) & lqr: ipcw - plain & -0.03 [-0.13, 0.11] & 1.000 & 0.652 \\
+RQ1-B training weights (mean promise) & lqr: ipcw - plain & 0.02 [-0.02, 0.12] & 0.781 & 0.591 \\
+RQ1-B training weights (coverage) & xgbq: ipcw - plain & 0.02 [-0.04, 0.09] & 1.000 & 0.459 \\
+RQ1-B training weights (mean promise) & xgbq: ipcw - plain & 0.03 [-0.00, 0.06] & 0.198 & 0.041 \\
+RQ1-B training weights (coverage) & qrf: ipcw - plain & -0.03 [-0.21, 0.19] & 1.000 & 0.736 \\
+RQ1-B training weights (mean promise) & qrf: ipcw - plain & -0.05 [-0.22, 0.11] & 0.781 & 0.586 \\
+RQ1-B training weights (coverage) & aft: censored - naive & 0.77 [0.30, 1.21] & 0.005 & 0.003 \\
+RQ1-B training weights (mean promise) & aft: censored - naive & 0.95 [0.53, 1.26] & <0.001 & <0.001 \\
+RQ1-D promise length vs Olist, alpha=0.05 & aft - Olist & 1.73 [-0.85, 4.71] & 1.000 & 0.210 \\
+RQ1-D coverage vs Olist, alpha=0.05 & aft - Olist & 0.88 [-1.17, 3.69] & 1.000 & 0.460 \\
+RQ1-D promise length vs Olist, alpha=0.05 & aft\_naive - Olist & 0.56 [-1.98, 3.64] & 1.000 & 0.685 \\
+RQ1-D coverage vs Olist, alpha=0.05 & aft\_naive - Olist & 0.35 [-1.81, 3.34] & 1.000 & 0.778 \\
+RQ1-D promise length vs Olist, alpha=0.05 & ens\_ipcw - Olist & 0.22 [-2.43, 3.34] & 1.000 & 0.875 \\
+RQ1-D coverage vs Olist, alpha=0.05 & ens\_ipcw - Olist & 0.47 [-1.69, 3.13] & 1.000 & 0.698 \\
+RQ1-D promise length vs Olist, alpha=0.05 & lqr\_ipcw - Olist & 0.22 [-2.59, 3.47] & 1.000 & 0.883 \\
+RQ1-D coverage vs Olist, alpha=0.05 & lqr\_ipcw - Olist & -0.77 [-3.59, 2.30] & 1.000 & 0.595 \\
+RQ1-D promise length vs Olist, alpha=0.05 & qrf\_ipcw - Olist & 1.93 [-1.03, 5.37] & 1.000 & 0.222 \\
+RQ1-D coverage vs Olist, alpha=0.05 & qrf\_ipcw - Olist & 1.36 [-0.75, 4.14] & 1.000 & 0.272 \\
+RQ1-D promise length vs Olist, alpha=0.05 & route\_ipcw - Olist & 1.47 [-1.14, 4.47] & 1.000 & 0.291 \\
+RQ1-D coverage vs Olist, alpha=0.05 & route\_ipcw - Olist & 0.47 [-1.40, 3.00] & 1.000 & 0.664 \\
+RQ1-D promise length vs Olist, alpha=0.05 & xgbq\_ipcw - Olist & 0.86 [-1.86, 4.08] & 1.000 & 0.555 \\
+RQ1-D coverage vs Olist, alpha=0.05 & xgbq\_ipcw - Olist & 0.77 [-1.33, 3.46] & 1.000 & 0.527 \\
+RQ1-D promise length vs Olist, alpha=0.1 & aft - Olist & -3.48 [-5.34, -1.52] & 0.003 & <0.001 \\
+RQ1-D coverage vs Olist, alpha=0.1 & aft - Olist & -3.66 [-6.22, -0.93] & 0.028 & 0.007 \\
+RQ1-D promise length vs Olist, alpha=0.1 & aft\_naive - Olist & -4.46 [-6.28, -2.28] & <0.001 & <0.001 \\
+RQ1-D coverage vs Olist, alpha=0.1 & aft\_naive - Olist & -4.48 [-7.11, -1.45] & 0.020 & 0.003 \\
+RQ1-D promise length vs Olist, alpha=0.1 & ens\_ipcw - Olist & -4.47 [-6.42, -2.22] & <0.001 & <0.001 \\
+RQ1-D coverage vs Olist, alpha=0.1 & ens\_ipcw - Olist & -3.95 [-6.72, -1.05] & 0.028 & 0.008 \\
+RQ1-D promise length vs Olist, alpha=0.1 & lqr\_ipcw - Olist & -4.59 [-6.72, -2.21] & 0.003 & <0.001 \\
+RQ1-D coverage vs Olist, alpha=0.1 & lqr\_ipcw - Olist & -5.55 [-9.02, -2.23] & 0.004 & 0.003 \\
+RQ1-D promise length vs Olist, alpha=0.1 & qrf\_ipcw - Olist & -3.45 [-5.62, -0.92] & 0.014 & 0.006 \\
+RQ1-D coverage vs Olist, alpha=0.1 & qrf\_ipcw - Olist & -2.92 [-5.59, 0.10] & 0.103 & 0.046 \\
+RQ1-D promise length vs Olist, alpha=0.1 & route\_ipcw - Olist & -3.71 [-5.51, -1.53] & 0.005 & <0.001 \\
+RQ1-D coverage vs Olist, alpha=0.1 & route\_ipcw - Olist & -4.31 [-6.60, -1.81] & 0.003 & 0.001 \\
+RQ1-D promise length vs Olist, alpha=0.1 & xgbq\_ipcw - Olist & -4.14 [-6.16, -1.79] & 0.003 & <0.001 \\
+RQ1-D coverage vs Olist, alpha=0.1 & xgbq\_ipcw - Olist & -3.90 [-6.55, -0.96] & 0.028 & 0.008 \\
+RQ1-E worst-region coverage & aft: mondrian\_ipcw - split\_ipcw & -0.61 [-1.63, 0.78] & 1.000 & 0.307 \\
+RQ1-E worst-region coverage & aft\_naive: mondrian\_ipcw - split\_ipcw & -1.39 [-2.56, -0.15] & 0.650 & 0.025 \\
+RQ1-E worst-region coverage & ens\_ipcw: mondrian\_ipcw - split\_ipcw & -0.65 [-1.67, 0.54] & 1.000 & 0.249 \\
+RQ1-E worst-region coverage & lqr\_ipcw: mondrian\_ipcw - split\_ipcw & -2.03 [-4.31, -0.15] & 1.000 & 0.063 \\
+RQ1-E worst-region coverage & qrf\_ipcw: mondrian\_ipcw - split\_ipcw & 0.25 [-0.55, 1.20] & 1.000 & 0.588 \\
+RQ1-E worst-region coverage & route\_ipcw: mondrian\_ipcw - split\_ipcw & -0.58 [-1.33, 0.15] & 1.000 & 0.115 \\
+RQ1-E worst-region coverage & xgbq\_ipcw: mondrian\_ipcw - split\_ipcw & -0.27 [-1.47, 1.22] & 1.000 & 0.685 \\
+RQ1-E worst-region coverage & aft: aci\_ipcw - split\_ipcw & -0.35 [-3.29, 3.05] & 1.000 & 0.830 \\
+RQ1-E worst-region coverage & aft\_naive: aci\_ipcw - split\_ipcw & 0.14 [-1.99, 3.28] & 1.000 & 0.921 \\
+RQ1-E worst-region coverage & ens\_ipcw: aci\_ipcw - split\_ipcw & -1.22 [-5.19, 3.24] & 1.000 & 0.572 \\
+RQ1-E worst-region coverage & lqr\_ipcw: aci\_ipcw - split\_ipcw & -0.78 [-5.02, 3.52] & 1.000 & 0.722 \\
+RQ1-E worst-region coverage & qrf\_ipcw: aci\_ipcw - split\_ipcw & -2.99 [-7.01, 0.79] & 1.000 & 0.137 \\
+RQ1-E worst-region coverage & route\_ipcw: aci\_ipcw - split\_ipcw & -1.90 [-6.37, 3.19] & 1.000 & 0.438 \\
+RQ1-E worst-region coverage & xgbq\_ipcw: aci\_ipcw - split\_ipcw & -1.20 [-5.31, 3.30] & 1.000 & 0.584 \\
+RQ1-E worst-region coverage & aft: mondrian\_aci\_ipcw - split\_ipcw & -0.23 [-1.83, 1.95] & 1.000 & 0.812 \\
+RQ1-E worst-region coverage & aft\_naive: mondrian\_aci\_ipcw - split\_ipcw & -1.07 [-2.57, 0.85] & 1.000 & 0.223 \\
+RQ1-E worst-region coverage & ens\_ipcw: mondrian\_aci\_ipcw - split\_ipcw & -1.29 [-2.99, 0.50] & 1.000 & 0.165 \\
+RQ1-E worst-region coverage & lqr\_ipcw: mondrian\_aci\_ipcw - split\_ipcw & -1.85 [-3.74, 0.08] & 1.000 & 0.067 \\
+RQ1-E worst-region coverage & qrf\_ipcw: mondrian\_aci\_ipcw - split\_ipcw & -0.18 [-2.18, 1.51] & 1.000 & 0.854 \\
+RQ1-E worst-region coverage & route\_ipcw: mondrian\_aci\_ipcw - split\_ipcw & 0.03 [-1.83, 1.48] & 1.000 & 0.969 \\
+RQ1-E worst-region coverage & xgbq\_ipcw: mondrian\_aci\_ipcw - split\_ipcw & -0.44 [-2.79, 1.83] & 1.000 & 0.714 \\
+\bottomrule
+\end{tabular}
+\end{table}

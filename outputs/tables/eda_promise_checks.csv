@@ -1,0 +1,12 @@
+check,value,n
+within route-month correlation of P with approval_h,0.029278300838649494,98191
+within route-month correlation of P with handover_d,0.23982723207542217,97574
+within route-month correlation of P with Y,0.16637015738270905,96462
+within seller-route-month correlation of P with approval_h,0.03438536548648118,98191
+within seller-route-month correlation of P with handover_d,0.09752201842354216,97574
+estimated date stored at midnight (share),1.0,98205
+promise P in days: mean,24.413665291991244,98205
+promise P in days: share of orders with P <= 7,0.013054325136194695,98205
+late rate (S > 0) among delivered orders,0.06773705377503213,96476
+Olist promise as a quantile of the delivery time: share of D <= P (= 1 - late rate),0.9322629462249679,96476
+median slack P - D among on-time orders (days),13.0,89941

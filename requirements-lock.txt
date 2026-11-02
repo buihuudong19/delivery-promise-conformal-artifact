@@ -1,0 +1,11 @@
+# Exact library versions of the reported run (Windows 11, Python 3.14.4), as recorded in outputs/manifest.json.
+# run_pipeline.bat, run_pipeline.sh and the Dockerfile install these versions.
+numpy==2.5.3
+pandas==3.0.5
+scikit-learn==1.9.1
+scipy==1.18.1
+xgboost==3.4.1
+statsmodels==0.15.0
+quantile-forest==1.4.2
+matplotlib==3.11.2
+PyYAML==6.0.3

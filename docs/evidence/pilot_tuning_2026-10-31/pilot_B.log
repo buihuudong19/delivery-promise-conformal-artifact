@@ -1,0 +1,91 @@
+k=5 xgbq max_depth=2: inner 0.08233 5s
+k=5 xgbq max_depth=3: inner 0.08141 6s
+k=5 xgbq max_depth=4: inner 0.08184 8s
+k=5 xgbq max_depth=4, min_child_weight=50: inner 0.08192 7s
+k=5 xgbq max_depth=3, learning_rate=0.1: inner 0.08293 5s
+k=5 xgbq max_depth=4, reg_lambda=10.0: inner 0.08145 8s
+k=5 qrf min_samples_leaf=3: inner 0.08137 10s
+k=5 qrf min_samples_leaf=5: inner 0.08057 9s
+k=5 qrf min_samples_leaf=10: inner 0.08148 8s
+k=5 qrf min_samples_leaf=5, max_features=0.33: inner 0.08144 6s
+k=5 qrf min_samples_leaf=5, max_samples=0.8: inner 0.08113 12s
+k=5 aft extreme, scale 0.3: inner 0.09798 4s
+k=5 aft extreme, scale 0.45: inner 0.08805 5s
+k=5 aft extreme, scale 0.6: inner 0.08524 4s
+k=5 aft normal, scale 0.45: inner 0.08531 4s
+k=10 xgbq max_depth=2: inner 0.08173 6s
+k=10 xgbq max_depth=3: inner 0.08011 8s
+k=10 xgbq max_depth=4: inner 0.07895 11s
+k=10 xgbq max_depth=4, min_child_weight=50: inner 0.07926 12s
+k=10 xgbq max_depth=3, learning_rate=0.1: inner 0.07845 9s
+k=10 xgbq max_depth=4, reg_lambda=10.0: inner 0.07918 12s
+k=10 qrf min_samples_leaf=3: inner 0.08049 18s
+k=10 qrf min_samples_leaf=5: inner 0.07924 17s
+k=10 qrf min_samples_leaf=10: inner 0.07935 15s
+k=10 qrf min_samples_leaf=5, max_features=0.33: inner 0.07933 12s
+k=10 qrf min_samples_leaf=5, max_samples=0.8: inner 0.08072 24s
+k=10 aft extreme, scale 0.3: inner 0.08252 5s
+k=10 aft extreme, scale 0.45: inner 0.08221 6s
+k=10 aft extreme, scale 0.6: inner 0.08699 6s
+k=10 aft normal, scale 0.45: inner 0.08619 5s
+k=15 xgbq max_depth=2: inner 0.08274 8s
+k=15 xgbq max_depth=3: inner 0.08219 12s
+k=15 xgbq max_depth=4: inner 0.08201 16s
+k=15 xgbq max_depth=4, min_child_weight=50: inner 0.08208 15s
+k=15 xgbq max_depth=3, learning_rate=0.1: inner 0.08181 11s
+k=15 xgbq max_depth=4, reg_lambda=10.0: inner 0.08191 15s
+k=15 qrf min_samples_leaf=3: inner 0.08247 29s
+k=15 qrf min_samples_leaf=5: inner 0.08234 26s
+k=15 qrf min_samples_leaf=10: inner 0.08221 23s
+k=15 qrf min_samples_leaf=5, max_features=0.33: inner 0.08291 20s
+k=15 qrf min_samples_leaf=5, max_samples=0.8: inner 0.08253 38s
+k=15 aft extreme, scale 0.3: inner 0.08568 7s
+k=15 aft extreme, scale 0.45: inner 0.08426 8s
+k=15 aft extreme, scale 0.6: inner 0.08814 7s
+k=15 aft normal, scale 0.45: inner 0.08686 7s
+k=20 xgbq max_depth=2: inner 0.09300 11s
+k=20 xgbq max_depth=3: inner 0.09417 15s
+k=20 xgbq max_depth=4: inner 0.09509 19s
+k=20 xgbq max_depth=4, min_child_weight=50: inner 0.09519 18s
+k=20 xgbq max_depth=3, learning_rate=0.1: inner 0.09623 15s
+k=20 xgbq max_depth=4, reg_lambda=10.0: inner 0.09482 19s
+k=20 qrf min_samples_leaf=3: inner 0.09262 45s
+k=20 qrf min_samples_leaf=5: inner 0.09265 40s
+k=20 qrf min_samples_leaf=10: inner 0.09275 35s
+k=20 qrf min_samples_leaf=5, max_features=0.33: inner 0.09187 29s
+k=20 qrf min_samples_leaf=5, max_samples=0.8: inner 0.09248 58s
+k=20 aft extreme, scale 0.3: inner 0.12161 9s
+k=20 aft extreme, scale 0.45: inner 0.09799 9s
+k=20 aft extreme, scale 0.6: inner 0.09271 9s
+k=20 aft normal, scale 0.45: inner 0.09309 8s
+k=25 xgbq max_depth=2: inner 0.10148 14s
+k=25 xgbq max_depth=3: inner 0.09963 18s
+k=25 xgbq max_depth=4: inner 0.09924 28s
+k=25 xgbq max_depth=4, min_child_weight=50: inner 0.09921 27s
+k=25 xgbq max_depth=3, learning_rate=0.1: inner 0.09860 21s
+k=25 xgbq max_depth=4, reg_lambda=10.0: inner 0.09932 25s
+k=25 qrf min_samples_leaf=3: inner 0.09364 61s
+k=25 qrf min_samples_leaf=5: inner 0.09373 64s
+k=25 qrf min_samples_leaf=10: inner 0.09426 51s
+k=25 qrf min_samples_leaf=5, max_features=0.33: inner 0.09427 42s
+k=25 qrf min_samples_leaf=5, max_samples=0.8: inner 0.09382 82s
+k=25 aft extreme, scale 0.3: inner 0.10978 11s
+k=25 aft extreme, scale 0.45: inner 0.09494 12s
+k=25 aft extreme, scale 0.6: inner 0.09333 11s
+k=25 aft normal, scale 0.45: inner 0.09602 10s
+k=30 xgbq max_depth=2: inner 0.09738 18s
+k=30 xgbq max_depth=3: inner 0.09472 22s
+k=30 xgbq max_depth=4: inner 0.09295 29s
+k=30 xgbq max_depth=4, min_child_weight=50: inner 0.09297 27s
+k=30 xgbq max_depth=3, learning_rate=0.1: inner 0.09263 21s
+k=30 xgbq max_depth=4, reg_lambda=10.0: inner 0.09312 27s
+k=30 qrf min_samples_leaf=3: inner 0.09723 82s
+k=30 qrf min_samples_leaf=5: inner 0.09593 75s
+k=30 qrf min_samples_leaf=10: inner 0.09691 71s
+k=30 qrf min_samples_leaf=5, max_features=0.33: inner 0.09516 56s
+k=30 qrf min_samples_leaf=5, max_samples=0.8: inner 0.09614 112s
+k=30 aft extreme, scale 0.3: inner 0.09234 14s
+k=30 aft extreme, scale 0.45: inner 0.09399 14s
+k=30 aft extreme, scale 0.6: inner 0.10022 14s
+k=30 aft normal, scale 0.45: inner 0.09386 12s
+part B done

@@ -1,0 +1,115 @@
+# Single configuration file of the P2DU pipeline (promising delivery dates under uncertainty).
+# Relative paths are resolved from the repository root.
+data_dir: data/raw      # the nine raw Olist CSV tables (Kaggle); the geolocation table may be stored as .csv.gz
+out_dir: outputs
+seed: 42
+n_jobs: 2               # threads of XGBoost and the quantile forest in each process
+workers: 1              # parallel processes of the model fitting (blocks of 4 origins); e.g. workers 6 x n_jobs 4 on a
+                        # 24-thread machine. The tuning schedule does not depend on the number of workers.
+
+sample:
+  # Order statuses that end without a delivery and whose outcome is known to the platform soon after purchase.
+  # They are removed from every analysis (main choice); the sensitivity stage counts the other undelivered orders
+  # (shipped, invoiced, processing, ...) as missed promises.
+  cancelled_status: [canceled, unavailable]
+  low_scores: [1, 2]            # low rating, same definition as the first article
+  high_scores: [4, 5]           # three-star orders are left out of the main RQ2 analysis, as in the first article
+
+features:
+  smoothing_m: 20               # shrinkage weight of the as-of means (m-estimate)
+  seller_volume_window_days: 30
+  platform_window_days: 30      # window of the recent platform-wide delivery time (a drift signal known at purchase)
+  include_platform_promise: false   # main: Olist's own estimate is NOT an input (sensitivity: true)
+
+rolling:
+  first_origin: "2017-06-01"
+  last_origin: "2018-07-16"
+  step_days: 14                 # origins every two weeks, as in the first article
+  horizon_days: 14              # each evaluation window covers 14 days of purchases
+  calib_days: 42                # conformal calibration set: orders bought in the last 42 days before the origin
+  min_train: 2000
+
+censoring:
+  weight_cap: 20                # IPCW weights are capped at 1 / 0.05
+
+quantiles: [0.5, 0.8, 0.9, 0.95]    # quantile levels fitted by every quantile model
+alphas: [0.05, 0.10, 0.20]          # miscoverage levels of the one-sided promises
+
+models:
+  lqr:
+    max_iter: 2000
+    min_frequency: 200            # rare categories of the one-hot encoding are pooled
+  xgbq:
+    n_estimators: 400
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 10
+    reg_lambda: 1.0
+  qrf:
+    n_estimators: 150
+    min_samples_leaf: 20
+    max_features: 0.5
+    max_samples: 0.5
+  aft:
+    n_estimators: 400
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 10
+    distributions: [normal, logistic, extreme]
+    scales: [0.3, 0.45, 0.6, 1.0] # aft_loss_distribution_scale; distribution and scale are chosen inside each origin
+  route:
+    shrink_m: 50                  # route quantiles are shrunk towards the customer-state quantile
+
+tuning:
+  inner_val_days: 28            # inner validation block at the end of each origin's training set
+  retune_every: 4               # hyper-parameters are re-selected every 4 origins (8 weeks) and kept in between
+  # Grids widened on 31 Oct 2026: with the earlier grids (max_depth 4/6/8, min_samples_leaf 10/40, AFT scale 0.6/1.0)
+  # every tuned origin chose the lowest value. A pilot on six origins (docs/DE_XUAT_TOI_UU_MO_HINH.md) showed that the
+  # wider grids do not change the promise length after the conformal step; they are used so that the choice is not
+  # forced to the edge. rq1_tuning_choices.csv reports every choice.
+  xgbq_grid: [{max_depth: 2}, {max_depth: 3}, {max_depth: 4}, {max_depth: 6}, {max_depth: 3, learning_rate: 0.1}]
+  qrf_grid: [{min_samples_leaf: 3}, {min_samples_leaf: 5}, {min_samples_leaf: 10}, {min_samples_leaf: 20}]
+
+ensemble:
+  # Quantile averaging (Lichtendahl et al., 2013): the mean of the stored log-quantiles of several fitted variants,
+  # built from the saved predictions (no refit) and corrected by the same conformal step as every model.
+  name: ens_ipcw
+  members: [route_ipcw, lqr_ipcw, xgbq_ipcw, qrf_ipcw, aft]
+  # Selection rule, fixed on 31 Oct 2026 before the run on the reporting machine: among the nested candidate sets
+  # below, the set with the shortest mean promise at Olist's coverage over the 2017 origins (selection period) is the
+  # one reported; the 2018 origins are the test. rq1_ensemble_selection.csv records the comparison and the check C12
+  # fails if the configured members differ from the selected set.
+  candidates:
+    ens_xgbq_qrf: [xgbq_ipcw, qrf_ipcw]
+    ens_xgbq_qrf_lqr: [xgbq_ipcw, qrf_ipcw, lqr_ipcw]
+    ens_ipcw: [route_ipcw, lqr_ipcw, xgbq_ipcw, qrf_ipcw, aft]
+
+conformal:
+  mondrian_unit: region         # region (five macro-regions) or state (states with enough calibration orders)
+  mondrian_min_n: 150           # groups with fewer calibration orders fall back to the pooled correction
+  aci_step: day                 # ACI: the per-order updates of the promises resolved the day before are applied daily
+  aci_gamma: 0.0005             # ACI step per resolved order (Gibbs and Candes, 2021), chosen on the 2017 origins only
+                                # (grid 0.0001, 0.0002, 0.0005, 0.001: closest long-run miscoverage to alpha in 2017)
+  aci_alpha_min_ratio: 0.5      # the ACI level is clipped below at 0.5 alpha (unclipped runs are sensitivity analyses)
+  promise_cap_days: 90
+
+rq2:
+  bins: [-200, -15, -6, 0, 3, 7, 200]   # edges of the deviation bins S = D - P (right-closed)
+  ref_bin: 2                             # index of the reference bin (-5..0 days: on time, close to the promise)
+  folds: 5
+  rdd_bandwidths: [3, 5, 7, 10]
+  s_range: [-40, 30]                     # support of the response curve r(s)
+
+rq3:
+  model: qrf_ipcw               # base model of the conformal predictive distribution
+  promise_grid: [1, 75]
+  lambda_grid: 60
+  tail_offset_days: 7           # mass beyond the observable horizon is placed this many days after it
+
+bootstrap:
+  n_boot: 2000
+  block_len: 3                  # moving-block bootstrap over the sequence of windows (as in the first article)
