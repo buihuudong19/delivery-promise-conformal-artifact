@@ -12,8 +12,8 @@ The repository contains the code that rebuilds the study sample from the public 
 check, and regenerates every table, figure and number reported in the article, together with the outputs of the
 reported run. Release v1.0.2 is the version used in the article. Release v1.0.1 added the robustness analyses listed
 below to v1.0.0, and v1.0.2 makes the blocks of the bootstrap circular, which changes intervals and p-values but no
-estimate. The DOI [10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions archived
-on Zenodo.
+estimate. It is archived on Zenodo with the DOI [10.5281/zenodo.23885542](https://doi.org/10.5281/zenodo.23885542);
+the DOI [10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions.
 
 ## Contents
 
