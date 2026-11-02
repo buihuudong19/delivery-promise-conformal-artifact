@@ -13,6 +13,7 @@ same orders. Methods:
   mondrian_aci_ipcw  ACI run within each region
   split_oracle     split conformal with the final-snapshot outcomes of the calibration orders (not feasible at the
                    origin; it separates the censoring bias of the calibration window from the effect of drift)
+  split_ipcw_notail  split IPCW with the tail share set to 0 (ablation: weighting without the tail term)
 """
 import numpy as np
 import pandas as pd
@@ -23,7 +24,7 @@ from ..evaluation.metrics import pinball
 from .rq1_fit import load_fits
 
 METHODS = ("raw", "split_naive", "split_ipcw", "mondrian_naive", "mondrian_ipcw", "aci_ipcw", "mondrian_aci_ipcw",
-           "split_oracle")
+           "split_oracle", "split_ipcw_notail")
 STORE_METHODS = ("raw", "split_ipcw", "mondrian_ipcw", "mondrian_aci_ipcw")   # per-order promises kept at alpha = 0.10
 STORE_ALPHA = 0.10
 
@@ -109,6 +110,8 @@ def run_rq1(D, cfg, out, log=print, tag="main", methods=METHODS, write=True, cal
                         lq = r["pred"][v]["cal"][:, ti].astype(float)
                         oc = dict(score=np.log(yo) - lq, obs=dl, w=np.ones(len(yo)), group=cal["group"])
                         P = static_promises(QE[:, ti], ge, oc, a, base, "naive", cfg)
+                    elif wt == "ipcw_notail":
+                        P = static_promises(QE[:, ti], ge, dict(cal, tail=0.0, tail_g={}), a, base, "ipcw", cfg)
                     else:
                         P = static_promises(QE[:, ti], ge, cal, a, base, wt or "ipcw", cfg)
                     rows += _rows(r["k"], r["origin"], v, meth, a, E, P, cap=cfg["conformal"]["promise_cap_days"])

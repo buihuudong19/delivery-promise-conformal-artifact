@@ -6,7 +6,7 @@ authors:
     given-names: "Dong"
     orcid: "https://orcid.org/0009-0007-6617-8505"
     affiliation: "Faculty of Management Information Systems, Ho Chi Minh University of Banking"
-version: "1.0.0"
+version: "1.0.1"
 date-released: "2026-11-02"
 license: MIT
 doi: "10.5281/zenodo.23874459"
@@ -14,9 +14,6 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.23874459"
     description: "All versions (concept DOI)"
-  - type: doi
-    value: "10.5281/zenodo.23874460"
-    description: "Version 1.0.0, the code of the article"
 repository-code: "https://github.com/buihuudong19/delivery-promise-conformal-artifact"
 keywords: [e-commerce, delivery promise, conformal prediction, censoring, IPCW, online ratings, prescriptive analytics, Olist]
 references:

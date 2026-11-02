@@ -92,7 +92,8 @@ CODE = {"route_plain": "RoutePlain", "route_ipcw": "Route", "lqr_plain": "LqrPla
         "xgbq_plain": "XgbPlain", "xgbq_ipcw": "Xgb", "qrf_plain": "QrfPlain", "qrf_ipcw": "Qrf", "aft_naive": "AftNaive",
         "aft": "Aft", "ens_ipcw": "Ens"}
 METH = {"raw": "Raw", "split_naive": "Naive", "split_ipcw": "Ipcw", "split_oracle": "Oracle", "mondrian_naive": "MondrianNaive",
-        "mondrian_ipcw": "MondrianIpcw", "aci_ipcw": "Aci", "mondrian_aci_ipcw": "MondrianAci", "actual": "Actual"}
+        "mondrian_ipcw": "MondrianIpcw", "aci_ipcw": "Aci", "mondrian_aci_ipcw": "MondrianAci", "actual": "Actual",
+        "split_ipcw_notail": "IpcwNotail"}
 ALPHA = {0.05: "Five", 0.10: "Ten", 0.20: "Twenty"}
 W2 = {"2017": "Sel", "2018": "Test"}
 ens = CFG["ensemble"]["name"]; base3 = CFG["rq3"]["model"]
@@ -199,7 +200,7 @@ m("NaiveShortLo", f"{100 * (0.9 - nv['coverage'].max()):.1f}"); m("NaiveShortHi"
 m("IpcwCovLo", pct(iv["coverage"].min())); m("IpcwCovHi", pct(iv["coverage"].max()))
 m("OracleGapQrf", f"{100 * (a10[(a10.variant == 'qrf_ipcw') & (a10.method == 'split_oracle')]['coverage'].iloc[0] - iv.loc['qrf_ipcw', 'coverage']):.1f}")
 dall = (a10.set_index(["variant", "method"])["coverage"] - a10.set_index(["variant", "method"])["coverage_all"])
-dall = dall[dall.index.get_level_values(1) != "actual"]
+dall = dall[~dall.index.get_level_values(1).isin(["actual", "split_ipcw_notail"])]
 m("CovAllDrop", f"{100 * dall.mean():.1f}", "mean drop when never-delivered orders count as missed (90%)")
 gd = (iv["coverage"] - nv["coverage"]) - (iv["coverage_all"] - nv["coverage_all"])
 m("CovAllDiffMax", f"{np.ceil(100 * 100 * gd.abs().max()) / 100:.2f}", "upper bound (pp, 0.01 steps) of the change of IPCW - naive")
@@ -469,13 +470,27 @@ m("RunOS", os_)
 m("RunWorkers", words.get(nproc, nproc) if nproc else "--", "parallel fitting processes (pipeline.log)")
 m("RunThreadsModel", words.get(CFG.get("n_jobs", 2), CFG.get("n_jobs", 2)), "config n_jobs: threads per XGBoost model or forest")
 m("RunSeed", CFG["seed"])
-_st = {}
+_st, _add = {}, 0
 if log.is_file():
-    for nm_, mn_ in re.findall(r"Stage (\w+): done \(([0-9.]+) min\)", txt):
-        _st[nm_] = float(mn_)                       # the last occurrence of each stage wins
-m("RunStages", len(_st) if _st else "--", "stages of the logged run")
+    # The log holds several runs (a full run, runs of single stages, runs with --resume). Stage times are read from
+    # the full run (the longest "Pipeline finished" segment), so that RunFitMin belongs to the same run as RunTimeMin.
+    segs = re.split(r"(Pipeline finished in [0-9.]+ min \(\d+ stages[^\n]*)", txt)
+    runs = [(float(re.search(r"in ([0-9.]+) min", segs[i + 1]).group(1)), int(re.search(r"\((\d+) stages", segs[i + 1]).group(1)),
+             segs[i]) for i in range(0, len(segs) - 1, 2)]
+    if runs:
+        i_full = max(range(len(runs)), key=lambda i: runs[i][0])
+        for nm_, mn_ in re.findall(r"Stage (\w+): done \(([0-9.]+) min\)", runs[i_full][2]):
+            _st[nm_] = float(mn_)
+        # a later run of every stage that reused the fitted models (run_pipeline --resume), if any
+        later = [r for r in runs[i_full + 1:] if r[1] == runs[i_full][1]]
+        _add = round(later[-1][0]) if later else 0
+    else:
+        for nm_, mn_ in re.findall(r"Stage (\w+): done \(([0-9.]+) min\)", txt):
+            _st[nm_] = float(mn_)
+m("RunStages", len(_st) if _st else "--", "stages of the full run")
 m("RunFitMin", f"{_st.get('rq1_fit', np.nan) + _st.get('sens_fit', np.nan):.0f}" if _st else "--",
-  "rq1_fit + sens_fit (min)")
+  "rq1_fit + sens_fit of the full run (min)")
+m("RunAddMin", _add, "later run of every stage with the fitted models reused (min; 0 = none)")
 
 # ---- computational budget (Section 5.5, Table tab:budget): number of model fits, from config.yaml and the code
 from p2du.experiments.rq1_fit import VARIANTS as _VARIANTS                       # noqa: E402
@@ -495,10 +510,16 @@ budget = {
     "Highq": _K * len(_members),
     "Svd": 5 * (5 + 1),
     "Aipw": 2 * _fold * 2 + _regions * _fold * 2,
-    "Curve": 3,
+    "AipwNeutral": 2 * _fold * 2,                 # AIPW with three-star ratings as not low (both learners)
+    "Curve": 6,                                   # main, 2017, three-star as not low, half A, half B, after arrival
 }
-budget["RqOne"] = budget["Main"] + budget["Tune"] + budget["Promise"] + budget["Route"] + budget["Highq"]
-budget["RqTwo"] = budget["Svd"] + budget["Aipw"] + budget["Curve"]
+from p2du.experiments.sensitivity import EXT_XGB_DEPTHS as _EXD, EXT_AFT_SCALES as _EXS   # noqa: E402
+_te = r("rq1_tuning_extended.csv")
+_ge = r("rq1_grid_extended.csv")
+budget["GridExt"] = _te["k"].nunique() * (len(_EXD) + len(CFG["models"]["aft"]["distributions"]) * len(_EXS)) \
+    + (len(_ge) if "coverage_extended" in _ge.columns else 0)
+budget["RqOne"] = budget["Main"] + budget["Tune"] + budget["Promise"] + budget["Route"] + budget["Highq"] + budget["GridExt"]
+budget["RqTwo"] = budget["Svd"] + budget["Aipw"] + budget["AipwNeutral"] + budget["Curve"]
 budget["Total"] = budget["RqOne"] + budget["RqTwo"]
 for k_, v_ in budget.items():
     m("NFits" + k_, f"{v_:,}".replace(",", "{,}"))
@@ -575,6 +596,147 @@ for fam_, nm in (("uniform", "Uniform"), ("route", "Route"), ("cpd_quantile", "C
     m("GaLow" + nm, f"{100 * x['mean']:.2f}")
 m("GaLateBefore", f"{100 * Mm.loc[(1, 1), 'share_within_late_group']:.1f}"); m("GaLateLowBefore", f"{100 * Mm.loc[(1, 1), 'mean']:.1f}")
 m("GaLateLowAfter", f"{100 * Mm.loc[(1, 0), 'mean']:.1f}")
+
+# ------------------------------------------------------------------ checks requested by the audit of 2 November 2026
+block("Year split, tail-term ablation, response-curve checks, region budgets, clustered and three-star AIPW, block "
+      "length, grid edges (contrasts_*.csv, rq2_aipw_bins*.csv, rq3_matched_*.csv, rq1_tuning_extended.csv)")
+C = r("contrasts_rq1.csv"); C3 = r("contrasts_rq3.csv"); Cs = r("contrasts_rq3_sensitivity.csv")
+# RQ1-K: promise length at Olist's coverage over the 16 windows of 2017
+Fk = C[C.family.str.startswith("RQ1-K")].copy(); Fk["v"] = Fk.contrast.str.replace(" - Olist", "", regex=False); Fk = Fk.set_index("v")
+m("NSelWindowsK", int(Fk.loc[ens, "n_windows"]), "windows of 2017 in RQ1-K")
+m("RqOneKEnsGap", num(Fk.loc[ens, "mean"])); m("RqOneKEnsGapCi", ci(Fk.loc[ens, "ci_lo"], Fk.loc[ens, "ci_hi"]))
+m("RqOneKEnsGapHolm", holm(Fk.loc[ens, "p_holm"]))
+sk = Fk.drop(index=ens)
+bk = sk.sort_values("mean").iloc[0]
+m("RqOneKBestLabel", VAR[bk.name].replace("(plain)", "trained without weights").replace("(IPCW)", "with IPCW"))
+m("RqOneKBest", num(bk["mean"])); m("RqOneKBestCi", ci(bk["ci_lo"], bk["ci_hi"])); m("RqOneKBestHolm", holm(bk["p_holm"]))
+m("RqOneKSingleLo", num(sk["mean"].min())); m("RqOneKSingleHi", num(sk["mean"].max()))
+m("RqOneKNSingle", len(sk)); m("RqOneKNLonger", int(((sk["mean"] > 0) & (sk["p_holm"] < 0.05)).sum()),
+  "single models significantly longer than Olist in 2017 (Holm p < 0.05)")
+m("RqOneKNShorter", int(((sk["mean"] < 0) & (sk["p_holm"] < 0.05)).sum()), "single models significantly shorter in 2017")
+m("RqOneKNPositive", int((sk["mean"] > 0).sum()), "single models with a longer mean promise than Olist in 2017")
+# RQ1-L: what the tail term adds to IPCW calibration (alpha = 0.10)
+Lc = C[C.family.str.startswith("RQ1-L tail term (coverage)")]; Ll = C[C.family.str.startswith("RQ1-L tail term (mean promise)")]
+m("TailAblCovLo", f"{100 * Lc['mean'].min():.1f}"); m("TailAblCovHi", f"{100 * Lc['mean'].max():.1f}")
+m("TailAblLenLo", f"{Ll['mean'].min():.1f}"); m("TailAblLenHi", f"{Ll['mean'].max():.1f}")
+m("TailAblHolmMax", holm(Lc["p_holm"].max()), "largest Holm p of the coverage contrasts")
+_nv = a10[a10.method == "split_naive"].set_index("variant")["coverage"]
+_iv = a10[a10.method == "split_ipcw"].set_index("variant")["coverage"]
+_tv = a10[a10.method == "split_ipcw_notail"].set_index("variant")["coverage"]
+_ws = ((_tv - _nv) / (_iv - _nv)).dropna()
+m("TailAblWeightShareLo", pct(_ws.min(), 0)); m("TailAblWeightShareHi", pct(_ws.max(), 0),
+  "share of the IPCW - naive coverage gain obtained without the tail term, range over variants")
+m("TailAblCovNotailLo", pct(_tv.min())); m("TailAblCovNotailHi", pct(_tv.max()))
+# RQ3-Y: RQ3 by period
+cy = lambda fam, con: one(C3[C3.family.str.startswith(fam) & (C3.contrast == con)], f"RQ3-Y {fam}/{con}")
+for per, nm in (("2017 selection", "Sel"), ("2018 test", "Test")):
+    for met, mn in (("low-rating rate", "Low"), ("late rate", "Late")):
+        x = cy(f"RQ3-Y {met} at Olist's mean promise ({per})", "optimal - Olist")
+        m(f"RqThreeY{mn}{nm}Abs", f"{abs(100 * x['mean']):.2f}"); m(f"RqThreeY{mn}{nm}AbsCi", ci(-x["ci_hi"], -x["ci_lo"], 2, 100))
+        m(f"RqThreeY{mn}{nm}Holm", holm(x["p_holm"]))
+        m(f"RqThreeY{mn}{nm}Chg", pts(x["mean"])); m(f"RqThreeY{mn}{nm}ChgCi", ci(x["ci_lo"], x["ci_hi"], 2, 100))
+    x = cy(f"RQ3-Y promise length at Olist's low-rating rate ({per})", "optimal - Olist")
+    m(f"RqThreeYLen{nm}Abs", f"{abs(x['mean']):.2f}"); m(f"RqThreeYLen{nm}Holm", holm(x["p_holm"]))
+# RQ3-X: checks of the response curve
+cx = lambda fam, lab: one(Cs[Cs.family.str.startswith("RQ3-X " + fam) & (Cs.contrast == f"optimal - Olist: {lab}")], f"RQ3-X {fam}/{lab}")
+for lab, nm in (("cross-fitted curve", "Xfit"), ("scored with the AIPW step curve", "EvalAipw"), ("curve from ratings after arrival", "After")):
+    x = cx("low-rating rate at Olist's mean promise, curve checks (all windows)", lab)
+    m(f"RqThree{nm}GainAbs", f"{abs(100 * x['mean']):.2f}"); m(f"RqThree{nm}GainAbsCi", ci(-x["ci_hi"], -x["ci_lo"], 2, 100))
+    m(f"RqThree{nm}GainHolm", holm(x["p_holm"])); m(f"RqThree{nm}GainSign", "lower" if x["mean"] < 0 else "higher")
+    m(f"RqThree{nm}Chg", pts(x["mean"])); m(f"RqThree{nm}ChgCi", ci(x["ci_lo"], x["ci_hi"], 2, 100))
+    x = cx("low-rating rate at Olist's mean promise, curve checks (2018 test)", lab)
+    m(f"RqThree{nm}GainTestAbs", f"{abs(100 * x['mean']):.2f}")
+    x = cx("late rate at Olist's mean promise, curve checks (all windows)", lab)
+    m(f"RqThree{nm}LateGainAbs", f"{abs(100 * x['mean']):.2f}"); m(f"RqThree{nm}LateHolm", holm(x["p_holm"]))
+    m(f"RqThree{nm}LateWord", "lowers" if x["mean"] < 0 else "raises", "direction of the late-rate change against Olist")
+    m(f"RqThree{nm}LateChg", pts(x["mean"])); m(f"RqThree{nm}LateChgCi", ci(x["ci_lo"], x["ci_hi"], 2, 100))
+# RQ3-R: region budgets
+cr = lambda con: one(C3[C3.family.str.startswith("RQ3-R") & (C3.contrast == con)], f"RQ3-R {con}")
+x = cr("low-rating rate: region budget - Olist")
+m("RegionBudgetGainAbs", f"{abs(100 * x['mean']):.2f}"); m("RegionBudgetGainAbsCi", ci(-x["ci_hi"], -x["ci_lo"], 2, 100))
+m("RegionBudgetGainHolm", holm(x["p_holm"]))
+m("RegionBudgetChg", pts(x["mean"])); m("RegionBudgetChgCi", ci(x["ci_lo"], x["ci_hi"], 2, 100))
+x = cr("late rate: region budget - Olist")
+m("RegionBudgetLateGainAbs", f"{abs(100 * x['mean']):.2f}"); m("RegionBudgetLateHolm", holm(x["p_holm"]))
+m("RegionBudgetLateWord", "lowers" if x["mean"] < 0 else "raises")
+m("RegionBudgetLateChg", pts(x["mean"])); m("RegionBudgetLateChgCi", ci(x["ci_lo"], x["ci_hi"], 2, 100))
+x = cr("low-rating rate: region budget - single budget")
+m("RegionBudgetCost", f"{100 * x['mean']:.2f}", "region budget minus single budget, low-rating rate (pp)")
+m("RegionBudgetCostCi", ci(x["ci_lo"], x["ci_hi"], 2, 100)); m("RegionBudgetCostHolm", holm(x["p_holm"]))
+Rb = r("rq3_region_budget_regions.csv").groupby("region")[["olist_late_realised", "budget_late_realised",
+                                                           "olist_low_realised", "budget_low_realised"]].mean()
+m("RegionBudgetLateNorteOlist", pct(Rb.loc["Norte", "olist_late_realised"])); m("RegionBudgetLateNorte", pct(Rb.loc["Norte", "budget_late_realised"]))
+m("RegionBudgetLowNorteOlist", pct(Rb.loc["Norte", "olist_low_realised"])); m("RegionBudgetLowNorte", pct(Rb.loc["Norte", "budget_low_realised"]))
+m("RegionBudgetNLateUp", int((Rb["budget_late_realised"] > Rb["olist_late_realised"]).sum()),
+  "regions whose mean late rate under region budgets exceeds Olist's")
+m("RegionBudgetNLowUp", int((Rb["budget_low_realised"] > Rb["olist_low_realised"]).sum()),
+  "regions whose mean r-implied low-rating rate under region budgets exceeds Olist's")
+# RQ2: three-star ratings as not low, seller-clustered intervals, analysis sample
+An = r("rq2_aipw_bins_neutral0.csv"); An = An[An.learner == "xgb"].set_index("bin")
+for b_, nm in ((3, "Three"), (4, "Four"), (5, "Five")):
+    m("RRNeutralBin" + nm, f"{An.loc[b_, 'rr']:.2f}")
+m("RqTwoNNeutral", big(An["n"].sum()), "orders of the three-star AIPW (every reviewed delivered order)")
+Ab = r("rq2_aipw_bins.csv"); Ax = Ab[Ab.learner == "xgb"].set_index("bin")
+m("NRqTwoAnalysis", big(Ax["n"].sum()), "orders of the main AIPW (three-star reviews left out)")
+m("RRBinThreeCi", ci(Ax.loc[3, "rr_lo"], Ax.loc[3, "rr_hi"])); m("RRBinThreeCiCl", ci(Ax.loc[3, "rr_lo_cl"], Ax.loc[3, "rr_hi_cl"]))
+_ratio = (Ax["se_cluster"] / Ax["se"]).dropna()
+m("SeClusterRatioMax", f"{_ratio.max():.2f}", "largest ratio of seller-clustered to iid standard error of a bin risk")
+m("NSellerClusters", big(Ax["n_clusters"].iloc[0]))
+_late = Ax.loc[[3, 4, 5]]
+m("RRLateAllAboveOneCl", "yes" if (_late["rr_lo_cl"] > 1).all() else "no", "every late bin RR excludes 1 with clustered intervals")
+# block length of the bootstrap
+Bk = r("contrasts_block_sensitivity.csv")
+key = (Bk.family.str.startswith("RQ1-A") | ((Bk.family.str.startswith(("RQ1-F", "RQ1-I"))) & (Bk.contrast == f"{ens} - Olist"))
+       | (Bk.family.str.startswith("RQ3") & (Bk.contrast == "optimal - Olist")))
+Kb = Bk[key]
+m("BlockLens", ", ".join(str(b_) for b_ in sorted(Kb.block_len.unique())[:-1]) + f" and {sorted(Kb.block_len.unique())[-1]}")
+_alt = sorted(b_ for b_ in Bk.block_len.unique() if b_ != CFG["bootstrap"]["block_len"])
+m("BlockAltLens", ", ".join(str(b_) for b_ in _alt[:-1]) + f" and {_alt[-1]}", "block lengths other than the main one")
+_ba = Bk[Bk.block_len != CFG["bootstrap"]["block_len"]]
+m("BlockAllN", _ba.groupby(["family", "contrast"]).ngroups, "contrasts recomputed with other block lengths")
+_fl = _ba[~_ba["same_conclusion"]]
+m("BlockAllFlips", _fl.groupby(["family", "contrast"]).ngroups, "contrasts whose Holm significance or sign changes with some block length")
+m("BlockAllFlipsToSig", _fl[_fl["sig_here"] & ~_fl["sig_main"]].groupby(["family", "contrast"]).ngroups,
+  "of these, contrasts that become significant")
+m("BlockAllFlipsTest", "all" if len(_fl) and _fl.family.str.contains("2018").all() else ("none" if not len(_fl) else "some"),
+  "whether the changes are confined to the 2018 families")
+m("BlockKeyN", Kb.groupby(["family", "contrast"]).ngroups, "key contrasts recomputed with other block lengths")
+m("BlockKeyFlips", int((~Kb["same_conclusion"]).groupby([Kb.family, Kb.contrast]).any().sum()),
+  "key contrasts whose sign or Holm significance changes with the block length")
+m("BlockKeyHolmMax", holm(Kb["p_holm"].max()), "largest Holm p of the key contrasts over all block lengths")
+# grid edges
+Te = r("rq1_tuning_extended.csv")
+m("GridExtNOrigins", Te["k"].nunique()); m("GridExtNChanged", int(Te["changed"].sum()))
+m("GridExtNChangedXgb", int(Te[Te.variant == "xgbq"]["changed"].sum())); m("GridExtNChangedAft", int(Te[Te.variant == "aft"]["changed"].sum()))
+from p2du.experiments.sensitivity import EXT_XGB_DEPTHS, EXT_AFT_SCALES   # noqa: E402
+m("GridExtDepths", " and ".join(str(x) for x in EXT_XGB_DEPTHS)); m("GridExtScales", " and ".join(f"{x:g}" for x in EXT_AFT_SCALES))
+m("GridExtEdgeXgb", pct(Te[Te.variant == "xgbq"]["on_edge_extended"].mean(), 0))
+m("GridExtEdgeAft", pct(Te[Te.variant == "aft"]["on_edge_extended"].mean(), 0))
+Ge = r("rq1_grid_extended.csv")
+if "coverage_extended" in Ge.columns:
+    m("GridExtNRefit", len(Ge), "origin x variant refits with the extended choice")
+    m("GridExtMaxCov", f"{100 * (Ge['coverage_extended'] - Ge['coverage_main']).abs().max():.2f}")
+    m("GridExtMaxLen", f"{(Ge['mean_promise_extended'] - Ge['mean_promise_main']).abs().max():.2f}")
+    _nw = W[(W.method == "split_ipcw") & np.isclose(W.alpha, 0.10) & (W.region == "all")].groupby("variant")["k"].nunique()
+    _d = Ge.assign(dc=Ge["coverage_extended"] - Ge["coverage_main"], dl=Ge["mean_promise_extended"] - Ge["mean_promise_main"]
+                   ).groupby("variant")[["dc", "dl"]].sum()
+    _d = _d.div(_nw.reindex(_d.index), axis=0)
+    m("GridExtMeanCov", f"{100 * _d['dc'].abs().max():.2f}", "largest change of a variant's mean coverage over all windows (pp)")
+    m("GridExtMeanLen", f"{_d['dl'].abs().max():.2f}", "largest change of a variant's mean promise over all windows (days)")
+    m("GridExtRefitLabels", " and ".join(VAR[v] for v in sorted(Ge["variant"].unique())))
+else:
+    m("GridExtNRefit", 0); m("GridExtMaxCov", "0.00"); m("GridExtMaxLen", "0.00"); m("GridExtMeanCov", "0.00"); m("GridExtMeanLen", "0.00")
+    m("GridExtRefitLabels", "none")
+# per model: largest change of the promise of one window and change of the mean promise over all windows (days)
+for _v, _nm in (("xgbq_ipcw", "Xgb"), ("aft", "Aft")):
+    _g = Ge[Ge["variant"] == _v] if "coverage_extended" in Ge.columns else Ge.iloc[0:0]
+    _dl = (_g["mean_promise_extended"] - _g["mean_promise_main"]) if len(_g) else pd.Series(dtype=float)
+    _n = W[(W.method == "split_ipcw") & np.isclose(W.alpha, 0.10) & (W.region == "all") & (W.variant == _v)]["k"].nunique()
+    m(f"GridExt{_nm}MaxLen", f"{_dl.abs().max():.1f}" if len(_dl) else "0.0", f"{_v}: largest change of one window's mean promise (days)")
+    m(f"GridExt{_nm}MeanLen", f"{abs(_dl.sum()) / _n:.1f}" if len(_dl) and _n else "0.0", f"{_v}: change of the mean promise over all windows (days)")
+    m(f"GridExt{_nm}NRefit", len(_g), f"{_v}: origins refitted with the extended choice")
+    m(f"GridExt{_nm}NDiverged", int((_g["diverged_extended"] > 0).sum()) if "diverged_extended" in _g.columns else 0,
+      f"{_v}: refits whose 0.9-quantile leaves [1 hour, 10 years] (diverged boosting)")
 
 # ------------------------------------------------------------------ write results.tex
 MAC.mkdir(parents=True, exist_ok=True)

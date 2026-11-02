@@ -10,9 +10,9 @@ Replication package for the article
 
 The repository contains the code that rebuilds the study sample from the public Olist data, runs every experiment and
 check, and regenerates every table, figure and number reported in the article, together with the outputs of the
-reported run. Release v1.0.0 is the version used in the article. It is archived on Zenodo with the DOI
-[10.5281/zenodo.23874460](https://doi.org/10.5281/zenodo.23874460); the DOI
-[10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions.
+reported run. Release v1.0.1 is the version used in the article; it adds the robustness analyses listed below to
+v1.0.0 and leaves every earlier output unchanged. The DOI
+[10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions archived on Zenodo.
 
 ## Contents
 
@@ -68,6 +68,11 @@ The article treats the delivery date shown at purchase as a decision under uncer
   realised delivery days.
 - **Inference.** Paired comparisons over windows with a moving-block bootstrap (blocks of 3 windows), Holm adjustment
   within each family of contrasts and Newey-West p-values as a check.
+- **Robustness analyses (v1.0.1).** Contrasts over the 2017 windows (RQ1-K, RQ3-Y); IPCW calibration without the tail
+  term (RQ1-L); response curves fitted on two random halves of the rated orders, a step curve of the AIPW risks and a
+  curve from ratings answered after arrival to score or set the policy (RQ3-X); promise budgets held by region
+  (RQ3-R); AIPW with three-star ratings counted as not low and with standard errors clustered by seller; block
+  lengths of 2, 5 and 6 windows; tuning grids extended at their edges (check C13).
 
 ## Requirements
 
@@ -110,14 +115,15 @@ from the cores and free memory of the machine; elsewhere it is `workers` in `con
 
 The stages, in order, are `data, eda, rq1_fit, rq1, rq2, rq3, sens_fit, sensitivity, theory, inference, figures,
 macros, tables, catalog, crosscheck, manifest`. The stage `rq1_fit` fits every model at the 30 origins and is the
-longest; it writes one file per origin, so an interrupted run resumes where it stopped. The reported run took 72
-minutes with four parallel fitting processes, of which 59 minutes were model fitting.
+longest; it writes one file per origin, so an interrupted run resumes where it stopped. The full run took 72
+minutes with four parallel fitting processes, of which 59 minutes were model fitting; the run that added the
+robustness analyses of v1.0.1 with the fitted models reused (`--resume`) took 31 minutes.
 
 ## Checking a copy against the reported run
 
 ```
 python tools/verify_manifest.py        code and shipped outputs against outputs/manifest.json
-python tests/test_p2du.py              18 unit tests (or: python -m pytest tests -q)
+python tests/test_p2du.py              22 unit tests (or: python -m pytest tests -q)
 ```
 
 - `outputs/manifest.json` records the SHA-256 of every source file and output, the library versions, the platform
@@ -145,9 +151,13 @@ python tests/test_p2du.py              18 unit tests (or: python -m pytest tests
 | Table S1 (calibration methods by period) | `manuscript/table3_rq1_methods.csv` |
 | Table S2 (uncalibrated quantiles) | `tables/contrasts_rq1.csv`, family RQ1-J |
 | Table S3 (route table shrinkage) | `tables/sensitivity_rq1.csv` |
-| Table S4, Table S5 (sensitivity analyses) | `manuscript/table7_sensitivity.csv`, `manuscript/table7b_sensitivity_rq3.csv` |
-| Table S6 (checks of the formal results) | `manuscript/table8_theory.csv` |
-| Table S7 (paired contrasts of RQ1) | `manuscript/table4_rq1_contrasts.csv` |
+| Table S4 (sensitivity analyses of RQ1) | `manuscript/table7_sensitivity.csv` |
+| Table S5 (IPCW with and without the tail term) | `tables/rq1_summary.csv` (method `split_ipcw_notail`), `tables/contrasts_rq1.csv`, family RQ1-L |
+| Table S6 (sensitivity analyses of RQ3) | `manuscript/table7b_sensitivity_rq3.csv` |
+| Table S7 (further checks of RQ2 and RQ3) | `tables/rq2_aipw_bins.csv`, `rq2_aipw_bins_neutral0.csv`, `contrasts_rq3.csv` (RQ3-Y, RQ3-R), `contrasts_rq3_sensitivity.csv` (RQ3-X) |
+| Table S8 (checks of the formal results) | `manuscript/table8_theory.csv` |
+| Table S9 (paired contrasts of RQ1) | `manuscript/table4_rq1_contrasts.csv` |
+| Block-length sensitivity; extended tuning grids | `tables/contrasts_block_sensitivity.csv`; `tables/rq1_tuning_extended.csv`, `rq1_grid_extended.csv` |
 | Fig. S1 to Fig. S6 | `figures/fig04_rq1_efficiency`, `fig07_rq1_regions`, `fig08_rq1_quantile_calib`, `figS1_aci_sensitivity`, `fig10_rq2_s_vs_d`, `figS2_rq3_checks` |
 
 Figures are given as vector PDF and as PNG at 600 dpi. Every number quoted in the text of the article is a LaTeX macro
@@ -161,10 +171,12 @@ of each research question with their source tables, and `outputs/manuscript/TABL
   platform changes some numbers slightly. A run of the same code on Linux kept every qualitative statement of the
   article that `tools/check_claims.py` tests.
 - All random components use the seed in `config.yaml` (42).
-- The tables were computed in the full run of 1 November 2026 (code hash `5c666ef3f936`). The released code differs
-  from it only in `src/p2du/reporting/figures.py` (figure layout) and in the header comment of
-  `requirements-lock.txt`; the stages `figures` and `manifest` were run again, so `outputs/manifest.json` records the
-  released code.
+- The models were fitted in the full run of 1 November 2026 (code hash `5c666ef3f936`). The robustness analyses of
+  v1.0.1 were added on 2 November 2026 by a run of every stage with `--resume` (code hash `2d402718b4a7`), which reused
+  the stored fits, followed by a run of the stages `sens_fit` to `manifest` after the check of the extended tuning
+  grids gained a flag for diverged fits (code hash `39539d3a3843`, the released code, recorded in
+  `outputs/manifest.json`). Every output of the first run kept its value; the code that fits the main models is the
+  same in all runs.
 - The quantile average and the wider tuning grids were introduced after a pilot run that used origins of both 2017
   and 2018 (`tools/pilot_tuning_ensemble.py`; outputs in `docs/evidence/pilot_tuning_2026-10-31`). The members of the
   quantile average were then chosen on the 2017 origins by the rule in `config.yaml` (check C12). The 2018 comparisons

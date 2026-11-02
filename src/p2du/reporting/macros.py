@@ -90,6 +90,7 @@ def write_macros(cfg, out):
             add(_name("Rq", "Three", fam, "Len", "At", "Low"), _fmt(Q[f"{fam}_L_at_low"].mean(), 1))
     if (t / "contrasts_rq3.csv").is_file():
         C = pd.read_csv(t / "contrasts_rq3.csv")
+        C = C[C.family.str.startswith("RQ3 ")]       # main families; RQ3-Y and RQ3-R are in tools/gen_results_tex.py
         for _, r in C.iterrows():
             sc = 1 if "length" in r["family"] else 100
             add(_name("Ctr", "Rq", "Three", r["family"].split(" ")[1], r["contrast"].replace("-", " minus ")),
@@ -113,7 +114,7 @@ def write_macros(cfg, out):
                    "three-star ratings as not low": "Neutral", "optimal": "Optimal", "coverage policy": "Coverage",
                    "tail mass at 42 days": "Tail 42", "tail mass at 56 days": "Tail 56", "tail mass at 70 days": "Tail 70",
                    "tail mass at 120 days": "Tail 120"}
-        for _, r in C.iterrows():
+        for _, r in C[C.family.str.startswith("RQ3-S ")].iterrows():     # RQ3-X: tools/gen_results_tex.py
             fk = fam_key[r["family"].replace("RQ3-S ", "", 1)]
             ck = set_key[r["contrast"].split(": ")[-1]] if r["contrast"].startswith("optimal - Olist") else \
                 set_key[r["contrast"].split(":")[0]]

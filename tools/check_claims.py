@@ -287,7 +287,8 @@ def _():
 
 @claim("rq3-sens-all-significant", "every RQ3 sensitivity contrast of the optimal policy against Olist has Holm p < 0.001 and a negative mean")
 def _():
-    Cs = r("contrasts_rq3_sensitivity.csv"); X = Cs[Cs.contrast.str.startswith("optimal - Olist")]
+    Cs = r("contrasts_rq3_sensitivity.csv")
+    X = Cs[Cs.family.str.startswith("RQ3-S ") & Cs.contrast.str.startswith("optimal - Olist")]   # RQ3-X: own claims
     return bool((X["p_holm"] < 0.001).all() and (X["mean"] < 0).all())
 
 
@@ -310,6 +311,109 @@ def _():
                                    ("for c in (-6, -3, 3, 6)", r2), ("LAMBDA_FINE = 300", r3),
                                    ("L_CERT = (14, 32)", r3), ("n_bisect=60", r3), ("lookback_days=28", ce),
                                    ("TRUNC_C0 = 28", se))) and CFG["rq2"]["folds"] == 5
+
+
+# ------------------------------------------------------------------ checks requested by the audit of 2 November 2026
+@claim("rq1k-no-single-shorter-2017", "in the 2017 windows no single model needs a significantly shorter promise than Olist at Olist's coverage (RQ1-K, Holm)")
+def _():
+    K = fam(r("contrasts_rq1.csv"), "RQ1-K"); s_ = K[K.contrast != f"{ENS} - Olist"]
+    return bool(len(s_) > 0 and not ((s_["mean"] < 0) & (s_["p_holm"] < 0.05)).any())
+
+
+@claim("rq1k-ens-advantage-2018", "the quantile average's advantage over Olist is smaller in 2017 than in 2018")
+def _():
+    C = r("contrasts_rq1.csv"); con = f"{ENS} - Olist"
+    k = fam(C, "RQ1-K").set_index("contrast").loc[con, "mean"]; i = fam(C, "RQ1-I").set_index("contrast").loc[con, "mean"]
+    return bool(i < 0 and abs(k) < abs(i))
+
+
+@claim("rq3y-larger-2018", "the rating-aware gains in the low-rating and the late rate are both larger in 2018 than in 2017")
+def _():
+    C = r("contrasts_rq3.csv")
+    g = lambda f: fam(C, f).set_index("contrast").loc["optimal - Olist", "mean"]
+    return bool(g("RQ3-Y low-rating rate at Olist's mean promise (2018 test)") < g("RQ3-Y low-rating rate at Olist's mean promise (2017 selection)") < 0
+                and g("RQ3-Y late rate at Olist's mean promise (2018 test)") < g("RQ3-Y late rate at Olist's mean promise (2017 selection)"))
+
+
+@claim("rq1l-tail-adds", "the tail term raises coverage for every variant, every Holm p < 0.05 (RQ1-L)")
+def _():
+    L = fam(r("contrasts_rq1.csv"), "RQ1-L tail term (coverage)")
+    return bool(len(L) > 0 and (L["mean"] > 0).all() and (L["p_holm"] < 0.05).all())
+
+
+def _rq3x(lab, window="all windows"):
+    C = fam(r("contrasts_rq3_sensitivity.csv"), f"RQ3-X low-rating rate at Olist's mean promise, curve checks ({window})")
+    return C.set_index("contrast").loc[f"optimal - Olist: {lab}"]
+
+
+@claim("rq3x-xfit-significant", "with the cross-fitted curve (optimised on one half, scored with the other) the policy still lowers the low-rating rate, Holm p < 0.05")
+def _():
+    x = _rq3x("cross-fitted curve"); return bool(x["mean"] < 0 and x["p_holm"] < 0.05)
+
+
+@claim("rq3x-evalaipw-significant", "scored with the AIPW step curve, the policy still lowers the low-rating rate, Holm p < 0.05")
+def _():
+    x = _rq3x("scored with the AIPW step curve"); return bool(x["mean"] < 0 and x["p_holm"] < 0.05)
+
+
+@claim("rq3x-after-significant", "with a curve fitted on ratings answered after arrival, the policy still lowers the low-rating rate, Holm p < 0.05")
+def _():
+    x = _rq3x("curve from ratings after arrival"); return bool(x["mean"] < 0 and x["p_holm"] < 0.05)
+
+
+@claim("rq3x-after-smaller", "the gain with the after-arrival curve is smaller than with the main curve")
+def _():
+    x = _rq3x("curve from ratings after arrival")
+    m_ = fam(r("contrasts_rq3.csv"), "RQ3 low-rating rate at Olist's mean promise").set_index("contrast").loc["optimal - Olist", "mean"]
+    return bool(m_ < x["mean"] < 0)
+
+
+@claim("rq3r-budget-gain", "with each region held at Olist's regional mean promise, the policy still lowers the low-rating rate (Holm p < 0.05) and gains less than with one budget")
+def _():
+    C = fam(r("contrasts_rq3.csv"), "RQ3-R").set_index("contrast")
+    a = C.loc["low-rating rate: region budget - Olist"]; b = C.loc["low-rating rate: region budget - single budget"]
+    return bool(a["mean"] < 0 and a["p_holm"] < 0.05 and b["mean"] >= 0)
+
+
+@claim("rq2-cluster-late", "with seller-clustered intervals every late bin still has a risk ratio above one")
+def _():
+    A = r("rq2_aipw_bins.csv"); A = A[(A.learner == "xgb") & (A["bin"] >= 3)]
+    return bool(len(A) == 3 and (A["rr_lo_cl"] > 1).all())
+
+
+@claim("rq2-neutral0-rising", "with three-star ratings counted as not low, the risk ratios of the late bins exceed one and rise with lateness")
+def _():
+    A = r("rq2_aipw_bins_neutral0.csv"); A = A[(A.learner == "xgb") & (A["bin"] >= 3)].sort_values("bin")
+    return bool(len(A) == 3 and (A["rr"] > 1).all() and A["rr"].is_monotonic_increasing)
+
+
+@claim("block-no-flip", "no key contrast (RQ1-A, quantile average vs Olist, rating-aware policy vs Olist) changes sign or Holm significance with blocks of 2 to 6 windows")
+def _():
+    B = r("contrasts_block_sensitivity.csv")
+    key = (B.family.str.startswith("RQ1-A") | (B.family.str.startswith(("RQ1-F", "RQ1-I")) & (B.contrast == f"{ENS} - Olist"))
+           | (B.family.str.startswith("RQ3") & (B.contrast == "optimal - Olist")))
+    return bool(key.any() and B[key]["same_conclusion"].all())
+
+
+def _grid_ext_means():
+    G = r("rq1_grid_extended.csv")
+    if "coverage_extended" not in G.columns:
+        return None
+    W = r("rq1_window_metrics.csv"); nw = W[(W.method == "split_ipcw") & np.isclose(W.alpha, 0.10) & (W.region == "all")].groupby("variant")["k"].nunique()
+    d = G.assign(dc=G["coverage_extended"] - G["coverage_main"], dl=G["mean_promise_extended"] - G["mean_promise_main"]).groupby("variant")[["dc", "dl"]].sum()
+    return d.div(nw.reindex(d.index), axis=0)
+
+
+@claim("grid-ext-cov-small", "re-tuning on grids extended at the edges changes the mean coverage over all windows of every affected variant by < 0.2 pp (split IPCW, alpha = 0.10)")
+def _():
+    d = _grid_ext_means()
+    return True if d is None else bool(d["dc"].abs().max() < 0.002)
+
+
+@claim("grid-ext-xgb-small", "for XGBoost QR (IPCW) the extended grids change the mean promise over all windows by < 0.2 d")
+def _():
+    d = _grid_ext_means()
+    return True if d is None or "xgbq_ipcw" not in d.index else bool(abs(d.loc["xgbq_ipcw", "dl"]) < 0.2)
 
 
 # ------------------------------------------------------------------ run

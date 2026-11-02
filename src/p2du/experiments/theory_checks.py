@@ -234,6 +234,22 @@ def run_theory_checks(D, cfg, out, log=print):
                          f"{len(tt)} tuned origins; XGBoost max_depth {desc('xgbq_max_depth')} (edge {tt.xgbq_edge.mean():.0%}); "
                          f"QRF min_samples_leaf {desc('qrf_min_samples_leaf')} (edge {tt.qrf_edge.mean():.0%}); "
                          f"AFT scale {desc('aft_scale')} (edge {tt.aft_scale_edge.mean():.0%})", "reported"))
+    if (t / "rq1_tuning_extended.csv").is_file():          # re-tuning on grids extended at the edges (sens_fit)
+        Te = pd.read_csv(t / "rq1_tuning_extended.csv")
+        ch = Te[Te["changed"]]
+        G = pd.read_csv(t / "rq1_grid_extended.csv") if (t / "rq1_grid_extended.csv").is_file() else pd.DataFrame()
+        eff = ""
+        if "coverage_extended" in G.columns:
+            eff = (f"; refitted origins: coverage {100 * (G['coverage_extended'] - G['coverage_main']).abs().max():.2f} pp "
+                   f"and mean promise {(G['mean_promise_extended'] - G['mean_promise_main']).abs().max():.2f} d at most "
+                   "from the main fit (split IPCW, alpha = 0.10)")
+            if "diverged_extended" in G.columns:
+                eff += f"; refits whose 0.9-quantile leaves [1 hour, 10 years]: {int((G['diverged_extended'] > 0).sum())} of {len(G)}"
+        rows.append(_row("C13", "grid edges: XGBoost QR depth and AFT scale re-tuned on grids extended at both ends",
+                         f"{len(Te) // 2} tuned origins; choices changed: XGBoost {int((ch.variant == 'xgbq').sum())}, "
+                         f"AFT {int((ch.variant == 'aft').sum())}; on the edge of the extended grids: XGBoost "
+                         f"{Te[Te.variant == 'xgbq'].on_edge_extended.mean():.0%}, AFT {Te[Te.variant == 'aft'].on_edge_extended.mean():.0%}" + eff,
+                         "reported"))
     if (t / "rq1_ensemble_selection.csv").is_file():
         Es = pd.read_csv(t / "rq1_ensemble_selection.csv")
         sel = Es[Es.selected]

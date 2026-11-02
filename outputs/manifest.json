@@ -1,5 +1,5 @@
 {
-  "time": "2026-11-02 08:54:37",
+  "time": "2026-11-02 15:40:58",
   "python": "3.14.4",
   "platform": "Windows-11-10.0.26300-SP0",
   "libs": {
@@ -15,7 +15,7 @@
   },
   "seed": 42,
   "quick": false,
-  "code_sha256": "39eca90b4b118345dd46eaab17a207756ccfe8303014ab44f1107ae31f109d03",
+  "code_sha256": "39539d3a3843339d15fc93df542fd0af94a5f9edebc3932bd6e88f1db56dedc3",
   "code_files": {
     "config.yaml": "d02bd3674a669acb4722d91518f52779eaa262944d5f2b26dff103ea4c8c34dd",
     "requirements-lock.txt": "e15355e086ba05fbd9885eb9b19a9abba1d0eeaf06f35c2a84f39992bf302d18",
@@ -35,24 +35,24 @@
     "src/p2du/evaluation/origins.py": "deab0deb4ba7b0220f05b37ea716a9296105cbaf0ff3f41d7a7739ae3ae23429",
     "src/p2du/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/p2du/experiments/eda.py": "e8c8ddb0ec9bb5888637a59ca3476f6c3dd7a192c5e9c1645380b11449104fd0",
-    "src/p2du/experiments/rq1_coverage.py": "0b3180f7ca3363f6c812314ebfc8f49dc04103e07a44470db2a3df406dec08a3",
+    "src/p2du/experiments/rq1_coverage.py": "f0ff5f05fe554ff1d7f13d160ea4aa7c776e95989dedf57e5a6a6f89e8dfd19c",
     "src/p2du/experiments/rq1_extra.py": "043290a9aa3a8eebdb9a87b3722289d6d4b64a6ec71ac44c47ce3f9ce71ecb06",
     "src/p2du/experiments/rq1_fit.py": "189e2cb4a09feb489fd2bd4c8081568b9b2ff5de8e4c3e36a6c3743498a2da81",
-    "src/p2du/experiments/rq2_response.py": "ba82fac74aba9a337befbea6b1068cc649d7a35e0bfd2b5ea4f6939fc4128414",
-    "src/p2du/experiments/rq3_policy.py": "9e51668244b3934f54ba79a6f437bcafa3b1c22303cc8516e98a41804f3a937d",
-    "src/p2du/experiments/sensitivity.py": "b8bcd7940bbd62b5dd788d43134885efb12a648feba997081ff03347493f23d9",
-    "src/p2du/experiments/theory_checks.py": "9460b61714c4298823c6a810504ced6fbc2ad5cf399be016eafcdc8c5366845a",
+    "src/p2du/experiments/rq2_response.py": "9f0b6714392542d087af2c4e63c390779427b2aa227dde4fe8191089d9c23c4c",
+    "src/p2du/experiments/rq3_policy.py": "228a1c7db1af75b579a6fc9f1412658d64029600a1b9e8d8a8cc0163e8fbb6df",
+    "src/p2du/experiments/sensitivity.py": "612031d0ef87f7aad0eaa7ab18ed07ab71086a171cbde1f6151c0c8a3cfd1584",
+    "src/p2du/experiments/theory_checks.py": "f09bc083f2dee5fa17de3ee13ac879d7b3d2f9d8f291d978e17fa0cfad37275a",
     "src/p2du/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/p2du/models/quantile_models.py": "bc5ef7202e02150c596ad951d644f6fca2b959e46698a1d82de6b14b6c6a79b2",
     "src/p2du/pipeline.py": "86c9b720b0e8bede1bfba28fe4829845626549978ce9b837c83045e145305657",
     "src/p2du/reporting/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/p2du/reporting/catalog.py": "d0daca0b29c7910f97831a469d6d27e6ed44acdf1f67cce366ccc0ebf7a1cf69",
-    "src/p2du/reporting/contrasts.py": "7c6ef01e480edc2be0a1c57bff70691b4a1f0a778d53611f97c822cd242327e2",
+    "src/p2du/reporting/contrasts.py": "4a8a95d3ffd102310a98fb52b495a4e248bc0a585cc1955ccaaf8353e5658b79",
     "src/p2du/reporting/crosscheck.py": "e29dd63c76e606b45e2beff9b8a3c4ac73d11eb30879d12f8d5bb6d9c4b5b566",
     "src/p2du/reporting/figures.py": "bb2ac2d21235a7c1963e93ae99727d1812d9833c0796b0c6a3b765102b5436d3",
     "src/p2du/reporting/inference.py": "5a8b06ff0836113d4424128ecc4a91a6d9789fc070d0577889afade84795ebab",
-    "src/p2du/reporting/macros.py": "168ec464d52e48fb2b9dfa49b57bda294c53ee9b36b19212b2a05583262d6a0f",
-    "src/p2du/reporting/manuscript_tables.py": "80c85dff3a3121ee0c615cf3a841e3733d283c43a737c6b29e8ae68e6c75242b"
+    "src/p2du/reporting/macros.py": "d3216ffac89fc98d81ec5694828872294b42e22d885a3cc546791673c8df13b2",
+    "src/p2du/reporting/manuscript_tables.py": "d7570ee09143c1dd5498ed7249f6b58ed7bddbe27d75e23d158c54d588b5c679"
   },
   "outputs": [
     {
@@ -61,11 +61,11 @@
     },
     {
       "file": "data/rq1_promises.csv.gz",
-      "sha256": "3a13cba9fd1b4e88756207b5dfc01f13bd83a4f6efe0ee7c9a6c84089f5c4809"
+      "sha256": "9bad0e6ad0d11ec7deabbf6a3d597bec7dd16d0bf2ff99c1e878c1545b0c696f"
     },
     {
       "file": "figures/fig01_framework.pdf",
-      "sha256": "5be767582fbd2ab29363c7763a9a114e28bfc189202484ac1223379485097c33"
+      "sha256": "4ce33866dd1002a212fed4e1e9ef91c772ed2f0eda827ced82c0855607139c07"
     },
     {
       "file": "figures/fig01_framework.png",
@@ -73,7 +73,7 @@
     },
     {
       "file": "figures/fig02_data_context.pdf",
-      "sha256": "17a9c6cad38cdd0522aa155cbc93570a8439b6924917910e7437844f9eef9ea3"
+      "sha256": "9932236906927bd0d907d42d58b21f02571800e1c4c62a4a59569e046f53779c"
     },
     {
       "file": "figures/fig02_data_context.png",
@@ -81,7 +81,7 @@
     },
     {
       "file": "figures/fig03_protocol_censoring.pdf",
-      "sha256": "12cd9f5926f158e3c036f2f745b26ad90e9050bae864dd1e9b68adb76b8c8dcb"
+      "sha256": "e452f61a91fb89c192c3d792026002b44dd95e6e52108401dc43f3a28cd8de99"
     },
     {
       "file": "figures/fig03_protocol_censoring.png",
@@ -89,7 +89,7 @@
     },
     {
       "file": "figures/fig04_rq1_efficiency.pdf",
-      "sha256": "815623b93515505fc3a24f9e61949eb31ab2de8427c3e47e1e83b8a1e3e154f1"
+      "sha256": "95d33b0b670b6b2d83f1de98d78500ce4ff713f3fb21593f1175dea866e0c355"
     },
     {
       "file": "figures/fig04_rq1_efficiency.png",
@@ -97,7 +97,7 @@
     },
     {
       "file": "figures/fig05_rq1_censoring.pdf",
-      "sha256": "01ad2cee1f7cf72a3f5b917a1b287b39023392853e3b96a6fa9ee0c4c6a01ddf"
+      "sha256": "94f83c3478adfc58e6af238f71bf5ea8bd676b9610010e0124b4cb85079b3b3a"
     },
     {
       "file": "figures/fig05_rq1_censoring.png",
@@ -105,7 +105,7 @@
     },
     {
       "file": "figures/fig06_rq1_time.pdf",
-      "sha256": "4f649edfdf947359e7ee40df65b7ed11c24ee7b025f3ba4a4f744fd4552f322b"
+      "sha256": "b720004329249043a1cf389c655ed4445a4796d9b33d8c182b130c105168dce7"
     },
     {
       "file": "figures/fig06_rq1_time.png",
@@ -113,7 +113,7 @@
     },
     {
       "file": "figures/fig07_rq1_regions.pdf",
-      "sha256": "8d18f2b01c1a987d7198a23d0d64802341acfa98a2d881bdf421c1460ea74fc0"
+      "sha256": "c5524e7ce94df205e4e88459647825d1a4914fb3fedab8685e8140712009c53f"
     },
     {
       "file": "figures/fig07_rq1_regions.png",
@@ -121,7 +121,7 @@
     },
     {
       "file": "figures/fig08_rq1_quantile_calib.pdf",
-      "sha256": "b5e879cd068573f9425a16d4583e85b530dc64228dcc81dbe4aca41ba4914d83"
+      "sha256": "13040b0cd147d3cf64599d011870e7f6cec89f82df3886ab802aae5c380751d3"
     },
     {
       "file": "figures/fig08_rq1_quantile_calib.png",
@@ -129,7 +129,7 @@
     },
     {
       "file": "figures/fig09_rq2_response.pdf",
-      "sha256": "57904db31e9604a1c38912394c7a58120ae654db76c3ffb4ce00adf983e9e7d5"
+      "sha256": "4c39ee059f986d2d74f64e1de2a95f0e876693228d3bbe275896b22eb5814c55"
     },
     {
       "file": "figures/fig09_rq2_response.png",
@@ -137,7 +137,7 @@
     },
     {
       "file": "figures/fig10_rq2_s_vs_d.pdf",
-      "sha256": "0661d24e994393cd3ba15329ed97e10f7dd4d4c895860a231ff52ff25c32145d"
+      "sha256": "5ddc38317700bf2478ed0b6db389b252d1689476ce65fde2d6986c05ba27fb9a"
     },
     {
       "file": "figures/fig10_rq2_s_vs_d.png",
@@ -145,7 +145,7 @@
     },
     {
       "file": "figures/fig11_rq2_survey.pdf",
-      "sha256": "e1836bac58f5e458616c9133653018acee262d8ec7c5f2abd31763e1afb4de77"
+      "sha256": "7fd04b7442974daf9ac1289de4ecfdba34bf41dd1cdd61f0acca0e6a9861ba44"
     },
     {
       "file": "figures/fig11_rq2_survey.png",
@@ -153,7 +153,7 @@
     },
     {
       "file": "figures/fig12_rq2_effects.pdf",
-      "sha256": "17645837f5dab1cf2478879d973f5f2c82ded7c87aa60e9f110d8917836db562"
+      "sha256": "728a8db2e8bcaae348394801c77ef7f8848e06bdc71f6aec3c9fce53b186f43c"
     },
     {
       "file": "figures/fig12_rq2_effects.png",
@@ -161,7 +161,7 @@
     },
     {
       "file": "figures/fig13_rq3_frontier.pdf",
-      "sha256": "9385aac86fb16aee084c5ada637c6d75c548595a8a8249551a4e3048fed7ca0a"
+      "sha256": "41a09a51c63ab041be47e3f333c3c264317df8a9d12e5d4a33c73282e5779b40"
     },
     {
       "file": "figures/fig13_rq3_frontier.png",
@@ -169,7 +169,7 @@
     },
     {
       "file": "figures/fig14_rq3_anatomy.pdf",
-      "sha256": "16491da530d632165bd35edf518f3715302eac43641f107fa220bef0aba0d4a7"
+      "sha256": "3e74f158cc38ed2bf0d1bf7e2dce6a56f74075b3205829b2a4cdb1cac1fdcff3"
     },
     {
       "file": "figures/fig14_rq3_anatomy.png",
@@ -177,7 +177,7 @@
     },
     {
       "file": "figures/figS1_aci_sensitivity.pdf",
-      "sha256": "0acfb383d40a9eb8f2587e8aabe94aada3f19d6613c406dc5cf5ffc3921d5038"
+      "sha256": "5333787c110fe91871f08c2f4112b039501207efe15339085271df32a6e45498"
     },
     {
       "file": "figures/figS1_aci_sensitivity.png",
@@ -185,7 +185,7 @@
     },
     {
       "file": "figures/figS2_rq3_checks.pdf",
-      "sha256": "3edf4cfcfcedeeba89911455da5661e002ad6e9d04eb8af9959b7511a93703a0"
+      "sha256": "8ba981fbdf0a4912c9b8d160e5fbc10f81f82916c8e61b0f5d738fb222039fd2"
     },
     {
       "file": "figures/figS2_rq3_checks.png",
@@ -193,11 +193,11 @@
     },
     {
       "file": "manuscript/RESULTS_DIGEST.md",
-      "sha256": "6516ce55b442719442e70db8afeb5d19360f0523e39301f65d022b9563cb47d8"
+      "sha256": "fc64a6c54220499e05c2e8332d2b743bf94d367cc671e27483d7b6d73b1aede4"
     },
     {
       "file": "manuscript/results_macros.tex",
-      "sha256": "366679628bb5fc4beeba2c68a5567951cda7dfa6cd7da9f38fa7f518de0a2298"
+      "sha256": "7a89a7e9b6f04b8cae8744c90f752cf8858a636a251e7465422fa50aa520ea07"
     },
     {
       "file": "manuscript/table1_sample.csv",
@@ -209,11 +209,11 @@
     },
     {
       "file": "manuscript/table2_rq1_models.csv",
-      "sha256": "c79f62f6e64e54664ad867e2fd9614f6781c71c4c91df24fa1b58fe717237333"
+      "sha256": "2e5997be52e439ca81e05829065bdd3c2e4b0df651638f77556d81d665434ea1"
     },
     {
       "file": "manuscript/table2_rq1_models.tex",
-      "sha256": "f2fd94ace237023514700bdadcf7a4fb070a5cd0eeb78db017c05d40fd6d69f9"
+      "sha256": "c6e8df47134c0f7650ebbae91ed2c6c76ecbc8c26507388063cd76a89e35f705"
     },
     {
       "file": "manuscript/table3_rq1_methods.csv",
@@ -265,27 +265,31 @@
     },
     {
       "file": "manuscript/table8_theory.csv",
-      "sha256": "80bd38a52681f47be99e53e4c1ed953b007933e3e8fc40a62a6d8406b06b4e25"
+      "sha256": "e4c2e8f2bdf2f39a9d97e240175fb57b43b6a7d9c797912d4e851f823d9ae5fd"
     },
     {
       "file": "manuscript/table8_theory.tex",
-      "sha256": "6979aef871f00513aec12c497ffa44c4b57096fd1287797206a946db4183b6d6"
+      "sha256": "d6b77fb93ed88d21317cc4770816923c3763dedb9e2100a1ebc53ff15814046f"
     },
     {
       "file": "manuscript/TABLE_INDEX.md",
-      "sha256": "5068faf16dc5b7012d6712c0737c841ce3131c7989d0720a757da3bcb5af22b3"
+      "sha256": "0933c67386374cee5437d078d3f8eb925a7d6c2fafdc764ebdb223f61b40a29f"
+    },
+    {
+      "file": "tables/contrasts_block_sensitivity.csv",
+      "sha256": "2a9104b4b27f821e6b3a4eba9af50f031c451025a016f527c0bb9d6220b4ef17"
     },
     {
       "file": "tables/contrasts_rq1.csv",
-      "sha256": "fd60d913d9e0c9e2e1335ad880889218db0a349132f63c32217a4d7ad71496eb"
+      "sha256": "a227fda5fe3e2f0f8db8c4dd384a918f88d64cb85d0c59593a026f77a1aa1783"
     },
     {
       "file": "tables/contrasts_rq3.csv",
-      "sha256": "a3084dc66435493014c3811e313fcfb9b217961832eb0e6d535b20bcbab47762"
+      "sha256": "203484e2fbbd4f83ce4f9a7990256c12100a6ee5f941deabe34d57d4b919c2d0"
     },
     {
       "file": "tables/contrasts_rq3_sensitivity.csv",
-      "sha256": "da52a0221258dce5b7ba69a600631f9739b2d64a5f3728f941bf0f9f082c4f85"
+      "sha256": "1feea345fd1bd745e7f053b11dbadfc1f839a259f32d77dfa2d23dd29c9ef40e"
     },
     {
       "file": "tables/eda_censoring_by_age.csv",
@@ -336,6 +340,10 @@
       "sha256": "0146f15586d621cd5b60ddf55aaf2c3657610c6c65004dd30c097daffc647d78"
     },
     {
+      "file": "tables/rq1_grid_extended.csv",
+      "sha256": "2f6c9318a994045271bb8bdc08c84d2061334a44384954d834f4ea9303bbcb3a"
+    },
+    {
       "file": "tables/rq1_matched_olist.csv",
       "sha256": "10aa43d395ef7f817c60ae66dd22f5070fef161a96119033a90c00fac6c1f81c"
     },
@@ -361,19 +369,23 @@
     },
     {
       "file": "tables/rq1_summary.csv",
-      "sha256": "fe8cb523977e31cc01bea40b5d03d01161554180441b3fb7a469ff9aa818ec28"
+      "sha256": "0736f793ea297f7b054d99e21a76e66fff9a622b52f3927cd6ada4284a9d8e95"
     },
     {
       "file": "tables/rq1_summary_by_period.csv",
-      "sha256": "9b0a7bc1b1c1045eee31fa13bfe1325fd1a95fc6d73d6d2ba8c891ef2a7624c2"
+      "sha256": "10d71f0386c085cec1012499210ac7e7267233f11fc14c4cd4ee0bfea6d0d8b1"
     },
     {
       "file": "tables/rq1_tuning_choices.csv",
       "sha256": "4a7fbe7b9d2eec602bd9d71211e4326710c826e07541916866338e2c98370e78"
     },
     {
+      "file": "tables/rq1_tuning_extended.csv",
+      "sha256": "0535cf0032148ef6b1a45625a973470d2ee498955bb1a24bef52749f3b229878"
+    },
+    {
       "file": "tables/rq1_window_metrics.csv",
-      "sha256": "7fae532b5f071a020325ffdef7bf963ba43e703e51f3c4da097098bc2c914f6a"
+      "sha256": "6512ce12003a8bb0be60524cfc8c28208e113deff0debbf799926a99d4eaafe9"
     },
     {
       "file": "tables/rq1_window_metrics_promise.csv",
@@ -385,15 +397,19 @@
     },
     {
       "file": "tables/rq2_aipw_bins.csv",
-      "sha256": "f5f8a2614501e1fdfb01382fb813cd9665143ee9d14477af7484dfa0d14b308c"
+      "sha256": "70895485e13cd6f044f49fcd7abf6ba4cb263a57138ac3b223b412b5016280d7"
     },
     {
       "file": "tables/rq2_aipw_bins_by_region.csv",
-      "sha256": "111d5ed6ff9f39b1f7b0fec1fdddc4d4b15d28e9f860943da2e4fb3a3050f15d"
+      "sha256": "48466b3c2475ed2effb2a2afb33ff1d55f36a5d0c3d3f4eab44df17e4186a8e9"
+    },
+    {
+      "file": "tables/rq2_aipw_bins_neutral0.csv",
+      "sha256": "d6b24205d941f58c79004b75b044ca4ff04a2a4d027a13b1683596e1c40d935b"
     },
     {
       "file": "tables/rq2_aipw_overlap_sensitivity.csv",
-      "sha256": "da399f05cc5163a58e95a82a8702bdb27ac6dfac09deac74389c15aa94f9784f"
+      "sha256": "3418ac737ad140dce0511425ff2f892aedb413616b0a300cbbd05aa5f7b91863"
     },
     {
       "file": "tables/rq2_crude_curve.csv",
@@ -420,12 +436,28 @@
       "sha256": "23404b26564c15ce426796714abf630e00f73c040acc579004c8ad6b2d8276b0"
     },
     {
+      "file": "tables/rq2_response_curve_after.csv",
+      "sha256": "1cfa81da4cf523f4215e03f3526f3cde4820b5a152841ca92ec8261d805d5849"
+    },
+    {
+      "file": "tables/rq2_response_curve_aipwstep.csv",
+      "sha256": "4112069c100959967ad9f135c24bab404a214d0e0368c04610d9c850757dae77"
+    },
+    {
       "file": "tables/rq2_response_curve_fit2017.csv",
       "sha256": "d5e7b865277463d5722bfac5a9caad910424748ff2e143c230711ddfcbf7cc94"
     },
     {
       "file": "tables/rq2_response_curve_neutral0.csv",
       "sha256": "5ffd703bbbfe9f2b55df9da23632f866f8a655b11f07e2bcfe188071cfe9d61e"
+    },
+    {
+      "file": "tables/rq2_response_curve_xfitA.csv",
+      "sha256": "d0bde6bda83c4d2368411f47b79097d8f5da9341cc5d31d25328233e8f16446f"
+    },
+    {
+      "file": "tables/rq2_response_curve_xfitB.csv",
+      "sha256": "bd511030a40733661ecd742e8d57c6fb5f454d10c336139fa16ce5af956f8d3b"
     },
     {
       "file": "tables/rq2_s_versus_d.csv",
@@ -460,8 +492,16 @@
       "sha256": "0c594b7bf49bf51088349af99c0fb466924115cae2b5a36e9ed0963d5ed06d9d"
     },
     {
+      "file": "tables/rq3_matched_after.csv",
+      "sha256": "63bcfdc8354da96b067c68d54330f73d9a44158886346eeaf3dbe85e01e664d9"
+    },
+    {
       "file": "tables/rq3_matched_cpd_ens.csv",
       "sha256": "ca6cf262fa4eb0a56ee0f94508c0e8b9edecf34e913ea38be70b7994a69ab125"
+    },
+    {
+      "file": "tables/rq3_matched_evalaipw.csv",
+      "sha256": "3fd899e56652e445a8740db880b388e60b6efd180e8a2c204207323eb5eedd5b"
     },
     {
       "file": "tables/rq3_matched_fit2017.csv",
@@ -470,6 +510,10 @@
     {
       "file": "tables/rq3_matched_neutral0.csv",
       "sha256": "c114f1504b4a494bf54f7a23201713ff1cf8219142d25c496a0d9500e1272e8c"
+    },
+    {
+      "file": "tables/rq3_matched_regionbudget.csv",
+      "sha256": "c4acabe053ed4a686517e40e476306b9e96b3c42f6d8f0d332c76d1d427440f7"
     },
     {
       "file": "tables/rq3_matched_tail120.csv",
@@ -488,12 +532,32 @@
       "sha256": "b06c9822a0f62ae43a03670b8518496d1a96a2f51db7c8eb4ab0f0ae93ef0d85"
     },
     {
+      "file": "tables/rq3_matched_xfit.csv",
+      "sha256": "e3898f6b5a3426e606a449ca1b253ca68f51aad1aa8a08f989d7fa7169e16e29"
+    },
+    {
+      "file": "tables/rq3_matched_xfitAB.csv",
+      "sha256": "841257923575bf25d26f0e2ccf76316a57743b54b293ba653888321e6085f567"
+    },
+    {
+      "file": "tables/rq3_matched_xfitBA.csv",
+      "sha256": "b2de96ca1495c128aca0fba4ea08e39c483017b52cf04f65c83b02f1a02c9f79"
+    },
+    {
       "file": "tables/rq3_policy_windows.csv",
       "sha256": "7163bf08be4c3ec0d0544aec0b7b3a11a9f0bd828c06bb1d03c7d0863f8bc334"
     },
     {
+      "file": "tables/rq3_policy_windows_after.csv",
+      "sha256": "051c1107d090c9262978d15c8575298b8eab3055b224bfcdaa0dd7c59c8574e2"
+    },
+    {
       "file": "tables/rq3_policy_windows_cpd_ens.csv",
       "sha256": "42b458204eed656bf3b867aa21862a8b7550c60242855e00379bd57b311bb998"
+    },
+    {
+      "file": "tables/rq3_policy_windows_evalaipw.csv",
+      "sha256": "589985b030b04676239686380750904a6096cb16a3427cfccd5e8dc53a0f4eba"
     },
     {
       "file": "tables/rq3_policy_windows_fit2017.csv",
@@ -520,6 +584,18 @@
       "sha256": "e9e6159e908767bfb457689d09342a9dc28522b016d5fc3c8dabf9decd6cc13c"
     },
     {
+      "file": "tables/rq3_policy_windows_xfitAB.csv",
+      "sha256": "227221d8d7715f661c718c37f635c298b4db59f4ccaae61e8271dcd531dbdadf"
+    },
+    {
+      "file": "tables/rq3_policy_windows_xfitBA.csv",
+      "sha256": "8b5b06c9b7fa7305475a0a6cb1fb44f349b0803e54199684504e559636a4f8d7"
+    },
+    {
+      "file": "tables/rq3_region_budget_regions.csv",
+      "sha256": "237245010e0f8515c83349a105347d12c58bbaf5d66e8755010912113d7a884b"
+    },
+    {
       "file": "tables/rq3_region_promises.csv",
       "sha256": "aba32bd0eeb46e139bff92ead0a85fa60d2c46369de37bedfb5933a00e50f6b9"
     },
@@ -537,7 +613,7 @@
     },
     {
       "file": "tables/sensitivity_rq3.csv",
-      "sha256": "f4b7d69a2c83948a42a72a43cec68926c7248079f3eed63fcfb695f748d3b1b1"
+      "sha256": "e28a9a17967e8e96568efee636e4b3825f229e64bbe71d7ebe5886e02759129e"
     },
     {
       "file": "tables/theory_check_ipcw_cdf.csv",
@@ -545,7 +621,7 @@
     },
     {
       "file": "tables/theory_checks.csv",
-      "sha256": "814023e4201ea849e6bc21562108e84b4e295de548199e1c6b3dd14958d405cd"
+      "sha256": "38a9a99ffac18bf0c6220a0b5c97e5929783996e94f5ab1e1cc3cf67ce21292b"
     }
   ]
 }

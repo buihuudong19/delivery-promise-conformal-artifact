@@ -262,6 +262,70 @@ def test_censoring_survival():
     assert G(0.5) == 1.0 and G(2) == 0.5 and G(4) == 0.0
 
 
+def test_xfit_halves_partition_balanced_by_period():
+    from p2du.experiments.rq2_response import xfit_halves
+    rng = np.random.default_rng(3)
+    ts = pd.Timestamp("2017-01-01") + pd.to_timedelta(rng.uniform(0, 400, 5000), unit="D")
+    R = pd.DataFrame(dict(purchase_ts=ts))
+    A = xfit_halves(R, seed=42)
+    assert A.dtype == bool and len(A) == len(R) and (A | ~A).all() and not (A & ~A).any()
+    per = ((R["purchase_ts"] - R["purchase_ts"].min()) // pd.Timedelta(days=14)).to_numpy()
+    for p in np.unique(per):
+        m = per == p
+        assert abs(int(A[m].sum()) - int((~A[m]).sum())) <= 1
+    assert (xfit_halves(R, seed=42) == A).all()
+
+
+def test_cluster_se_equals_iid_se_with_singleton_clusters():
+    from p2du.experiments.rq2_response import cluster_se
+    rng = np.random.default_rng(4)
+    x = rng.normal(size=500)
+    assert abs(cluster_se(x - x.mean(), np.arange(500)) - x.std(ddof=1) / np.sqrt(500)) < 1e-12
+    # clustering duplicated observations widens the interval
+    xx = np.repeat(x, 2)
+    assert cluster_se(xx - xx.mean(), np.repeat(np.arange(500), 2)) > xx.std(ddof=1) / np.sqrt(1000)
+
+
+def test_notail_equals_ipcw_when_tail_share_is_zero():
+    from p2du.conformal.one_sided import static_promises
+    rng = np.random.default_rng(5)
+    n = 800
+    score = rng.normal(size=n); obs = rng.uniform(size=n) < 0.8; w = rng.uniform(1, 3, n)
+    cal = dict(score=np.where(obs, score, np.nan), obs=obs, w=w, group=np.array(["a"] * n), tail=0.0, tail_g={})
+    lq = rng.normal(2.5, 0.3, 300); ge = np.array(["a"] * 300)
+    p_ipcw = static_promises(lq, ge, cal, 0.10, "split", "ipcw", CFG)
+    p_notail = static_promises(lq, ge, dict(cal, tail=0.0, tail_g={}), 0.10, "split", "ipcw", CFG)
+    assert (p_ipcw == p_notail).all()
+    # with a positive tail share the tail term can only lengthen the promises
+    p_tail = static_promises(lq, ge, dict(cal, tail=0.03), 0.10, "split", "ipcw", CFG)
+    assert (p_tail >= p_notail).all()
+
+
+def test_region_budget_policy_respects_each_regional_budget():
+    from p2du.experiments.rq3_policy import region_budget_policy
+    rng = np.random.default_rng(6)
+    n, Pg = 600, np.arange(1, 61)
+    S = np.arange(-40, 31); r = 0.08 + 0.4 / (1 + np.exp(-(S - 2) / 2.0))
+    reg = rng.choice(["N", "S", "E"], n)
+    mu = np.where(reg == "N", 30, np.where(reg == "S", 15, 22))
+    Dv = np.clip(np.round(rng.gamma(4, mu / 4)), 0, 80)
+    pmf = np.zeros((n, 122))
+    for i in range(n):
+        d = np.clip(np.round(rng.gamma(4, mu[i] / 4, 200)), 0, 120).astype(int)
+        pmf[i, :121] = np.bincount(d, minlength=121)[:121] / 200
+    d = np.append(np.arange(121), 49)
+    rho = pmf @ np.interp(np.clip(d[:, None] - Pg[None, :], S[0], S[-1]), S, r)
+    P_ol = np.clip(np.round(mu * 1.1), 1, 60).astype(float)
+    lambdas = np.concatenate([[0.0], np.logspace(-5, -0.7, 60)])
+    low, late, L_at_low, regs = region_budget_policy(rho, Pg, lambdas, Dv, S, r, reg, P_ol)
+    for x in regs:
+        assert abs(x["mean_promise"] - P_ol[reg == x["region"]].mean()) < 1e-9
+    assert np.isfinite(low) and np.isfinite(late) and r.min() <= low <= r.max() and 0 <= late <= 1
+    # the window value is the order-weighted mean of the regional values
+    tot = sum(x["n"] * x["low_realised"] for x in regs) / n
+    assert abs(tot - low) < 1e-12
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
