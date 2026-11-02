@@ -2,46 +2,16 @@ cff-version: 1.2.0
 message: "If you use this code, please cite the article below."
 title: "Code for: Promising Delivery Dates under Uncertainty: Conformalised Machine-Learning Models and Rating-Aware Promise Policies in E-Commerce"
 authors:
-  - family-names: "Bui-Huu"
-    given-names: "Dong"
-    orcid: "https://orcid.org/0009-0007-6617-8505"
-    affiliation: "Faculty of Management Information Systems, Ho Chi Minh University of Banking"
+  - name: "Anonymous"
 version: "1.0.0"
 date-released: "2026-11-02"
 license: MIT
-doi: "10.5281/zenodo.23874459"
-identifiers:
-  - type: doi
-    value: "10.5281/zenodo.23874459"
-    description: "All versions (concept DOI)"
-  - type: doi
-    value: "10.5281/zenodo.23874460"
-    description: "Version 1.0.0, the code of the article"
-repository-code: "https://github.com/buihuudong19/delivery-promise-conformal-artifact"
 keywords: [e-commerce, delivery promise, conformal prediction, censoring, IPCW, online ratings, prescriptive analytics, Olist]
-references:
-  - type: software
-    title: "Code for: Leakage-Aware Evaluation of Early-Warning Models for Customer Dissatisfaction in E-Commerce"
-    doi: "10.5281/zenodo.23724874"
-    authors:
-      - family-names: "Bui-Huu"
-        given-names: "Dong"
 preferred-citation:
   type: article
   title: "Promising Delivery Dates under Uncertainty: Conformalised Machine-Learning Models and Rating-Aware Promise Policies in E-Commerce"
   authors:
-    - family-names: "Bui-Huu"
-      given-names: "Dong"
-      orcid: "https://orcid.org/0009-0007-6617-8505"
-      affiliation: "Faculty of Management Information Systems, Ho Chi Minh University of Banking"
-    - family-names: "Pham-An"
-      given-names: "Vinh"
-      orcid: "https://orcid.org/0009-0001-0320-5306"
-      affiliation: "Faculty of Computer Science and Engineering, Ho Chi Minh City University of Technology (HCMUT); Vietnam National University Ho Chi Minh City"
-    - family-names: "Nguyen-An"
-      given-names: "Khuong"
-      orcid: "https://orcid.org/0000-0002-9910-6387"
-      affiliation: "Faculty of Computer Science and Engineering, Ho Chi Minh City University of Technology (HCMUT); Vietnam National University Ho Chi Minh City"
+    - name: "Anonymous"
   journal: "Decision Support Systems"
   year: 2026
-  notes: "Manuscript submitted"
+  notes: "Manuscript under double-anonymised review"

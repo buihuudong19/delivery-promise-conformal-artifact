@@ -1,18 +1,16 @@
 # Promising Delivery Dates under Uncertainty: code and outputs
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23874459.svg)](https://doi.org/10.5281/zenodo.23874459)
-
 Replication package for the article
 
-> Dong Bui-Huu, Vinh Pham-An and Khuong Nguyen-An. *Promising Delivery Dates under Uncertainty: Conformalised
-> Machine-Learning Models and Rating-Aware Promise Policies in E-Commerce.* Manuscript submitted to *Decision Support
-> Systems*.
+> *Promising Delivery Dates under Uncertainty: Conformalised Machine-Learning Models and Rating-Aware Promise Policies
+> in E-Commerce.* Manuscript under double-anonymised review at *Decision Support Systems*.
+
+This is an anonymised copy for review: the names of the authors and the links to the public repository and its archive
+are withheld until the review is complete.
 
 The repository contains the code that rebuilds the study sample from the public Olist data, runs every experiment and
 check, and regenerates every table, figure and number reported in the article, together with the outputs of the
-reported run. Release v1.0.0 is the version used in the article. It is archived on Zenodo with the DOI
-[10.5281/zenodo.23874460](https://doi.org/10.5281/zenodo.23874460); the DOI
-[10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions.
+reported run. Release v1.0.0 is the version used in the article.
 
 ## Contents
 
@@ -170,8 +168,8 @@ of each research question with their source tables, and `outputs/manuscript/TABL
   quantile average were then chosen on the 2017 origins by the rule in `config.yaml` (check C12). The 2018 comparisons
   are therefore not a strict hold-out, and the article reports the quantile average as exploratory.
 - Parts of the infrastructure (configuration loading, data input, order attributes, block bootstrap, Holm and HAC
-  inference, rolling windows and the figure style) are reused from the code of an earlier article by the first
-  author, released under the MIT licence; each reused file or function says so in its header.
+  inference, rolling windows and the figure style) are reused from the published code of an earlier article,
+  released under the MIT licence; each reused file or function says so in its header.
 
 ## Citation
 
