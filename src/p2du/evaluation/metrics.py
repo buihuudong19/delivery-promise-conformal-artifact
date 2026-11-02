@@ -1,7 +1,8 @@
 """Evaluation metrics of the delivery-time bounds and the moving-block bootstrap.
 
-moving_block_bootstrap_mean() and block_indices() are reused unchanged from src/leakaware/evaluation/metrics.py of the
-first article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874).
+moving_block_bootstrap_mean() and block_indices() are adapted from src/leakaware/evaluation/metrics.py of the first
+article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874): the blocks wrap around the end of the series
+(circular block bootstrap), so that the first and last windows are drawn as often as the others.
 """
 import math
 
@@ -32,8 +33,8 @@ def moving_block_bootstrap_mean(x, n_boot=2000, block=3, seed=42):
     block = min(block, n)
     rng = np.random.default_rng(seed)
     nb = math.ceil(n / block)
-    starts = rng.integers(0, n - block + 1, size=(n_boot, nb))
-    idx = (starts[:, :, None] + np.arange(block)[None, None, :]).reshape(n_boot, -1)[:, :n]
+    starts = rng.integers(0, n, size=(n_boot, nb))      # circular blocks: every window has the same weight
+    idx = ((starts[:, :, None] + np.arange(block)[None, None, :]) % n).reshape(n_boot, -1)[:, :n]
     means = x[idx].mean(1)
     return float(x.mean()), float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5)), means
 
@@ -41,5 +42,5 @@ def moving_block_bootstrap_mean(x, n_boot=2000, block=3, seed=42):
 def block_indices(n, n_boot=2000, block=3, seed=42):
     rng = np.random.default_rng(seed)
     nb = math.ceil(n / block)
-    starts = rng.integers(0, n - block + 1, size=(n_boot, nb))
-    return (starts[:, :, None] + np.arange(block)[None, None, :]).reshape(n_boot, -1)[:, :n]
+    starts = rng.integers(0, n, size=(n_boot, nb))
+    return ((starts[:, :, None] + np.arange(block)[None, None, :]) % n).reshape(n_boot, -1)[:, :n]

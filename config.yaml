@@ -112,4 +112,4 @@ rq3:
 
 bootstrap:
   n_boot: 2000
-  block_len: 3                  # moving-block bootstrap over the sequence of windows (as in the first article)
+  block_len: 3                  # circular block bootstrap over the sequence of windows

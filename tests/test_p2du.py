@@ -326,6 +326,19 @@ def test_region_budget_policy_respects_each_regional_budget():
     assert abs(tot - low) < 1e-12
 
 
+def test_block_bootstrap_gives_every_window_the_same_weight():
+    # circular blocks: the bootstrap mean is centred on the sample mean even when the extreme windows sit at the ends
+    from p2du.reporting.inference import boot_means
+    from p2du.evaluation.metrics import moving_block_bootstrap_mean
+    x = np.r_[5.0, np.zeros(14), 5.0]
+    for b in (2, 3, 5, 6):
+        m = boot_means(x, b, n_boot=20000, seed=1)
+        assert abs(m.mean() - x.mean()) < 0.02, (b, m.mean(), x.mean())
+        _, _, _, m2 = moving_block_bootstrap_mean(x, 20000, b, 1)
+        assert abs(m2.mean() - x.mean()) < 0.02, (b, m2.mean(), x.mean())
+
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

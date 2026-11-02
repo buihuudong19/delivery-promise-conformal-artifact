@@ -10,10 +10,10 @@ Replication package for the article
 
 The repository contains the code that rebuilds the study sample from the public Olist data, runs every experiment and
 check, and regenerates every table, figure and number reported in the article, together with the outputs of the
-reported run. Release v1.0.1 is the version used in the article; it adds the robustness analyses listed below to
-v1.0.0 and leaves every earlier output unchanged. It is archived on Zenodo with the DOI
-[10.5281/zenodo.23880409](https://doi.org/10.5281/zenodo.23880409); the DOI
-[10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions.
+reported run. Release v1.0.2 is the version used in the article. Release v1.0.1 added the robustness analyses listed
+below to v1.0.0, and v1.0.2 makes the blocks of the bootstrap circular, which changes intervals and p-values but no
+estimate. The DOI [10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions archived
+on Zenodo.
 
 ## Contents
 
@@ -67,7 +67,7 @@ The article treats the delivery date shown at purchase as a decision under uncer
   rho_i(P) of every promise; a Lagrangian sweep minimises the mean of rho_i(P_i) subject to a constraint on the mean
   promise, with a duality certificate of near-optimality. Policies are compared at Olist's mean promise on the
   realised delivery days.
-- **Inference.** Paired comparisons over windows with a moving-block bootstrap (blocks of 3 windows), Holm adjustment
+- **Inference.** Paired comparisons over windows with a circular block bootstrap (blocks of 3 windows), Holm adjustment
   within each family of contrasts and Newey-West p-values as a check.
 - **Robustness analyses (v1.0.1).** Contrasts over the 2017 windows (RQ1-K, RQ3-Y); IPCW calibration without the tail
   term (RQ1-L); response curves fitted on two random halves of the rated orders, a step curve of the AIPW risks and a
@@ -124,7 +124,7 @@ robustness analyses of v1.0.1 with the fitted models reused (`--resume`) took 31
 
 ```
 python tools/verify_manifest.py        code and shipped outputs against outputs/manifest.json
-python tests/test_p2du.py              22 unit tests (or: python -m pytest tests -q)
+python tests/test_p2du.py              23 unit tests (or: python -m pytest tests -q)
 ```
 
 - `outputs/manifest.json` records the SHA-256 of every source file and output, the library versions, the platform
@@ -175,16 +175,19 @@ of each research question with their source tables, and `outputs/manuscript/TABL
 - The models were fitted in the full run of 1 November 2026 (code hash `5c666ef3f936`). The robustness analyses of
   v1.0.1 were added on 2 November 2026 by a run of every stage with `--resume` (code hash `2d402718b4a7`), which reused
   the stored fits, followed by a run of the stages `sens_fit` to `manifest` after the check of the extended tuning
-  grids gained a flag for diverged fits (code hash `39539d3a3843`, the released code, recorded in
-  `outputs/manifest.json`). Every output of the first run kept its value; the code that fits the main models is the
-  same in all runs.
+  grids gained a flag for diverged fits (code hash `39539d3a3843`). In v1.0.2 the blocks of the bootstrap wrap around
+  the end of the sequence of windows, so that the first and last windows are drawn as often as the others; the
+  stages `inference` to `manifest` were run again (code hash `3b64fdd5c09a`, the released code, recorded in
+  `outputs/manifest.json`), which changed bootstrap intervals and p-values but no estimate. Every estimate of the first
+  run kept its value; the code that fits the main models is the same in all runs.
 - The quantile average and the wider tuning grids were introduced after a pilot run that used origins of both 2017
   and 2018 (`tools/pilot_tuning_ensemble.py`; outputs in `docs/evidence/pilot_tuning_2026-10-31`). The members of the
   quantile average were then chosen on the 2017 origins by the rule in `config.yaml` (check C12). The 2018 comparisons
   are therefore not a strict hold-out, and the article reports the quantile average as exploratory.
 - Parts of the infrastructure (configuration loading, data input, order attributes, block bootstrap, Holm and HAC
   inference, rolling windows and the figure style) are reused from the code of an earlier article by the first
-  author, released under the MIT licence; each reused file or function says so in its header.
+  author, released under the MIT licence, with circular blocks in the bootstrap; each reused file or function says so
+  in its header.
 
 ## Citation
 
