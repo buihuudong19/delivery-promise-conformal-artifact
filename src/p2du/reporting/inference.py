@@ -1,10 +1,9 @@
 """Paired window-level inference: block-bootstrap intervals, Holm adjustment within each family of comparisons and a
 Newey-West (HAC) check that does not resample.
 
-paired_summary(), hac_p() and holm() are reused unchanged from src/leakaware/reporting/inference.py of the first
-article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874); boot_means() is adapted from it so that the
-blocks wrap around the end of the series (circular block bootstrap) and every window is drawn equally often. The
-families of comparisons are those of the present study (see contrasts()).
+paired_summary(), hac_p() and holm() are reused unchanged from earlier code released under the MIT licence;
+boot_means() is adapted from it so that the blocks wrap around the end of the series (circular block bootstrap) and
+every window is drawn equally often. The families of comparisons are those of the present study (see contrasts()).
 """
 import math
 

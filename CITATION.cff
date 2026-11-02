@@ -19,13 +19,6 @@ identifiers:
     description: "Version 1.0.2, the code of the article"
 repository-code: "https://github.com/buihuudong19/delivery-promise-conformal-artifact"
 keywords: [e-commerce, delivery promise, conformal prediction, censoring, IPCW, online ratings, prescriptive analytics, Olist]
-references:
-  - type: software
-    title: "Code for: Leakage-Aware Evaluation of Early-Warning Models for Customer Dissatisfaction in E-Commerce"
-    doi: "10.5281/zenodo.23724874"
-    authors:
-      - family-names: "Bui-Huu"
-        given-names: "Dong"
 preferred-citation:
   type: article
   title: "Promising Delivery Dates under Uncertainty: Conformalised Machine-Learning Models and Rating-Aware Promise Policies in E-Commerce"

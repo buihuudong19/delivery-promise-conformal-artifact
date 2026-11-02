@@ -1,5 +1,5 @@
-# Reused from the code of the first article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874),
-# file src/leakaware/data/io.py. Only the name of the feature file and the stage in the error message are changed.
+# Reused from earlier code released under the MIT licence (data input). Only the name of the feature file and the
+# stage in the error message are changed.
 """Reading the nine raw Olist tables (with SHA-256 checks) and the feature artefacts written by the pipeline."""
 import gzip
 import hashlib

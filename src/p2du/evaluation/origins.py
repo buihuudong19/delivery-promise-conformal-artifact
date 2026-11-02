@@ -1,6 +1,6 @@
-"""Rolling origins on the purchase time (protocol of the first article, adapted to a purchase-time decision).
+"""Rolling origins on the purchase time (a rolling-origin protocol adapted to a purchase-time decision).
 
-rolling_windows() is reused from src/leakaware/evaluation/splits.py of the first article (leakaware v1.0.2, MIT).
+rolling_windows() is reused from earlier code released under the MIT licence.
 At an origin o, with calibration length K and inner validation length V:
   training set      orders bought before o - K; outcomes as known at o (orders not delivered by o are censored)
   calibration set   orders bought in [o - K, o); outcomes as known at o (heavily censored for recent purchases)

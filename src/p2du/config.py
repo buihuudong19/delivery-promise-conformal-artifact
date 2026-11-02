@@ -1,5 +1,4 @@
-# Reused from the code of the first article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874),
-# file src/leakaware/config.py. Unchanged apart from this header.
+# Reused from earlier code released under the MIT licence (configuration loading). Unchanged apart from this header.
 """Configuration loading. Relative paths in config.yaml are resolved from the repository root."""
 from pathlib import Path
 

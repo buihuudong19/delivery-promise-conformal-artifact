@@ -1,8 +1,8 @@
 """Evaluation metrics of the delivery-time bounds and the moving-block bootstrap.
 
-moving_block_bootstrap_mean() and block_indices() are adapted from src/leakaware/evaluation/metrics.py of the first
-article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874): the blocks wrap around the end of the series
-(circular block bootstrap), so that the first and last windows are drawn as often as the others.
+moving_block_bootstrap_mean() and block_indices() are adapted from earlier code released under the MIT licence: the
+blocks wrap around the end of the series (circular block bootstrap), so that the first and last windows are drawn as
+often as the others.
 """
 import math
 

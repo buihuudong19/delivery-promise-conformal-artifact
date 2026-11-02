@@ -1,6 +1,6 @@
-# Reused from the code of the first article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874),
-# file src/leakaware/data/features.py: the order attributes, the region map and the two as-of counters are copied
-# unchanged. The feature definitions of the first article (prediction at the carrier hand-over) are not used here.
+# Reused from earlier code released under the MIT licence: the order attributes, the region map and the two as-of
+# counters are copied unchanged. The feature definitions of that code (prediction at the carrier hand-over) are not
+# used here.
 """Order-level attributes of all Olist orders and the as-of counting helpers used by the purchase-time features.
 
 _asof_cum(queries, events, key, qtime, etime, value) returns, for each query row, the number of events of the same key

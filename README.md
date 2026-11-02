@@ -177,9 +177,11 @@ of each research question with their source tables, and `outputs/manuscript/TABL
   the stored fits, followed by a run of the stages `sens_fit` to `manifest` after the check of the extended tuning
   grids gained a flag for diverged fits (code hash `39539d3a3843`). In v1.0.2 the blocks of the bootstrap wrap around
   the end of the sequence of windows, so that the first and last windows are drawn as often as the others; the
-  stages `inference` to `manifest` were run again (code hash `3b64fdd5c09a`, the released code, recorded in
-  `outputs/manifest.json`), which changed bootstrap intervals and p-values but no estimate. Every estimate of the first
-  run kept its value; the code that fits the main models is the same in all runs.
+  stages `inference` to `manifest` were run again (code hash `3b64fdd5c09a`, the code of release 1.0.2), which
+  changed bootstrap intervals and p-values but no estimate. After the release, the header comments of 15 source files
+  were reworded and the stage `manifest` was run again (code hash `c48ef957de35`, recorded in
+  `outputs/manifest.json`); no statement of the code changed. Every estimate of the first run kept its value; the code
+  that fits the main models is the same in all runs.
 - The quantile average and the wider tuning grids were introduced after a pilot run that used origins of both 2017
   and 2018 (`tools/pilot_tuning_ensemble.py`; outputs in `docs/evidence/pilot_tuning_2026-10-31`). The members of the
   quantile average were then chosen on the 2017 origins by the rule in `config.yaml` (check C12). The 2018 comparisons

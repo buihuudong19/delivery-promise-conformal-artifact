@@ -1,4 +1,4 @@
-"""Sensitivity analyses (one table, in the spirit of Table 10 of the first article).
+"""Sensitivity analyses (one table).
 
 Without refitting (stored predictions of rq1_fit):
   calibration window   the last 14, 21 or 28 days before the origin instead of 42 (more recent, more censored)

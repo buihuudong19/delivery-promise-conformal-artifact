@@ -3,8 +3,8 @@ layout (column 3.30 in, text width 6.84 in), so that the font sizes are the prin
 4, 5, 9 and 11 are drawn for one column (panels stacked); the others need the full text width (a wide diagram, a dense
 time axis, three panels side by side or insets).
 
-The visual style (fonts, Okabe-Ito palette, constrained layout, panel titles, save routine) is reused from
-src/leakaware/reporting/figures.py of the first article (leakaware v1.0.2, MIT); the figures themselves are new.
+The visual style (fonts, Okabe-Ito palette, constrained layout, panel titles, save routine) is reused from earlier
+code released under the MIT licence; the figures themselves are new.
 Every number drawn comes from a table in outputs/tables written by the pipeline.
 
   fig01_framework            decision pipeline of the study and where each RQ sits

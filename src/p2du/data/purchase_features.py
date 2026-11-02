@@ -1,6 +1,6 @@
 """Features admissible at the purchase time tau_i (the moment the delivery date is shown to the customer).
 
-Admissibility follows the definition of the first article: a feature of order i may use an event of another order
+Admissibility follows the as-of rule: a feature of order i may use an event of another order
 only if that event happened strictly before tau_i. The events and the times at which they become known are
   delivery event      delivered timestamp            value Y (delivery time from the purchase day), log Y
   late event          min(delivery, promised day + 1) value 1{late against Olist's promise}

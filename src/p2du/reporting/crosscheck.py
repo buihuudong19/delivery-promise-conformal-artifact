@@ -1,4 +1,4 @@
-"""Independent cross-checks of the reported numbers (outputs_extra/), in the spirit of outputs_extra of the first article.
+"""Independent cross-checks of the reported numbers (outputs_extra/).
 
 Every quantity below is recomputed directly from the nine raw CSV files with plain pandas: this module imports nothing
 from the p2du package except the configuration, so an error in the feature, sample or experiment code would show up

@@ -12,8 +12,8 @@ sample:
   # They are removed from every analysis (main choice); the sensitivity stage counts the other undelivered orders
   # (shipped, invoiced, processing, ...) as missed promises.
   cancelled_status: [canceled, unavailable]
-  low_scores: [1, 2]            # low rating, same definition as the first article
-  high_scores: [4, 5]           # three-star orders are left out of the main RQ2 analysis, as in the first article
+  low_scores: [1, 2]            # low rating
+  high_scores: [4, 5]           # three-star orders are left out of the main RQ2 analysis
 
 features:
   smoothing_m: 20               # shrinkage weight of the as-of means (m-estimate)
@@ -24,7 +24,7 @@ features:
 rolling:
   first_origin: "2017-06-01"
   last_origin: "2018-07-16"
-  step_days: 14                 # origins every two weeks, as in the first article
+  step_days: 14                 # origins every two weeks
   horizon_days: 14              # each evaluation window covers 14 days of purchases
   calib_days: 42                # conformal calibration set: orders bought in the last 42 days before the origin
   min_train: 2000

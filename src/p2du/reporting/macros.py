@@ -1,6 +1,6 @@
 """LaTeX macros with every number quoted in the text (outputs/manuscript/results_macros.tex).
 
-The text of the article uses only these macros, so that a re-run updates every number (rule of the first article).
+The text of the article uses only these macros, so that a re-run updates every number.
 Macro names contain letters only; digits are spelled out (alpha 0.10 -> AlphaTen).
 """
 import numpy as np

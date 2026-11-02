@@ -1,4 +1,4 @@
-"""Pipeline stages of the P2DU study and their orchestration (structure adapted from the first article's pipeline).
+"""Pipeline stages of the P2DU study and their orchestration (structure adapted from earlier MIT-licensed code).
 
 Stages
   data         delivery sample, sample-flow table and the purchase-time feature file

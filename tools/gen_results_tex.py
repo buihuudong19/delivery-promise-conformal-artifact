@@ -9,7 +9,6 @@ Every value is computed from OUTPUTS_DIR/tables/*.csv, OUTPUTS_DIR/manuscript/ta
 features_purchase.pkl, OUTPUTS_DIR/manifest.json, OUTPUTS_DIR/logs/pipeline.log (run time), outputs_extra (cross-check),
 config.yaml and the code (number of unit tests). Nothing is typed by hand: after a new run, regenerate both files and
 recompile the article; then run tools/check_claims.py, which tests the qualitative statements of the text.
-Organisation and conventions follow tools/gen_results_tex.py of the first article.
 """
 import json
 import re
@@ -33,7 +32,7 @@ T = OUT / "tables"; MS = OUT / "manuscript"
 r = lambda f: pd.read_csv(T / f, encoding="utf-8-sig")
 
 
-# ------------------------------------------------------------------ formatting (as in the first article)
+# ------------------------------------------------------------------ formatting
 def num(x, d=2):
     s = f"{abs(x):.{d}f}"
     return f"$-${s}" if x < 0 and float(s) != 0 else s

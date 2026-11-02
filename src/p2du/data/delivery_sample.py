@@ -24,7 +24,7 @@ DAY = pd.Timedelta(days=1)
 
 
 def aggregate_reviews(reviews):
-    """Worst score and survey timestamps of each order (same rule as the first article for several reviews)."""
+    """Worst score and survey timestamps of each order (the worst score is kept when an order has several reviews)."""
     g = reviews.groupby("order_id")
     return pd.DataFrame({
         "n_reviews": g.size(),
