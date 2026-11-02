@@ -1,5 +1,7 @@
 # Promising Delivery Dates under Uncertainty: code and outputs
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23874459.svg)](https://doi.org/10.5281/zenodo.23874459)
+
 Replication package for the article
 
 > Dong Bui-Huu, Vinh Pham-An and Khuong Nguyen-An. *Promising Delivery Dates under Uncertainty: Conformalised
@@ -8,7 +10,9 @@ Replication package for the article
 
 The repository contains the code that rebuilds the study sample from the public Olist data, runs every experiment and
 check, and regenerates every table, figure and number reported in the article, together with the outputs of the
-reported run. Release v1.0.0 is the version used in the article.
+reported run. Release v1.0.0 is the version used in the article. It is archived on Zenodo with the DOI
+[10.5281/zenodo.23874460](https://doi.org/10.5281/zenodo.23874460); the DOI
+[10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions.
 
 ## Contents
 
