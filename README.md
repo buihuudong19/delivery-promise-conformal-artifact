@@ -11,8 +11,9 @@ Replication package for the article
 The repository contains the code that rebuilds the study sample from the public Olist data, runs every experiment and
 check, and regenerates every table, figure and number reported in the article, together with the outputs of the
 reported run. Release v1.0.1 is the version used in the article; it adds the robustness analyses listed below to
-v1.0.0 and leaves every earlier output unchanged. The DOI
-[10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions archived on Zenodo.
+v1.0.0 and leaves every earlier output unchanged. It is archived on Zenodo with the DOI
+[10.5281/zenodo.23880409](https://doi.org/10.5281/zenodo.23880409); the DOI
+[10.5281/zenodo.23874459](https://doi.org/10.5281/zenodo.23874459) refers to all versions.
 
 ## Contents
 
