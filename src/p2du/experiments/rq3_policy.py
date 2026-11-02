@@ -24,6 +24,8 @@ Policies compared on the same evaluation orders (delivered orders, outcomes from
   late_optimal the Lagrangian solution for the expected late rate instead of the low-rating rate (a
                coverage-oriented allocation with the same predictive distributions)
   optimal      the Lagrangian solution for the expected low-rating rate (rating-aware)
+  region budget  the same solution within each customer region at Olist's regional mean promise, so that no promise
+               days move between regions (rq3_matched_regionbudget.csv, rq3_region_budget_regions.csv)
 Metrics: mean promise; realised late rate 1{D > P} (model-free); realised low-rating rate mean r(D - P) (actual D,
 estimated r); expected low-rating rate mean rho_i(P_i) (model-based).
 """
@@ -114,7 +116,7 @@ def run_rq3(D, cfg, out, log=print, curve="rq2_response_curve.csv", eval_curve=N
     lambdas = np.concatenate([[0.0], np.logspace(-5, -0.7, cfg["rq3"]["lambda_grid"])])
     alphas = np.array([0.01, 0.02, 0.03, 0.05, 0.075, 0.10, 0.125, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50])
     route_taus = np.array([0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9, 0.925, 0.95, 0.97, 0.98, 0.99])
-    rows, matched, reg_rows, conv_rows, gap_rows = [], [], [], [], []
+    rows, matched, reg_rows, conv_rows, gap_rows, rb_rows, rbr_rows = [], [], [], [], [], [], []
     for rec in fits:
         k = rec["k"]
         E = D.iloc[rec["eval_idx"]]
@@ -192,6 +194,20 @@ def run_rq3(D, cfg, out, log=print, curve="rq2_response_curve.csv", eval_curve=N
                 reg_rows.append(dict(k=k, region=g, policy=pol, n=int(m.sum()), mean_promise=float(P[m].mean()),
                                      late_realised=float((Dv[m] > P[m]).mean()),
                                      low_realised=float(r_of(Dv[m] - P[m], S_ev, r_ev).mean())))
+        if tag == "main":
+            lo_rb, la_rb, L_rb, regs = region_budget_policy(rho, Pgrid, lambdas, Dv, S_ev, r_ev, reg, P_ol)
+            rb_rows.append(dict(k=k, origin=rec["origin"], L_olist=L0, low_olist=olr["low_realised"],
+                                late_olist=olr["late_realised"], optimal_low_realised_at_L=lo_rb,
+                                optimal_late_realised_at_L=la_rb, optimal_L_at_low=L_rb,
+                                single_low_realised_at_L=mrow["optimal_low_realised_at_L"],
+                                single_late_realised_at_L=mrow["optimal_late_realised_at_L"]))
+            for x in regs:
+                m_ = reg == x["region"]
+                rbr_rows.append(dict(k=k, region=x["region"], n=x["n"], olist_mean_promise=float(P_ol[m_].mean()),
+                                     olist_low_realised=float(r_of(Dv[m_] - P_ol[m_], S_ev, r_ev).mean()),
+                                     olist_late_realised=float((Dv[m_] > P_ol[m_]).mean()),
+                                     budget_mean_promise=x["mean_promise"], budget_low_realised=x["low_realised"],
+                                     budget_late_realised=x["late_realised"]))
         if tag == "main" and k == fits[len(fits) // 2]["k"]:
             # example orders for the illustration of rho_i(P)
             rng = np.random.default_rng(cfg["seed"]); pick = rng.choice(len(Dv), 6, replace=False)
@@ -210,7 +226,52 @@ def run_rq3(D, cfg, out, log=print, curve="rq2_response_curve.csv", eval_curve=N
         pd.DataFrame(gap_rows).to_csv(t / "rq3_duality_gap.csv", index=False)
         curve_calibration(D, fits, cfg, t).to_csv(t / "rq3_curve_calibration.csv", index=False)
         frontier(A).to_csv(t / "rq3_frontier.csv", index=False)
+        pd.DataFrame(rb_rows).to_csv(t / "rq3_matched_regionbudget.csv", index=False)
+        pd.DataFrame(rbr_rows).to_csv(t / "rq3_region_budget_regions.csv", index=False)
     return A, Mt
+
+
+def region_budget_policy(rho, Pgrid, lambdas, Dv, S, r, reg, P_ol, shifts=np.arange(-10.0, 10.01, 0.25)):
+    """Rating-aware promises solved separately within each region, with the region's mean promise fixed at Olist's
+    mean promise in that region (no promise days move between regions). For each region the Lagrangian sweep gives
+    the frontier (mean promise, realised low-rating sum, late sum); values at a budget are interpolated on it.
+    Returns the window values at Olist's regional budgets, the promise length at Olist's realised low-rating rate when
+    every regional budget moves by the same shift, and the per-region values."""
+    n = len(Dv); fr = {}
+    for g in pd.unique(reg):
+        m = reg == g
+        pts = []
+        for lam in lambdas:
+            P = Pgrid[np.argmin(rho[m] + lam * Pgrid[None, :], axis=1)].astype(float)
+            pts.append((P.mean(), float(r_of(Dv[m] - P, S, r).mean()), float((Dv[m] > P).mean())))
+        pts = np.array(sorted(pts))
+        fr[g] = (int(m.sum()), float(P_ol[m].mean()), pts)
+
+    def at(g, L):
+        ng, _, pts = fr[g]
+        if L < pts[0, 0] or L > pts[-1, 0]:
+            return np.nan, np.nan
+        return float(np.interp(L, pts[:, 0], pts[:, 1])), float(np.interp(L, pts[:, 0], pts[:, 2]))
+
+    def window(shift):
+        lo_, la_ = 0.0, 0.0
+        for g, (ng, Lg, _) in fr.items():
+            a, b = at(g, Lg + shift)
+            lo_ += ng * a; la_ += ng * b
+        return lo_ / n, la_ / n
+
+    low0, late0 = window(0.0)
+    regions = [dict(region=g, n=ng, mean_promise=Lg, low_realised=at(g, Lg)[0], late_realised=at(g, Lg)[1])
+               for g, (ng, Lg, _) in fr.items()]
+    olist_low = float(r_of(Dv - P_ol, S, r).mean())
+    curve = [(float(P_ol.mean() + sh), window(sh)[0]) for sh in shifts]
+    curve = np.array([c for c in curve if np.isfinite(c[1])])
+    L_at_low = np.nan
+    if len(curve) > 1:
+        o = np.argsort(curve[:, 1])
+        if curve[:, 1].min() <= olist_low <= curve[:, 1].max():
+            L_at_low = float(np.interp(olist_low, curve[o, 1], curve[o, 0]))
+    return low0, late0, L_at_low, regions
 
 
 def duality_gap(rho, Pgrid, L_grid, lambdas, n_bisect=60):

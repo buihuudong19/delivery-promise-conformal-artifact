@@ -1,0 +1,17 @@
+k,origin,variant,main_choice,main_loss,best_new_point,new_point_loss,extended_choice,changed,on_edge_extended
+1,2017-06-01,xgbq,"max_depth=2, learning_rate=0.05",0.10153569966742337,max_depth=1,0.1023112345929364,"max_depth=2, learning_rate=0.05",False,False
+1,2017-06-01,aft,"normal, scale=0.45",0.10035851280977519,"normal, scale=0.2",0.13393449919961056,"normal, scale=0.45",False,False
+5,2017-07-27,xgbq,"max_depth=3, learning_rate=0.05",0.08147767049870758,max_depth=1,0.08581780888974905,"max_depth=3, learning_rate=0.05",False,False
+5,2017-07-27,aft,"extreme, scale=0.6",0.0852645724781484,"logistic, scale=0.2",0.08421874237548595,"logistic, scale=0.2",True,False
+9,2017-09-21,xgbq,"max_depth=3, learning_rate=0.1",0.08645651797081853,max_depth=8,0.08902626801495724,"max_depth=3, learning_rate=0.1",False,False
+9,2017-09-21,aft,"normal, scale=0.3",0.09127581464445338,"normal, scale=0.2",0.09588583780270611,"normal, scale=0.3",False,False
+13,2017-11-16,xgbq,"max_depth=3, learning_rate=0.05",0.07892136314887549,max_depth=1,0.08081413245128749,"max_depth=3, learning_rate=0.05",False,False
+13,2017-11-16,aft,"normal, scale=0.3",0.08301439472558365,"normal, scale=0.2",0.0935975391075138,"normal, scale=0.3",False,False
+17,2018-01-11,xgbq,"max_depth=4, learning_rate=0.05",0.11248211944055536,max_depth=1,0.11258249006208039,"max_depth=4, learning_rate=0.05",False,False
+17,2018-01-11,aft,"normal, scale=0.6",0.08997166060248551,"normal, scale=0.2",0.13879299341938686,"normal, scale=0.6",False,False
+21,2018-03-08,xgbq,"max_depth=2, learning_rate=0.05",0.09482543703420904,max_depth=1,0.09750336576902578,"max_depth=2, learning_rate=0.05",False,False
+21,2018-03-08,aft,"extreme, scale=0.6",0.09395150379515571,"normal, scale=0.2",0.14217558894224125,"extreme, scale=0.6",False,False
+25,2018-05-03,xgbq,"max_depth=3, learning_rate=0.1",0.09841346945584634,max_depth=8,0.1030289195273777,"max_depth=3, learning_rate=0.1",False,False
+25,2018-05-03,aft,"extreme, scale=0.6",0.09378818372148205,"extreme, scale=0.2",0.12919880284509497,"extreme, scale=0.6",False,False
+29,2018-06-28,xgbq,"max_depth=6, learning_rate=0.05",0.09608295997092405,max_depth=8,0.09380108845727929,"max_depth=8, learning_rate=0.05",True,True
+29,2018-06-28,aft,"normal, scale=0.3",0.0923043024551621,"normal, scale=0.2",0.09245108228220116,"normal, scale=0.3",False,False

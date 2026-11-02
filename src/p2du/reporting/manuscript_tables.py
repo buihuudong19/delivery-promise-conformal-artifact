@@ -94,9 +94,11 @@ def write_tables(cfg, out):
     Cf = pd.read_csv(t / "contrasts_rq1.csv")
     Ff = Cf[Cf.family.str.startswith("RQ1-F")].set_index("contrast")
     Fi = Cf[Cf.family.str.startswith("RQ1-I")].set_index("contrast")
+    Fk = Cf[Cf.family.str.startswith("RQ1-K")].set_index("contrast")
     for r, v in zip(rows, T2V):
         key = f"{v} - Olist"
         r["Len. at Olist's cov. - Olist (d) [95% CI]"] = _ci(Ff.loc[key]) if key in Ff.index else "--"
+        r["Same, 2017 selection (d) [95% CI]"] = _ci(Fk.loc[key]) if key in Fk.index else "--"
         r["Same, 2018 test (d) [95% CI]"] = _ci(Fi.loc[key]) if key in Fi.index else "--"
     o = S[S.variant == "olist"].iloc[0]
     rows.append({"Model": "Olist promise", **{k: "" for k in rows[0] if k != "Model"}})
@@ -104,10 +106,10 @@ def write_tables(cfg, out):
     _tex(pd.DataFrame(rows), m / "table2_rq1_models",
          "Coverage (promises kept, %), mean promise (days) and mean worst-region coverage (%) after one-sided split "
          "conformal correction with IPCW calibration, by model and target coverage (30 rolling origins).", "tab:rq1models",
-         "Olist's promise has no target level; its values are shown in the 95% columns for comparison. The last column "
+         "Olist's promise has no target level; its values are shown in the 95% columns for comparison. The first of the last three columns "
          "is the mean promise each model needs to reach Olist's realised coverage of the window, minus Olist's mean "
-         "promise (matched ex post; block-bootstrap interval over the 30 windows); the next column restricts it to the "
-         "14 test windows of 2018, after the 2017 selection of the quantile-average members. Quantile average: the mean of the "
+         "promise (matched ex post; block-bootstrap interval over the 30 windows); the next columns restrict it to the "
+         "16 windows of 2017 and to the 14 test windows of 2018, after the 2017 selection of the quantile-average members. Quantile average: the mean of the "
          "log-quantiles of the route table (IPCW), linear QR (IPCW), XGBoost QR (IPCW), quantile forest (IPCW) and "
          "XGBoost AFT (censored labels), corrected by the same conformal step; the member set was chosen on the 2017 "
          "origins by a rule fixed in advance (rq1_ensemble_selection.csv).")

@@ -23,6 +23,11 @@ With refitting (stage sens_fit):
                        hyper-parameters of the main fit; promise floor(q_tau) on a fine grid of tau, the level read
                        off at Olist's coverage of each window (rq1_raw_matched.csv), against the split-IPCW promise
                        at the same coverage (rq1_matched_olist.csv): what the conformal step adds at matched coverage
+  grid edges           at the tuned origins, the XGBoost QR depth and the AFT scale are re-tuned on grids extended
+                       by EXT_XGB_DEPTHS and EXT_AFT_SCALES (only the new points are fitted; the loss of the main
+                       choice is read from the stored fit); if a choice changes, the variant is refitted on the
+                       origins that use it and split IPCW at alpha = 0.10 is compared with the main fit
+                       (rq1_tuning_extended.csv, rq1_grid_extended.csv)
 RQ2 / RQ3:
   three-star ratings counted as not low; response curve fitted on 2017 orders only (policies chosen with it and
   evaluated with the full-sample curve)
@@ -43,6 +48,93 @@ ACI_GAMMAS = (0.0001, 0.0002, 0.0005, 0.001)  # grid of the ACI step (the config
 ROUTE_M = (20, 100)                         # shrinkage of the route table besides the configured m
 HIGH_TAUS = (0.97, 0.98, 0.99, 0.995)       # extra quantile levels of the uncalibrated benchmark
 RAW_TAU_GRID = np.round(np.arange(0.50, 0.99501, 0.0025), 4)
+EXT_XGB_DEPTHS = (1, 8)                     # added to the XGBoost QR depth grid (grid-edge check)
+EXT_AFT_SCALES = (0.15, 0.2)                # added to the AFT scale grid
+
+
+def grid_extension(D, vocab, cfg, out, log=print):
+    """Re-tune the XGBoost QR depth and the AFT scale at every tuned origin on grids extended at the edges, and refit
+    the variants whose choice changes (rq1_tuning_extended.csv, rq1_grid_extended.csv)."""
+    import pickle
+    from ..data.purchase_features import feature_set
+    from ..evaluation.origins import rolling_windows, origin_masks, inner_masks
+    from .rq1_fit import _tune, _tune_aft, fit_origin
+    from .rq1_coverage import _cal_block, group_col
+    from ..conformal.one_sided import static_promises
+    pdir = out / "data" / "parts"; t = out / "tables"
+    num, cat = feature_set(cfg, None)
+    W = {w["k"]: w for w in rolling_windows(cfg)}
+    fits = {r["k"]: r for r in load_fits(pdir, "main")}
+    xgb_grid = [g for g in cfg["tuning"]["xgbq_grid"]]
+    ext_xgb = [{"max_depth": d} for d in EXT_XGB_DEPTHS]
+    full_depths = sorted({g.get("max_depth") for g in xgb_grid} | set(EXT_XGB_DEPTHS))
+    full_scales = sorted(set(cfg["models"]["aft"]["scales"]) | set(EXT_AFT_SCALES))
+    rows = []
+    for k, r in sorted(fits.items()):
+        ch = r["chosen"]
+        if ch.get("_k") != k or "xgbq" not in r["inner_loss"]:
+            continue                                    # not a tuned origin
+        w = W[k]
+        M = origin_masks(D, w, cfg)
+        tr_in, va_in = inner_masks(D, M["train"], w, cfg)
+        base = dict(cfg["models"]["xgbq"])
+        bx, lx = _tune("xgbq", True, D, tr_in, va_in, w["origin"], num, cat, vocab, cfg, base, ext_xgb)
+        new_x = bx if lx < r["inner_loss"]["xgbq"] else ch["xgbq"]
+        rows.append(dict(k=k, origin=w["origin"], variant="xgbq", main_choice=f"max_depth={ch['xgbq']['max_depth']}, "
+                         f"learning_rate={ch['xgbq']['learning_rate']}", main_loss=float(r["inner_loss"]["xgbq"]),
+                         best_new_point=f"max_depth={bx['max_depth']}", new_point_loss=float(lx),
+                         extended_choice=f"max_depth={new_x['max_depth']}, learning_rate={new_x['learning_rate']}",
+                         changed=bool(lx < r["inner_loss"]["xgbq"]),
+                         on_edge_extended=new_x["max_depth"] in (full_depths[0], full_depths[-1]), _params=new_x))
+        c2 = dict(cfg); c2["models"] = dict(cfg["models"]); c2["models"]["aft"] = dict(cfg["models"]["aft"], scales=list(EXT_AFT_SCALES))
+        ba, la, _ = _tune_aft(D, tr_in, va_in, w["origin"], num, cat, vocab, c2)
+        new_a = dict(dist=ba[0], scale=ba[1]) if la < r["inner_loss"]["aft"] else ch["aft"]
+        rows.append(dict(k=k, origin=w["origin"], variant="aft", main_choice=f"{ch['aft']['dist']}, scale={ch['aft']['scale']}",
+                         main_loss=float(r["inner_loss"]["aft"]), best_new_point=f"{ba[0]}, scale={ba[1]}",
+                         new_point_loss=float(la), extended_choice=f"{new_a['dist']}, scale={new_a['scale']}",
+                         changed=bool(la < r["inner_loss"]["aft"]),
+                         on_edge_extended=new_a["scale"] in (full_scales[0], full_scales[-1]), _params=new_a))
+        log(f"  grid extension: origin {k:02d} xgbq {rows[-2]['extended_choice']} ({'changed' if rows[-2]['changed'] else 'same'}), "
+            f"aft {rows[-1]['extended_choice']} ({'changed' if rows[-1]['changed'] else 'same'})")
+    T = pd.DataFrame(rows)
+    T.drop(columns="_params").to_csv(t / "rq1_tuning_extended.csv", index=False)
+    # refit the variants whose choice changed, on the origins that carry that choice (until the next tuned origin)
+    res = []
+    tuned = sorted(T["k"].unique())
+    for _, x in T[T["changed"]].iterrows():
+        kind = x["variant"]; v = "xgbq_ipcw" if kind == "xgbq" else "aft"
+        nxt = [kk for kk in tuned if kk > x["k"]]
+        for k in [kk for kk in sorted(fits) if x["k"] <= kk < (nxt[0] if nxt else 10 ** 6)]:
+            f = pdir / f"rq1fit__gridext_{kind}__k{k:02d}.pkl"
+            if f.is_file():
+                with open(f, "rb") as fh:
+                    r2 = pickle.load(fh)
+            else:
+                ch2 = {kk: vv for kk, vv in fits[k]["chosen"].items() if kk != "_k"}
+                ch2[kind] = x["_params"]
+                r2 = fit_origin(D, W[k], num, cat, vocab, cfg, (v,), fixed_chosen=ch2)
+                with open(f, "wb") as fh:
+                    pickle.dump(r2, fh, protocol=pickle.HIGHEST_PROTOCOL)
+            r = fits[k]; E = D.iloc[r["eval_idx"]]
+            tails = tail_share(D, r["origin"], cfg["rolling"]["calib_days"], groups=group_col(cfg))
+            ti = cfg["quantiles"].index(0.9); ge = E[group_col(cfg)].fillna("NA").to_numpy()
+            for lab, rr in (("main", r), ("extended", r2)):
+                cal = _cal_block(rr, D, v, ti, cfg, tails)
+                P = static_promises(rr["pred"][v]["eval"][:, ti].astype(float), ge, cal, 0.10, "split", "ipcw", cfg)
+                x0 = _rows(k, r["origin"], v, "split_ipcw", 0.10, E, P)[0]
+                # a fit has diverged when its 0.9-quantile of the delivery time leaves [1 hour, 10 years] for some order
+                lq = rr["pred"][v]["eval"][:, ti].astype(float)
+                div = bool((~np.isfinite(lq)).any() or (lq > np.log(3650.0)).any() or (lq < np.log(1.0 / 24)).any())
+                res.append(dict(k=k, variant=v, fit=lab, coverage=x0["coverage"], mean_promise=x0["mean_promise"],
+                                diverged=float(div)))
+            log(f"  grid extension: refitted {v} at origin {k:02d}")
+    G = pd.DataFrame(res)
+    if len(G):
+        G = G.pivot_table(index=["k", "variant"], columns="fit", values=["coverage", "mean_promise", "diverged"]).reset_index()
+        G.columns = ["_".join(c).strip("_") for c in G.columns]
+    else:
+        G = pd.DataFrame([dict(note="no tuning choice changed on the extended grids")])
+    G.to_csv(t / "rq1_grid_extended.csv", index=False)
 
 
 def run_sens_fit(D, vocab, cfg, out, log=print, workers=1):
@@ -56,6 +148,7 @@ def run_sens_fit(D, vocab, cfg, out, log=print, workers=1):
     c3 = dict(cfg); c3["quantiles"] = list(HIGH_TAUS)
     run_rq1_fit(D, vocab, c3, pdir, variants=tuple(cfg["ensemble"]["members"]), tag="highq", log=log,
                 workers=workers, feat_path=fp, chosen_from="main")
+    grid_extension(D, vocab, cfg, out, log)
 
 
 def raw_quantile_matched(D, cfg, out):
@@ -293,6 +386,30 @@ def run_sensitivity(D, cfg, out, log=print):
                          low_cpd_at_L=Mt["cpd_quantile_low_realised_at_L"].mean(),
                          L_olist=Mt["L_olist"].mean(), L_optimal_at_low=Mt["optimal_L_at_low"].mean()))
     log("  sensitivity: RQ3 tail locations done")
+    # checks of the response curve: cross-fitting (optimise with one half's curve, score with the other's, both ways),
+    # scoring with the AIPW step curve, and a curve fitted on ratings answered after arrival
+    runs = {}
+    for tag, curve, ev in (("xfitAB", "rq2_response_curve_xfitA.csv", "rq2_response_curve_xfitB.csv"),
+                           ("xfitBA", "rq2_response_curve_xfitB.csv", "rq2_response_curve_xfitA.csv"),
+                           ("evalaipw", "rq2_response_curve.csv", "rq2_response_curve_aipwstep.csv"),
+                           ("after", "rq2_response_curve_after.csv", None)):
+        if (t / curve).is_file() and (ev is None or (t / ev).is_file()):
+            _, runs[tag] = run_rq3(D, cfg, out, log=lambda *_: None, curve=curve, eval_curve=ev, tag=tag)
+    if "xfitAB" in runs and "xfitBA" in runs:
+        a_, b_ = runs["xfitAB"].set_index("k"), runs["xfitBA"].set_index("k").loc[runs["xfitAB"]["k"]]
+        num = a_.select_dtypes("number").columns
+        X = ((a_[num] + b_[num]) / 2).reset_index()
+        X.insert(1, "origin", a_["origin"].to_numpy())
+        X.to_csv(t / "rq3_matched_xfit.csv", index=False)
+        runs["xfit"] = X
+    for tag in ("xfit", "evalaipw", "after"):
+        if tag in runs:
+            Mt = runs[tag]
+            rows.append(dict(analysis="RQ3 response curve check", setting=tag, low_olist=Mt["low_olist"].mean(),
+                             low_optimal_at_L=Mt["optimal_low_realised_at_L"].mean(),
+                             low_cpd_at_L=Mt["cpd_quantile_low_realised_at_L"].mean(),
+                             L_olist=Mt["L_olist"].mean(), L_optimal_at_low=Mt["optimal_L_at_low"].mean()))
+    log("  sensitivity: RQ3 curve checks done")
     pd.DataFrame(rows).to_csv(t / "sensitivity_rq3.csv", index=False)
     # RQ2: selection into answering after arrival at the promised day (Lee bounds)
     from .rq2_response import rq2_frame, lee_bounds

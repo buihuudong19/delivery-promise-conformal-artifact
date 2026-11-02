@@ -15,7 +15,11 @@ article; included as 0 in the sensitivity analysis).
                        Ding, 2017) for the risk ratios
   (4) g-formula curve  r(s) = mean_i mu(s, X_i) from an XGBoost outcome model with a monotone (non-decreasing)
                        constraint in s; this curve feeds the promise policies of RQ3 (overall, by region, and fitted
-                       on 2017 orders only for the out-of-time check)
+                       on 2017 orders only for the out-of-time check). Checks for RQ3: curves fitted on each half of
+                       a random split of the rated orders, stratified by 14-day purchase period (cross-fitting), a
+                       curve fitted on ratings answered after arrival, and a step curve equal to the AIPW risk of
+                       each deviation bin
+  Also: AIPW with three-star ratings counted as not low, and seller-clustered intervals (main seller of the order)
   (5) RDD              jump of the low-rating rate between S = 0 (delivered on the promised day) and S = 1, local
                        linear on each side with a triangular kernel over the cells of the discrete running variable.
                        Inference: honest confidence intervals for the Taylor (Hoelder) class with a bound M on the
@@ -211,15 +215,17 @@ def aipw_nuisances(R, vocab, cfg, learner="lr", log=print):
             for b in range(nb):
                 mu[te, b] = om.predict_proba(XT.assign(_bin=b))[:, 1]
         log(f"    aipw {learner} fold {f + 1}")
-    return dict(mu=mu, pi=pi, B=B, y=y, learner=learner)
+    return dict(mu=mu, pi=pi, B=B, y=y, learner=learner, cluster=R["seller_id"].to_numpy())
 
 
 def aipw_estimate(nu, cfg, clip=0.01, keep=None):
     """AIPW risks by bin from stored nuisances; propensities clipped at `clip` (and renormalised); `keep` restricts
     the sample (trimming)."""
     mu, pi, B, y = nu["mu"], nu["pi"], nu["B"], nu["y"]
+    cl = nu.get("cluster")
     if keep is not None:
         mu, pi, B, y = mu[keep], pi[keep], B[keep], y[keep]
+        cl = cl[keep] if cl is not None else None
     nb = mu.shape[1]
     raw_own = pi[np.arange(len(B)), B]
     pi = np.clip(pi, clip, 1.0); pi = pi / pi.sum(1, keepdims=True)
@@ -245,7 +251,44 @@ def aipw_estimate(nu, cfg, clip=0.01, keep=None):
                          p_value=float(2 * stats.norm.sf(abs(psi[b] - psi[ref]) / se_d)) if b != ref else np.nan,
                          ps_min=float(nu["pi"][:, b].min()), ps_p01=float(np.quantile(nu["pi"][:, b], 0.01)),
                          share_own_ps_below_clip=float((raw_own[B == b] < clip).mean())))
+        if cl is not None:              # seller-clustered intervals (sums of the influence functions per seller)
+            se_c = cluster_se(phi[:, b] - psi[b], cl)
+            se_dc = cluster_se(d - d.mean(), cl); se_lc = cluster_se(ifl - ifl.mean(), cl)
+            rows[-1].update(se=float(se), se_cluster=float(se_c), rd_lo_cl=float(psi[b] - psi[ref] - 1.96 * se_dc),
+                            rd_hi_cl=float(psi[b] - psi[ref] + 1.96 * se_dc), rr_lo_cl=float(rr * np.exp(-1.96 * se_lc)),
+                            rr_hi_cl=float(rr * np.exp(1.96 * se_lc)), n_clusters=int(pd.unique(cl).size))
     return pd.DataFrame(rows)
+
+
+def cluster_se(dev, cluster):
+    """Standard error of a mean from centred influence values `dev`, clustered by `cluster` (sum within cluster,
+    small-sample factor G / (G - 1)); with one order per cluster it equals the usual sd / sqrt(n)."""
+    n = len(dev)
+    sums = pd.Series(dev).groupby(pd.Series(cluster).to_numpy()).sum().to_numpy()
+    G = len(sums)
+    return float(np.sqrt(G / max(G - 1, 1) * np.sum(sums ** 2)) / n)
+
+
+def xfit_halves(R, seed, days=14):
+    """Random split of the rated orders into halves A and B, stratified by `days`-day period of purchase: within each
+    period the orders are permuted and the first half goes to A. Returns the boolean mask of half A."""
+    per = ((R["purchase_ts"] - R["purchase_ts"].min()) // pd.Timedelta(days=days)).to_numpy()
+    rng = np.random.default_rng(seed)
+    A = np.zeros(len(R), bool)
+    for p in np.unique(per):
+        idx = np.flatnonzero(per == p)
+        idx = idx[rng.permutation(len(idx))]
+        A[idx[:len(idx) // 2]] = True
+    return A
+
+
+def step_curve(A, cfg, learner="xgb"):
+    """Response curve on the grid of r(s) equal to the AIPW risk of the deviation bin of each s (main clip)."""
+    lo, hi = cfg["rq2"]["s_range"]
+    grid = np.arange(lo, hi + 1)
+    b = pd.cut(grid, cfg["rq2"]["bins"], labels=False, right=True).astype(int)
+    risk = A[A.learner == learner].set_index("bin")["risk"]
+    return pd.DataFrame(dict(S=grid, group="all", r=risk.loc[b].to_numpy()))
 
 
 def aipw_bins(R, vocab, cfg, learner="lr", log=print, clip=0.01):
@@ -403,6 +446,17 @@ def run_rq2(D, vocab, cfg, out, log=print):
     gformula_curve(R, vocab, cfg, fit_mask=pre).to_csv(t / "rq2_response_curve_fit2017.csv", index=False)
     R3 = rq2_frame(D, cfg, neutral_as_zero=True)
     gformula_curve(R3, vocab, cfg).to_csv(t / "rq2_response_curve_neutral0.csv", index=False)
+    # checks of the curve used by RQ3
+    hA = xfit_halves(R, cfg["seed"])
+    gformula_curve(R, vocab, cfg, fit_mask=hA).to_csv(t / "rq2_response_curve_xfitA.csv", index=False)
+    gformula_curve(R, vocab, cfg, fit_mask=~hA).to_csv(t / "rq2_response_curve_xfitB.csv", index=False)
+    after = (R["answered_before_delivery"] == 0).to_numpy()
+    gformula_curve(R, vocab, cfg, fit_mask=after).to_csv(t / "rq2_response_curve_after.csv", index=False)
+    step_curve(A, cfg).to_csv(t / "rq2_response_curve_aipwstep.csv", index=False)
+    # AIPW with three-star ratings counted as not low (the population is every reviewed delivered order)
+    pd.concat([aipw_estimate(aipw_nuisances(R3, vocab, cfg, lr, lambda *_: None), cfg, clip=0.01) for lr in ("lr", "xgb")],
+              ignore_index=True).to_csv(t / "rq2_aipw_bins_neutral0.csv", index=False)
+    log("  rq2: curve checks and three-star AIPW done")
     rd = [rdd_discrete(R, cfg, 0)]
     rd.append(rdd_discrete(R, cfg, 0, subset=(R["answered_before_delivery"] == 0)).assign(subset="answered_after_arrival"))
     for c in (-6, -3, 3, 6):                                        # placebo cut-offs

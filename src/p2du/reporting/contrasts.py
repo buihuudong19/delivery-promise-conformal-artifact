@@ -16,9 +16,17 @@
   RQ1-J  uncalibrated quantile promise minus split-IPCW promise at Olist's coverage (rq1_raw_matched.csv and
          rq1_matched_olist.csv), per member of the quantile average and the average; windows where the uncalibrated
          levels do not reach Olist's coverage are left out (n_windows)
+  RQ1-K  RQ1-F restricted to the 16 windows of 2017 (selection period)
+  RQ1-L  tail term: split IPCW minus split IPCW with the tail share set to 0 (coverage and mean promise), alpha = 0.10
   RQ3    realised low-rating rate of each policy at Olist's mean promise minus Olist's rate; promise length of each
          policy at Olist's low-rating rate minus Olist's length
+  RQ3-Y  the RQ3 families split by period (2017 selection, 2018 test)
+  RQ3-R  region budgets: the rating-aware policy solved within each customer region at Olist's regional mean promise
+  RQ3-X  checks of the response curve (contrasts_rq3_sensitivity.csv): curve cross-fitted on two halves of the rated
+         orders, policy scored with the AIPW step curve, curve fitted on ratings answered after arrival
+  contrasts_block_sensitivity.csv  key contrasts recomputed with moving blocks of 2, 3, 5 and 6 windows
 """
+import copy
 import numpy as np
 import pandas as pd
 
@@ -92,6 +100,9 @@ def run_contrasts(cfg, out):
             for v in Pm.columns:
                 rows.append(contrast_row("RQ1-I promise length at Olist's coverage, 2018 test (days)", f"{v} - Olist",
                                          Pm[v][Pm.index.isin(k18)].to_numpy(), cfg))
+            for v in Pm.columns:     # RQ1-K: RQ1-F on the 2017 selection windows only
+                rows.append(contrast_row("RQ1-K promise length at Olist's coverage, 2017 selection (days)", f"{v} - Olist",
+                                         Pm[v][~Pm.index.isin(k18)].to_numpy(), cfg))
     if (t / "rq1_raw_matched.csv").is_file() and (t / "rq1_matched_olist.csv").is_file():
         Rw = pd.read_csv(t / "rq1_raw_matched.csv").pivot_table(index="k", columns="variant", values="raw_length_at_olist_coverage")
         Lm = pd.read_csv(t / "rq1_matched_olist.csv").pivot_table(index="k", columns="variant", values="length_at_olist_coverage")
@@ -113,6 +124,14 @@ def run_contrasts(cfg, out):
                                          (wm[v] - ws[v]).to_numpy(), cfg))
                 rows.append(contrast_row("RQ1-G test period 2018 (mean promise)", f"{v}: {meth} - split_ipcw",
                                          (lm[v] - ls[v]).to_numpy(), cfg))
+    if (M.method == "split_ipcw_notail").any():          # RQ1-L: what the tail term adds to IPCW calibration
+        c0, l0 = _piv(M, "split_ipcw_notail", a), _piv(M, "split_ipcw_notail", a, "mean_promise")
+        for v in ci.columns:
+            rows.append(contrast_row("RQ1-L tail term (coverage), IPCW with tail minus IPCW without", f"{v}: tail - no tail",
+                                     (ci[v] - c0[v]).to_numpy(), cfg))
+        for v in mp.columns:
+            rows.append(contrast_row("RQ1-L tail term (mean promise), IPCW with tail minus IPCW without", f"{v}: tail - no tail",
+                                     (mp[v] - l0[v]).to_numpy(), cfg))
     R = adjust(pd.DataFrame(rows))
     R.to_csv(t / "contrasts_rq1.csv", index=False)
     if (t / "rq3_matched.csv").is_file():
@@ -129,9 +148,34 @@ def run_contrasts(cfg, out):
                                  (Q["optimal_low_realised_at_L"] - Q["cpd_quantile_low_realised_at_L"]).to_numpy(), cfg))
         rows.append(contrast_row("RQ3 rating-aware versus coverage policies at Olist's mean promise", "optimal - late_optimal",
                                  (Q["optimal_low_realised_at_L"] - Q["late_optimal_low_realised_at_L"]).to_numpy(), cfg))
+        test = (pd.to_datetime(Q["origin"]) >= pd.Timestamp("2018-01-01")).to_numpy()
+        for per, sel in (("2017 selection", ~test), ("2018 test", test)):
+            for fam in ("uniform", "route", "cpd_quantile", "late_optimal", "optimal", "olist_shift"):
+                rows.append(contrast_row(f"RQ3-Y low-rating rate at Olist's mean promise ({per})", f"{fam} - Olist",
+                                         (Q[f"{fam}_low_realised_at_L"] - Q["low_olist"]).to_numpy()[sel], cfg))
+                rows.append(contrast_row(f"RQ3-Y late rate at Olist's mean promise ({per})", f"{fam} - Olist",
+                                         (Q[f"{fam}_late_realised_at_L"] - Q["late_olist"]).to_numpy()[sel], cfg))
+                rows.append(contrast_row(f"RQ3-Y promise length at Olist's low-rating rate ({per})", f"{fam} - Olist",
+                                         (Q[f"{fam}_L_at_low"] - Q["L_olist"]).to_numpy()[sel], cfg))
+        if (t / "rq3_matched_regionbudget.csv").is_file():
+            G = pd.read_csv(t / "rq3_matched_regionbudget.csv").set_index("k").loc[Q["k"]]
+            fam = "RQ3-R region budgets at Olist's regional mean promise"
+            rows.append(contrast_row(fam, "low-rating rate: region budget - Olist",
+                                     (G["optimal_low_realised_at_L"] - G["low_olist"]).to_numpy(), cfg))
+            rows.append(contrast_row(fam, "late rate: region budget - Olist",
+                                     (G["optimal_late_realised_at_L"] - G["late_olist"]).to_numpy(), cfg))
+            rows.append(contrast_row(fam, "promise length at Olist's low-rating rate: region budget - Olist",
+                                     (G["optimal_L_at_low"] - G["L_olist"]).to_numpy(), cfg))
+            rows.append(contrast_row(fam, "low-rating rate: region budget - single budget",
+                                     (G["optimal_low_realised_at_L"].to_numpy() - Q["optimal_low_realised_at_L"].to_numpy()), cfg))
         adjust(pd.DataFrame(rows)).to_csv(t / "contrasts_rq3.csv", index=False)
         rq3_sensitivity_contrasts(t, cfg, Q)
+    block_sensitivity(cfg, out)
 
+
+RQ3_CURVE_CHECKS = (("xfit", "rq3_matched_xfit.csv", "cross-fitted curve"),
+                    ("evalaipw", "rq3_matched_evalaipw.csv", "scored with the AIPW step curve"),
+                    ("after", "rq3_matched_after.csv", "curve from ratings after arrival"))
 
 RQ3_SENS = (("main", "rq3_matched.csv", "forest CPD (main)"),
             ("cpd_ens", "rq3_matched_cpd_ens.csv", "quantile-average CPD"),
@@ -169,5 +213,62 @@ def rq3_sensitivity_contrasts(t, cfg, Q):
         rows.append(contrast_row("RQ3-S quantile-average versus forest CPD (low-rating rate at Olist's mean promise)",
                                  "coverage policy: quantile-average CPD - forest CPD",
                                  (B["cpd_quantile_low_realised_at_L"] - A["cpd_quantile_low_realised_at_L"]).to_numpy(), cfg))
+    for key, f, lab in RQ3_CURVE_CHECKS:            # separate families, so the RQ3-S families above are unchanged
+        if not (t / f).is_file():
+            continue
+        X = pd.read_csv(t / f)
+        test = (pd.to_datetime(X["origin"]) >= pd.Timestamp("2018-01-01")).to_numpy()
+        low = (X["optimal_low_realised_at_L"] - X["low_olist"]).to_numpy()
+        rows.append(contrast_row("RQ3-X low-rating rate at Olist's mean promise, curve checks (all windows)", f"optimal - Olist: {lab}", low, cfg))
+        rows.append(contrast_row("RQ3-X low-rating rate at Olist's mean promise, curve checks (2018 test)", f"optimal - Olist: {lab}", low[test], cfg))
+        rows.append(contrast_row("RQ3-X late rate at Olist's mean promise, curve checks (all windows)", f"optimal - Olist: {lab}",
+                                 (X["optimal_late_realised_at_L"] - X["late_olist"]).to_numpy(), cfg))
+        rows.append(contrast_row("RQ3-X promise length at Olist's low-rating rate, curve checks (all windows)", f"optimal - Olist: {lab}",
+                                 (X["optimal_L_at_low"] - X["L_olist"]).to_numpy(), cfg))
     if rows:
         adjust(pd.DataFrame(rows)).to_csv(t / "contrasts_rq3_sensitivity.csv", index=False)
+
+
+BLOCKS = (2, 3, 5, 6)
+
+
+def block_sensitivity(cfg, out):
+    """Key contrasts with moving blocks of 2, 3 (main), 5 and 6 windows (contrasts_block_sensitivity.csv). For each
+    block length the Holm adjustment is redone within the original family, over the same contrasts as the main file."""
+    t = out / "tables"
+    C1 = pd.read_csv(t / "contrasts_rq1.csv")
+    M = pd.read_csv(t / "rq1_window_metrics.csv")
+    a = 0.10
+    ci, cn = _piv(M, "split_ipcw", a), _piv(M, "split_naive", a)
+    series = []                                       # (family, contrast, differences)
+    for v in ci.columns:
+        series.append(("RQ1-A calibration weighting (coverage)", f"{v}: IPCW - naive", (ci[v] - cn[v]).to_numpy()))
+    if (t / "rq1_matched_olist.csv").is_file() and (t / "rq1_window_types.csv").is_file():
+        Pm = pd.read_csv(t / "rq1_matched_olist.csv").pivot_table(index="k", columns="variant", values="length_gap")
+        Wt = pd.read_csv(t / "rq1_window_types.csv")
+        k18 = set(Wt.loc[Wt["period"].str.startswith("2018"), "k"])
+        for v in Pm.columns:
+            series.append(("RQ1-F promise length at Olist's coverage (days)", f"{v} - Olist", Pm[v].to_numpy()))
+            series.append(("RQ1-I promise length at Olist's coverage, 2018 test (days)", f"{v} - Olist",
+                           Pm[v][Pm.index.isin(k18)].to_numpy()))
+    if (t / "rq3_matched.csv").is_file():
+        Q = pd.read_csv(t / "rq3_matched.csv")
+        test = (pd.to_datetime(Q["origin"]) >= pd.Timestamp("2018-01-01")).to_numpy()
+        for fam in ("uniform", "route", "cpd_quantile", "late_optimal", "optimal", "olist_shift"):
+            for nm, d in (("RQ3 low-rating rate at Olist's mean promise", Q[f"{fam}_low_realised_at_L"] - Q["low_olist"]),
+                          ("RQ3 late rate at Olist's mean promise", Q[f"{fam}_late_realised_at_L"] - Q["late_olist"]),
+                          ("RQ3 promise length at Olist's low-rating rate", Q[f"{fam}_L_at_low"] - Q["L_olist"])):
+                series.append((nm, f"{fam} - Olist", d.to_numpy()))
+                series.append((nm + " (2018 test)", f"{fam} - Olist", d.to_numpy()[test]))
+    out_rows = []
+    for b in BLOCKS:
+        c = copy.deepcopy(cfg); c["bootstrap"]["block_len"] = b
+        R = adjust(pd.DataFrame([contrast_row(f, lab, d, c) for f, lab, d in series]))
+        out_rows.append(R.assign(block_len=b))
+    B = pd.concat(out_rows, ignore_index=True)
+    main = B[B.block_len == cfg["bootstrap"]["block_len"]].set_index(["family", "contrast"])
+    B["sig_main"] = [bool(main.loc[(f, c), "p_holm"] < 0.05) for f, c in zip(B["family"], B["contrast"])]
+    B["sig_here"] = B["p_holm"] < 0.05
+    B["same_conclusion"] = (B["sig_main"] == B["sig_here"]) & (np.sign(B["mean"]) == np.sign(
+        [main.loc[(f, c), "mean"] for f, c in zip(B["family"], B["contrast"])]))
+    B.to_csv(t / "contrasts_block_sensitivity.csv", index=False)

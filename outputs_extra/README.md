@@ -1,6 +1,6 @@
 # Independent cross-checks (outputs_extra)
 
-Written by the stage `crosscheck` (2026-11-01 19:04). Each number is recomputed from the raw Olist CSV files with plain pandas (src/p2du/reporting/crosscheck.py imports nothing from the pipeline code) and compared with the pipeline tables.
+Written by the stage `crosscheck` (2026-11-02 15:40). Each number is recomputed from the raw Olist CSV files with plain pandas (src/p2du/reporting/crosscheck.py imports nothing from the pipeline code) and compared with the pipeline tables.
 
 Result: 364 numbers compared, 0 mismatches, largest absolute difference 3.55e-15.
 
