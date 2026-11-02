@@ -1,9 +1,10 @@
 """Paired window-level inference: block-bootstrap intervals, Holm adjustment within each family of comparisons and a
 Newey-West (HAC) check that does not resample.
 
-boot_means(), paired_summary(), hac_p() and holm() are reused unchanged from src/leakaware/reporting/inference.py of
-the first article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874). The families of comparisons are those
-of the present study (see contrasts()).
+paired_summary(), hac_p() and holm() are reused unchanged from src/leakaware/reporting/inference.py of the first
+article (leakaware v1.0.2, MIT licence, DOI 10.5281/zenodo.23724874); boot_means() is adapted from it so that the
+blocks wrap around the end of the series (circular block bootstrap) and every window is drawn equally often. The
+families of comparisons are those of the present study (see contrasts()).
 """
 import math
 
@@ -18,8 +19,8 @@ BLOCKS = (1, 2, 3, 5, 6)
 def boot_means(x, block, n_boot=2000, seed=42):
     x = np.asarray(x, float); n = len(x); block = min(block, n)
     rng = np.random.default_rng(seed); nb = math.ceil(n / block)
-    st = rng.integers(0, n - block + 1, size=(n_boot, nb))
-    return x[(st[:, :, None] + np.arange(block)[None, None, :]).reshape(n_boot, -1)[:, :n]].mean(1)
+    st = rng.integers(0, n, size=(n_boot, nb))          # circular blocks: every window has the same weight
+    return x[((st[:, :, None] + np.arange(block)[None, None, :]) % n).reshape(n_boot, -1)[:, :n]].mean(1)
 
 
 def paired_summary(d, block=3, n_boot=2000, seed=42):

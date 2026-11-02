@@ -700,6 +700,19 @@ m("BlockAllFlipsToSig", _fl[_fl["sig_here"] & ~_fl["sig_main"]].groupby(["family
   "of these, contrasts that become significant")
 m("BlockAllFlipsTest", "all" if len(_fl) and _fl.family.str.contains("2018").all() else ("none" if not len(_fl) else "some"),
   "whether the changes are confined to the 2018 families")
+from p2du.reporting.manuscript_tables import PL as _PL, _vlabel   # noqa: E402
+
+
+def _clabel(c):
+    a, _, b = c.partition(" - ")
+    names = {"Olist": "Olist's promise", "olist_shift": "Olist's promise shifted by a constant"}
+    lab = lambda x: names.get(x) or (_PL[x] if x in _PL else _vlabel(x))
+    return f"{lab(a)} against {lab(b)}"
+
+
+_fl_list = sorted(_fl.groupby(["family", "contrast"]).groups)
+m("BlockAllFlipsList", "; ".join(f"{f}: {_clabel(c)}" for f, c in _fl_list) if _fl_list else "none",
+  "contrasts whose Holm significance or sign changes with some block length")
 m("BlockKeyN", Kb.groupby(["family", "contrast"]).ngroups, "key contrasts recomputed with other block lengths")
 m("BlockKeyFlips", int((~Kb["same_conclusion"]).groupby([Kb.family, Kb.contrast]).any().sum()),
   "key contrasts whose sign or Holm significance changes with the block length")

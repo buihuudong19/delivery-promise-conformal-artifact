@@ -3,7 +3,7 @@ message: "If you use this code, please cite the article below."
 title: "Code for: Promising Delivery Dates under Uncertainty: Conformalised Machine-Learning Models and Rating-Aware Promise Policies in E-Commerce"
 authors:
   - name: "Anonymous"
-version: "1.0.1"
+version: "1.0.2"
 date-released: "2026-11-02"
 license: MIT
 keywords: [e-commerce, delivery promise, conformal prediction, censoring, IPCW, online ratings, prescriptive analytics, Olist]
